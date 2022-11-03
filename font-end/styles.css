@@ -58,6 +58,7 @@ input{
 
     color: #BDBDBD;
 
+
 }
 
 input:focus{
@@ -77,6 +78,22 @@ input:focus{
     font-weight: 500;
     font-size: 20px;
     line-height: 24px;
+}
+
+.toggle{
+    display: flex;
+    background: #04FFA5;
+    padding: 13px 97px;
+    border-radius: 5px;
+    border: 0;
+
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.toggle:hover{
+    cursor: pointer;
 }
 
 .tombol:hover{
@@ -110,20 +127,27 @@ input:focus{
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+    transition: all 0.5s ease;
 
 }
 
 .home-content-container img{
     width: 45%;
-    margin-bottom: 25px;
+    margin-bottom: 40px;
+    transition: all 0.5s ease;
 }
 
 .home-tombol-DiTa-container{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     align-items: flex-start;
-    margin: 30px 0 30px 0px;
+    margin: 60px 0 30px 0px;
     gap: 26px;
+    background-color: white;
+    z-index: 1;
 }
 
 .dine-in, .take-away{
@@ -137,8 +161,12 @@ input:focus{
     width: 160px;
     height: 62px;
     
-    background-color: #04FFA5;
+    background-color: #D9D9D9;
+    opacity: 0.5;
+
     border-radius: 5px;
+
+    
 }
 
 .take-away{
@@ -146,10 +174,26 @@ input:focus{
     opacity: 0.5;
 }
 
+.dine-in.active{
+    background-color: #04FFA5;
+    opacity: 1;
+}
+
+.take-away.active{
+    background-color: #04FFA5;
+    opacity: 1;
+}
+
+#input-nomor-meja{
+    transition: all 0.5s ease;
+    z-index: 0;
+}
+
 .home-lanjut{
     margin: 30px 0 0 0px;
-    transition: background-color 0.1s ease;
     text-decoration: none;
+    padding: 13px 20%;
+    
 }
 
 .home-lanjut:hover{
@@ -264,6 +308,15 @@ header img{
     font-size: 18px;
     padding: 10px 20px;
     border-radius: 39px;
+}
+
+#search-icon:hover{
+    cursor: pointer;
+    background-color: #00f39a;
+}
+
+#search-icon:active{
+    background-color: #00ffa2;
 }
 
 #input-search{
