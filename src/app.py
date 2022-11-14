@@ -4,6 +4,7 @@ import sys
 
 # Routes
 from server.routes import menuRoutes
+from server.routes import pesananRoutes
 
 app = Flask(__name__)
 app.debug = True
@@ -11,6 +12,7 @@ app.debug = True
 def loadBackend():
     #Blueprint
     app.register_blueprint(menuRoutes.menuRoutes, url_prefix='/api/menus')
+    app.register_blueprint(pesananRoutes.pesananRoutes, url_prefix='/api/pesanan')
 
     app.run(port=5000, use_reloader=False)
 

@@ -1,8 +1,7 @@
 from server.config.db import get_connection
-import json
 
 class Menu():
-    def __init__(self, nama, harga, kategori):
+    def __init__(self, nama, harga, kategori, jumlahStok):
         self.nama = nama
 
         if (harga <= 0):
@@ -14,16 +13,22 @@ class Menu():
             raise Exception(f"{kategori} tidak valid, harus antara makanan atau minuman!")
         else:
             self.kategori = kategori
+        
+        if (jumlahStok < 0):
+            raise Exception(f"{harga} tidak valid, hurus lebih dari atau sama dengan 0!")
+        else:
+            self.jumlahStok = jumlahStok
 
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO menu (nama, harga, kategori, kuantitas) VALUES (%s, %s, %s, 0)", (self.nama, self.harga, self.kategori))
+                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok) VALUES (%s, %s, %s, 0)", (self.nama, self.harga, self.kategori))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
+
 
     def getAllMenu():
         try:
@@ -42,7 +47,7 @@ class Menu():
                 datamenu["nama"] = menu[1]
                 datamenu["harga"] = menu[2]
                 datamenu["kategori"] = menu[3]
-                datamenu["kuantitas"] = menu[4]
+                datamenu["jumlahStok"] = menu[4]
                 hasil.append(datamenu)
             
             return (hasil)
@@ -50,8 +55,9 @@ class Menu():
         except Exception as err:
             raise Exception(err)
     
+
     @classmethod
-    def getMenuByNama(cls, nama):
+    def getMenuByNama(self, nama):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
@@ -68,7 +74,7 @@ class Menu():
                 datamenu["nama"] = menu[1]
                 datamenu["harga"] = menu[2]
                 datamenu["kategori"] = menu[3]
-                datamenu["kuantitas"] = menu[4]
+                datamenu["jumlahStok"] = menu[4]
                 hasil.append(datamenu)
             
             return (hasil)
@@ -76,6 +82,7 @@ class Menu():
         except Exception as err:
             raise Exception(err)
     
+
     @classmethod
     def getMenuById(cls, id):
         try:
@@ -89,14 +96,14 @@ class Menu():
             if resultset is None:
                 raise Exception(f"Id menu {id} tidak ada!")
             else:
-                id, nama, harga, kategori, kuantitas = resultset[0]
+                id, nama, harga, kategori, jumlahStok = resultset[0]
 
                 self = cls.__new__(cls)
                 self.id = id
                 self.nama = nama
                 self.harga = harga
                 self.kategori = kategori
-                self.kuantitas = kuantitas
+                self.jumlahStok = jumlahStok
 
                 return self
 
@@ -104,13 +111,13 @@ class Menu():
             raise Exception(err)
 
     def getMenuData(self):
-        return ({"id" : self.id, "nama" : self.nama, "harga" : self.harga, "kategori": self.kategori, "kuantitas": self.kuantitas})
+        return ({"id" : self.id, "nama" : self.nama, "harga" : self.harga, "kategori": self.kategori, "jumlahStok": self.jumlahStok})
 
 
     def getNamaMenu(self):
         return self.nama
 
-    
+
     def setNama(self, namabaru, id):
         try:
             self.nama = namabaru
@@ -123,6 +130,7 @@ class Menu():
         except Exception as err:
             raise Exception(err)
     
+
     def getHargaMenu(self):
         return self.harga
         
@@ -142,25 +150,38 @@ class Menu():
             except Exception as err:
                 raise Exception(err)
     
+
     def getKategoriMenu(self):
         return self.kategori
 
 
-    def getKuantitasMenu(self):
-        return self.kuantitas
+    def getJumlahStokMenu(self):
+        return self.jumlahStok
 
-    def setKuantitas(self, kuantitasbaru, id):
-        if(kuantitasbaru < 0):
-            raise Exception(f"{kuantitasbaru} tidak valid, lebih dari 0")
+
+    def setJumlahStok(self, jumlahstokbaru, id):
+        if(jumlahstokbaru < 0):
+            raise Exception(f"{jumlahstokbaru} tidak valid, harus lebih dari 0!")
         else:
-            self.kuantitas = kuantitasbaru
+            self.jumlahStok = jumlahstokbaru
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET kuantitas = %s WHERE id = %s", (self.kuantitas, id))
+                    cursor.execute("UPDATE menu SET jumlahStok = %s WHERE id = %s", (self.jumlahStok, id))
                 connection.commit()
                 connection.close()
 
             except Exception as err:
                 raise Exception(err)
     
+
+    def deleteMenu(self, id):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM menu WHERE id = %s", (id))
+            connection.commit()
+            connection.close()
+
+        except Exception as err:
+            raise Exception(err)

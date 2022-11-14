@@ -80,3 +80,5 @@ response = requests.put("http://localhost:5000/api/menus/update/kuantitas/9", js
 
 if (response):
     print("Menu Berhasil Diperbarui!")
+
+#Buat yang pesanan mirip-mirip sama yang di atas, bisa dipelajari sendiri ya bg. smgt
