@@ -1,4 +1,5 @@
 from server.config.db import get_connection
+import json
 
 class Menu():
     def __init__(self, nama, harga, kategori):
@@ -32,7 +33,19 @@ class Menu():
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
-            return (resultset)
+
+            hasil = []
+
+            for menu in resultset:
+                datamenu = {}
+                datamenu["id"] = menu[0]
+                datamenu["nama"] = menu[1]
+                datamenu["harga"] = menu[2]
+                datamenu["kategori"] = menu[3]
+                datamenu["kuantitas"] = menu[4]
+                hasil.append(datamenu)
+            
+            return (hasil)
 
         except Exception as err:
             raise Exception(err)
@@ -47,7 +60,18 @@ class Menu():
             connection.commit()
             connection.close()
 
-            return resultset
+            hasil = []
+
+            for menu in resultset:
+                datamenu = {}
+                datamenu["id"] = menu[0]
+                datamenu["nama"] = menu[1]
+                datamenu["harga"] = menu[2]
+                datamenu["kategori"] = menu[3]
+                datamenu["kuantitas"] = menu[4]
+                hasil.append(datamenu)
+            
+            return (hasil)
 
         except Exception as err:
             raise Exception(err)

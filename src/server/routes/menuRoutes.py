@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 
+
 from server.controllers.menuControllers import menuController
 
 menuRoutes = Blueprint('menuRoutes', __name__)
