@@ -73,10 +73,10 @@ def get_kategori(id):
     except Exception as err:
         return jsonify({'Pesan' : str(err)}), 500
 
-@menuRoutes.route('/kuantitas/<id>', methods=['GET'])
-def get_kuantitas(id):
+@menuRoutes.route('/jumlah-stok/<id>', methods=['GET'])
+def get_jumlahStok(id):
     try:
-        menu = menuController.getKuantitas(id)
+        menu = menuController.getJumlahStok(id)
         if menu != None:
             return jsonify(menu)
         else:
@@ -115,11 +115,20 @@ def update_menu_harga(id):
     except Exception as err:
         return jsonify({'Pesan' : str(err)}), 500
 
-@menuRoutes.route('/update/kuantitas/<id>', methods=['PUT'])
-def update_menu_kuantitas(id):
+@menuRoutes.route('/update/jumlah-stok/<id>', methods=['PUT'])
+def update_menu_jumlahStok(id):
     try:
-        menuController.setKuantitas(id)
-        return jsonify({'Pesan': "Kuantitas Menu Berhasil Diperbarui!"})
+        menuController.setJumlahStok(id)
+        return jsonify({'Pesan': "Jumlah Stok Menu Berhasil Diperbarui!"})
+
+    except Exception as err:
+        return jsonify({'Pesan' : str(err)}), 50
+
+@menuRoutes.route('/delete/<id>', methods=['DELETE'])
+def delete_menu(id):
+    try:
+        menuController.deleteMenu(id)
+        return jsonify({'Pesan': "Menu Berhasil Dihapus!"})
 
     except Exception as err:
         return jsonify({'Pesan' : str(err)}), 50
