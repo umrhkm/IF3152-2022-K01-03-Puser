@@ -73,6 +73,18 @@ class menuController:
         return menu.getJumlahStokMenu()
     
     @staticmethod
+    def setMenuFoto(id):
+        fotobaru = request.json.get("fotoUrl")
+        menu = Menu.getMenuById(id)
+        menu.setFoto(fotobaru, id)
+        return "Foto Menu Berhasil Diperbarui!", 201
+
+    @staticmethod
+    def getMenuFoto(id):
+        menu = Menu.getMenuById(id)
+        return menu.getFoto()
+    
+    @staticmethod
     def deleteMenu(id):
         menu = Menu.getMenuById(id)
         return menu.deleteMenu(id)

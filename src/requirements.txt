@@ -52,3 +52,4 @@ uvicorn==0.17.5
 Werkzeug==2.1.2
 yarl==1.7.2
 zipp==3.8.0
+validators

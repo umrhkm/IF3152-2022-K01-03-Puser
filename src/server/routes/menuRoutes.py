@@ -85,6 +85,18 @@ def get_jumlahStok(id):
     except Exception as err:
         return jsonify({'Pesan' : str(err)}), 500
 
+@menuRoutes.route('/foto/<id>', methods=['GET'])
+def get_foto_menu(id):
+    try:
+        menu = menuController.getMenuFoto(id)
+        if menu != None:
+            return jsonify(menu)
+        else:
+            return jsonify({}), 404
+
+    except Exception as err:
+        return jsonify({'Pesan' : str(err)}), 500
+
 @menuRoutes.route('/add', methods=['POST'])
 def add_menu():
     try:
@@ -120,6 +132,15 @@ def update_menu_jumlahStok(id):
     try:
         menuController.setJumlahStok(id)
         return jsonify({'Pesan': "Jumlah Stok Menu Berhasil Diperbarui!"})
+
+    except Exception as err:
+        return jsonify({'Pesan' : str(err)}), 50
+
+@menuRoutes.route('/update/foto/<id>', methods=['PUT'])
+def update_menu_foto(id):
+    try:
+        menuController.setMenuFoto(id)
+        return jsonify({'Pesan': "Foto Menu Berhasil Diperbarui!"})
 
     except Exception as err:
         return jsonify({'Pesan' : str(err)}), 50
