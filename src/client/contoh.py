@@ -2,14 +2,30 @@
 #Janlup run dulu servernya, baru buka terminal baru buat ngerun file ini
 
 import requests
+import json
 
 #Get All Menu
 print("\n======== GET ALL MENU ========")
 response = requests.get("http://localhost:5000/api/menus/")
 jsonresponse = response.json()
 
-print(jsonresponse)
+for i in range(len(jsonresponse)):
+    print(jsonresponse[i]["harga"])
+    
+# menu_list = []
+# for item in jsonresponse:
+#     menu_details = {"id": None, "nama": None, "kategori": None, "harga": None, "jumlahStok": None}
+#     menu_details['id'] = item['id']
+#     menu_details['nama'] = item['nama']
+#     menu_details['kategori'] = item['kategori']
+#     menu_details['harga'] = item['harga']
+#     menu_details['jumlahStok'] = item['jumlahStok']
+#     menu_list.append(menu_details)
+    
+# print(menu_list)
+    
 
+"""
 #Get Menu By Nama
 print("\n======== GET MENU BY NAMA ========")
 response = requests.get("http://localhost:5000/api/menus/search-nama/burger")
@@ -82,3 +98,4 @@ if (response):
     print("Menu Berhasil Diperbarui!")
 
 #Buat yang pesanan mirip-mirip sama yang di atas, bisa dipelajari sendiri ya bg. smgt
+"""
