@@ -123,6 +123,15 @@ class MenuWindow(QWidget):
         self.initializeMenu()
         self.setUpDisplayMakanan()
         self.setUpDisplayMinuman()
+
+        self.searchbar = QLineEdit(self)
+        self.searchbar.setPlaceholderText("Cari Makanan/Minuman")
+        self.searchbar.setFixedSize(1260, 42)
+        self.searchbar.move(970, 81)
+        self.searchbar.setGeometry(QRect(10, 10, 48, 48))
+        self.searchbar.setStyleSheet(
+            """QLineEdit { background-color: #04FFA5; color: black; border-radius: 10px }""")
+        self.searchbar.setFont(fonts.inter14)
         
     def initializeMenu(self):
         # Set up empty menu cards
