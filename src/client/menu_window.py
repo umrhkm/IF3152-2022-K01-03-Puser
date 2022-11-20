@@ -126,11 +126,11 @@ class MenuWindow(QWidget):
 
         self.searchbar = QLineEdit(self)
         self.searchbar.setPlaceholderText("Cari Makanan/Minuman")
-        self.searchbar.setFixedSize(1260, 42)
-        self.searchbar.move(970, 81)
-        self.searchbar.setGeometry(QRect(10, 10, 48, 48))
+        self.searchbar.setFixedSize(260, 42)
+        # self.searchbar.move(970, 81)
+        self.searchbar.setGeometry(QRect(1000, 50, 38, 38))
         self.searchbar.setStyleSheet(
-            """QLineEdit { background-color: #04FFA5; color: black; border-radius: 10px }""")
+            """QLineEdit { background-color: #04FFA5; color: black; border-radius: 10px; font-size:12px}""")
         self.searchbar.setFont(fonts.inter14)
         
     def initializeMenu(self):
@@ -197,7 +197,6 @@ class MenuWindow(QWidget):
 
     def setUpDisplayMakanan(self):
         listMakanan = self.makanan
-        print(type(listMakanan))
         start = self.pageMakanan*3
         for i in range(5):
             if start+i < len(listMakanan):
