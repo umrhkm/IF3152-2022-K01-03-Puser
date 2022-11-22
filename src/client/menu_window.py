@@ -33,6 +33,10 @@ jsonresponse = response.json()
 makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
 minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 
+modelmakanan = [sub['nama'] for sub in makanan]
+modelminuman = [sub['nama'] for sub in minuman]
+model = modelmakanan+modelminuman
+
 
 # Buat ngetes, biar ga request-request dulu
 # makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
@@ -139,9 +143,9 @@ class MenuWindow(QWidget):
         self.searchbar.returnPressed.connect(self.search)
 
 
-        # self.completer = QCompleter(model)
-        # self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        # self.searchbar.setCompleter(self.completer)
+        self.completer = QCompleter(model)
+        self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        self.searchbar.setCompleter(self.completer)
 
 
     def initializeMenu(self):
