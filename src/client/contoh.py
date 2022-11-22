@@ -5,12 +5,12 @@ import requests
 import json
 
 #Get All Menu
-print("\n======== GET ALL MENU ========")
-response = requests.get("http://localhost:5000/api/menus/")
-jsonresponse = response.json()
+# print("\n======== GET ALL MENU ========")
+# response = requests.get("http://localhost:5000/api/menus/")
+# jsonresponse = response.json()
 
-for i in range(len(jsonresponse)):
-    print(jsonresponse[i]["harga"])
+# for i in range(len(jsonresponse)):
+#     print(jsonresponse[i]["harga"])
     
 # menu_list = []
 # for item in jsonresponse:
@@ -24,6 +24,14 @@ for i in range(len(jsonresponse)):
     
 # print(menu_list)
     
+
+# Add Menu (ini ku comment biar ga ke buat menu baru mulu kalau mau ngetes)
+print("\n======== ADD MENU ========")
+response = requests.post("http://localhost:5000/api/menus/add", json={"nama":"Es Teh","harga":5000,"kategori":"minuman","jumlahStok":99,"fotoUrl":""})
+if (response):
+    print("Menu Berhasil Ditambahkan!")
+else:
+    print("eror")
 
 """
 #Get Menu By Nama
@@ -70,11 +78,7 @@ print(jsonresponse)
 
 headers = {"Content-Type": "application/json"}
 
-#Add Menu (ini ku comment biar ga ke buat menu baru mulu kalau mau ngetes)
-# print("\n======== ADD MENU ========")
-# response = requests.post("http://localhost:5000/api/menus/add", json={"nama":"Bir Bintang","harga":10000,"kategori":"minuman"})
-# if (response):
-#     print("Menu Berhasil Ditambahkan!")
+
 
 #Update Nama Menu By ID
 print("\n======== UPDATE NAMA MENU BY ID ========")

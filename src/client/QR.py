@@ -23,24 +23,20 @@ import fonts
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt, pyqtSignal, QRect
 from PyQt6.QtGui import QCursor, QFont, QPixmap
-from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget, QCompleter)
+from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
 from custom_widgets import ClickableLabel
 
 # # Kalo program udah jadi, buka aja comment ini
-response = requests.get("http://localhost:5000/api/menus/")
-
-jsonresponse = response.json()
-makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
-minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
-
+# response = requests.get("http://localhost:5000/api/menus/")
+# jsonresponse = response.json()
+# makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
+# minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 
 # Buat ngetes, biar ga request-request dulu
-# makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
+makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
 
-# minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
-# modelmakanan = [sub['nama'] for sub in makanan]
-# modelminuman = [sub['nama'] for sub in minuman]
-# model = modelmakanan+modelminuman
+minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
+
 class MenuWindow(QWidget):
     switch = pyqtSignal(str, dict)
 
@@ -79,9 +75,9 @@ class MenuWindow(QWidget):
 
         # Label untuk teks di bawah logo
         silakanText = QLabel(self)
-        silakanText.setText("Silakan Pilih Menu Makanan / Minuman Anda")
+        silakanText.setText("Silakan scan untuk pembayaran")
         silakanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
-        silakanText.move(400, 60)
+        silakanText.move(480, 60)
         silakanText.setFont(fonts.inter24)
         
         makananText = QLabel(self)
@@ -136,14 +132,7 @@ class MenuWindow(QWidget):
         self.searchbar.setStyleSheet(
             """QLineEdit { background-color: #04FFA5; color: black; border-radius: 10px; font-size:12px}""")
         self.searchbar.setFont(fonts.inter14)
-        self.searchbar.returnPressed.connect(self.search)
-
-
-        # self.completer = QCompleter(model)
-        # self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        # self.searchbar.setCompleter(self.completer)
-
-
+        
     def initializeMenu(self):
         # Set up empty menu cards
         self.makananCards = []
@@ -329,119 +318,7 @@ class MenuWindow(QWidget):
                 "linkIllustration": minuman[i]["fotoUrl"],
             })
         self.minuman = dataMinuman
-
-    def search(self):
-        try:
-            responsesearch = requests.get('http://localhost:5000/api/menus/search-nama/'+self.searchbar.text())
-            jsonresponsesearch = responsesearch.json()
-            makanan = [x for x in jsonresponsesearch if x['kategori'] == 'makanan']
-            minuman = [x for x in jsonresponsesearch if x['kategori'] == 'minuman']
-
-            dataMakananSearch = []
-            for i in range(len(makanan)):
-                dataMakananSearch.append({
-                    "id": makanan[i]["id"],
-                    "name": makanan[i]["nama"],
-                    "price": makanan[i]["harga"],
-                    #"stock": makanan[i]["jumlahStok"],
-                    "linkIllustration": makanan[i]["fotoUrl"]
-                })
-            self.makanan = dataMakananSearch
-
-            listMakanan = self.makanan
-            start = self.pageMakanan*3
-            for i in range(5):
-                if start+i < len(listMakanan):
-                    self.makananCards[i]["cardTitle"].setText(listMakanan[start+i]["name"])
-                    ## INI MASI ERROR
-                    # if (listMakanan[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMakanan[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(QPixmap(listMakanan[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMakanan[start+i]["price"])
-                    self.makananCards[i]["cardPrice"].setText(rp_harga)
-                    
-                    self.makananCards[i]["card"].show()
-                    self.makananCards[i]["cardIllustration"].show()
-                    self.makananCards[i]["cardTitle"].show()
-                    self.makananCards[i]["cardPrice"].show()
-                    self.makananCards[i]["Spinbox"].show()
-                else:
-                    self.makananCards[i]["card"].hide()
-                    self.makananCards[i]["cardIllustration"].hide()
-                    self.makananCards[i]["cardTitle"].hide()
-                    self.makananCards[i]["cardPrice"].hide()
-                    self.makananCards[i]["Spinbox"].hide()
-
-            if self.pageMakanan == 0:
-                self.leftMakananButton.hide()
-            else:
-                self.leftMakananButton.show()
-
-            if start + 5 < len(listMakanan):
-                self.rightMakananButton.show()
-            else:
-                self.rightMakananButton.hide()
-
-
-            dataMinumanSearch = []
-            for i in range(len(minuman)):
-                dataMinumanSearch.append({
-                    "id": minuman[i]["id"],
-                    "name": minuman[i]["nama"],
-                    "price": minuman[i]["harga"],
-                    # "stock": minuman[i]["jumlahStok"],
-                    "linkIllustration": minuman[i]["fotoUrl"],
-                })
-            self.minuman = dataMinumanSearch
-
-            listMinuman = self.minuman
-            start = self.pageMinuman*3
-            for i in range(5):
-                if start+i < len(listMinuman):
-                    self.minumanCards[i]["cardTitle"].setText(listMinuman[start+i]["name"])
-                    
-                    ## INI MASI ERROR
-                    # if (listMinuman[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMinuman[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(QPixmap(listMinuman[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMinuman[start+i]["price"])
-                    self.minumanCards[i]["cardPrice"].setText(rp_harga)
-                    self.minumanCards[i]["card"].show()
-                    self.minumanCards[i]["cardIllustration"].show()
-                    self.minumanCards[i]["cardTitle"].show()
-                    self.minumanCards[i]["cardPrice"].show()
-                    self.minumanCards[i]["Spinbox"].show()
-                else:
-                    self.minumanCards[i]["card"].hide()
-                    self.minumanCards[i]["cardIllustration"].hide()
-                    self.minumanCards[i]["cardTitle"].hide()
-                    self.minumanCards[i]["cardPrice"].hide()
-                    self.minumanCards[i]["Spinbox"].hide()
-
-            if self.pageMinuman == 0:
-                self.leftMinumanButton.hide()
-            else:
-                self.leftMinumanButton.show()
-
-            if start + 5 < len(listMinuman):
-                self.rightMinumanButton.show()
-            else:
-                self.rightMinumanButton.hide()
-        except ValueError as e:
-            self.fetchMakanan()
-            self.setUpDisplayMakanan()
-            self.fetchMinuman()
-            self.setUpDisplayMinuman()
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MenuWindow()
