@@ -9,8 +9,10 @@ class menuController:
             nama = request.json.get("nama")
             harga = request.json.get("harga")
             kategori = request.json.get("kategori")
+            jumlahStok = request.json.get("jumlahStok")
+            fotoUrl = request.json.get("fotoUrl")
 
-            Menu(nama, harga, kategori)
+            Menu(nama, harga, kategori,jumlahStok, fotoUrl)
 
             return "Menu Berhasil Ditambahkan!", 201
         
