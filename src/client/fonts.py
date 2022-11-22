@@ -8,9 +8,18 @@ inter12 = QFont()
 inter12.setFamily("Inter")
 inter12.setPixelSize(12)
 
+inter13 = QFont()
+inter13.setFamily("Inter")
+inter13.setPixelSize(13)
+
 inter14 = QFont()
 inter14.setFamily("Inter")
 inter14.setPixelSize(14)
+
+inter14bold = QFont()
+inter14bold.setFamily("Inter")
+inter14bold.setPixelSize(14)
+inter14bold.setBold(True)
 
 inter16 = QFont()
 inter16.setFamily("Inter")
