@@ -470,111 +470,42 @@ class MenuWindow(QWidget):
         try:
             responsesearch = requests.get('http://localhost:5000/api/menus/search-nama/'+self.searchbar.text())
             jsonresponsesearch = responsesearch.json()
-            makanan = [x for x in jsonresponsesearch if x['kategori'] == 'makanan']
-            minuman = [x for x in jsonresponsesearch if x['kategori'] == 'minuman']
+            makanan2 = [x for x in jsonresponsesearch if x['kategori'] == 'makanan']
+            minuman2 = [x for x in jsonresponsesearch if x['kategori'] == 'minuman']
+            print(len(makanan2))
 
-            dataMakananSearch = []
-            for i in range(len(makanan)):
-                dataMakananSearch.append({
-                    "id": makanan[i]["id"],
-                    "name": makanan[i]["nama"],
-                    "price": makanan[i]["harga"],
-                    #"stock": makanan[i]["jumlahStok"],
-                    "linkIllustration": makanan[i]["fotoUrl"]
-                })
-            self.makanan = dataMakananSearch
-
-            listMakanan = self.makanan
-            start = self.pageMakanan*5
-            for i in range(5):
-                if start+i < len(listMakanan):
-                    self.makananCards[i]["cardTitle"].setText(listMakanan[start+i]["name"])
-                    ## INI MASI ERROR
-                    # if (listMakanan[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMakanan[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(QPixmap(listMakanan[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMakanan[start+i]["price"])
-                    self.makananCards[i]["cardPrice"].setText(rp_harga)
-                    
-                    self.makananCards[i]["card"].show()
-                    self.makananCards[i]["cardIllustration"].show()
-                    self.makananCards[i]["cardTitle"].show()
-                    self.makananCards[i]["cardPrice"].show()
-                    self.makananCards[i]["Spinbox"].show()
-                else:
-                    self.makananCards[i]["card"].hide()
-                    self.makananCards[i]["cardIllustration"].hide()
-                    self.makananCards[i]["cardTitle"].hide()
-                    self.makananCards[i]["cardPrice"].hide()
-                    self.makananCards[i]["Spinbox"].hide()
-
-            if self.pageMakanan == 0:
-                self.leftMakananButton.hide()
-            else:
-                self.leftMakananButton.show()
-
-            if start + 5 < len(listMakanan):
-                self.rightMakananButton.show()
-            else:
+            indexsearchmakanan = []
+            for i in range(len(makanan2)):
+                for j in range(len(makanan)):
+                    if makanan2[i]["nama"] == makanan[j]["nama"]:
+                        indexsearchmakanan.append(j)
+                
+            if (len(makanan2) < 5):
                 self.rightMakananButton.hide()
                 self.leftMakananButton.hide()
                 for i in range(len(makanan)):
                     self.hideMakanan(i)
                 start = 0
-                # while start < len(indexsearchmakanan):
-                #     self.showMakanan(indexsearchmakanan[start])
-                #     start += 1
+                while start < len(indexsearchmakanan):
+                    self.showMakanan(indexsearchmakanan[start])
+                    start += 1
 
-            listMinuman = self.minuman
-            start = self.pageMinuman*5
-            for i in range(5):
-                if start+i < len(listMinuman):
-                    self.minumanCards[i]["cardTitle"].setText(listMinuman[start+i]["name"])
-                    
-                    ## INI MASI ERROR
-                    # if (listMinuman[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMinuman[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(QPixmap(listMinuman[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMinuman[start+i]["price"])
-                    self.minumanCards[i]["cardPrice"].setText(rp_harga)
-                    self.minumanCards[i]["card"].show()
-                    self.minumanCards[i]["cardIllustration"].show()
-                    self.minumanCards[i]["cardTitle"].show()
-                    self.minumanCards[i]["cardPrice"].show()
-                    self.minumanCards[i]["Spinbox"].show()
-                else:
-                    self.minumanCards[i]["card"].hide()
-                    self.minumanCards[i]["cardIllustration"].hide()
-                    self.minumanCards[i]["cardTitle"].hide()
-                    self.minumanCards[i]["cardPrice"].hide()
-                    self.minumanCards[i]["Spinbox"].hide()
 
-            if self.pageMinuman == 0:
-                self.leftMinumanButton.hide()
-            else:
-                self.leftMinumanButton.show()
-
-            if start + 5 < len(listMinuman):
-                self.rightMinumanButton.show()
-            else:
+            indexsearchminuman = []
+            for k in range(len(minuman2)):
+                for l in range(len(minuman)):
+                    if minuman2[k]["nama"] == minuman[l]["nama"]:
+                        indexsearchminuman.append(l)
+                
+            if (len(minuman2) < 5):
                 self.rightMinumanButton.hide()
                 self.leftMinumanButton.hide()
                 for i in range(len(minuman)):
                     self.hideMinuman(i)
                 start2 = 0
-                # while start2 < len(indexsearchminuman):
-                #     self.showMinuman(indexsearchminuman[start2])
-                    # start2 += 1
+                while start2 < len(indexsearchminuman):
+                    self.showMinuman(indexsearchminuman[start2])
+                    start2 += 1
         except ValueError as e:
             self.fetchMakanan()
             self.setUpDisplayMakanan()
