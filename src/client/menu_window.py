@@ -170,6 +170,7 @@ class MenuWindow(QWidget):
         self.checkOutText.clicked.connect(self.checkoutClicked)
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
+        self.checkOutText.setEnabled(True)
         self.qrdialog = QRWindow()
 
     def on_checkoutButton_clicked(self):
@@ -430,9 +431,11 @@ class MenuWindow(QWidget):
         self.totalHargaText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         self.totalPriceText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
-
         if self.totalHarga == 0:
+            self.checkOutText.setEnabled(False)
             self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
+        else:
+            self.checkOutText.setEnabled(True)
     
     def fetchMakanan(self):
         dataMakanan = []
