@@ -121,7 +121,9 @@ class QRWindow(QMainWindow):
         qRCode = QLabel(self)
          
         # get the text
-        text = "testing"
+        with open('tes.txt') as f:
+            text = f.read()
+            print(text)
  
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
