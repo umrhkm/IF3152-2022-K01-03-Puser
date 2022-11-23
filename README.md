@@ -45,17 +45,17 @@ python3 app.py
 ### 1. Menampilkan Seluruh Menu (18220097 Muhamad Fikri Nurohman)
 ![image](./doc/tampilan_utama.jpg?raw=true "Title")
 ### 2. Membuat dan implementasi searchbar (18220071 Muhammad Zaky)
-
+![image](./doc/search_n_catatan.jpg?raw=true "Title")
 ### 3. Menampilkan dan implementasi QR Code berisi detail pesanan (18220003 Made Adhika Wiwardhana)
-
+![image](./doc/qr_code.jpg?raw=true "Title")
 ### 4. Menampilkan catatan dan button (18220081 Muhammad Fariz Ramadhan)
-
+![image](./doc/tampilan_utama.jpg?raw=true "Title")
 ### 5. Membuat pilihan Dine-In dan Take-Away serta penomoran Meja (18220061 Vincentius Verel Siedharta)
-
+![image](./doc/dine_in_take_away.jpg?raw=true "Title")
 ### 6. Membuat backend serta database (18220073 Umar Hakim)
-
+![image](https://user-images.githubusercontent.com/93817324/203573890-f45e205b-69e3-4ce5-bfb5-afee42fffd9c.png)
 ### 7. Membuat tampilan utama (18220073 Umar Hakim)
-
+![image](./doc/tampilan_utama.jpg?raw=true "Title")
 
   
 ## Daftar Tabel Basis Data
