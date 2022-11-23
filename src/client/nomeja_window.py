@@ -3,6 +3,7 @@ import fonts
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
+from menu_window import MenuWindow
 
 class nomejaWindow(QWidget):
     switch = pyqtSignal(str,dict)
@@ -62,7 +63,7 @@ class nomejaWindow(QWidget):
         #Input No Meja
         self.nomeja = QLineEdit(self)
         self.nomeja.setPlaceholderText("Nomor Meja")
-        self.nomeja.setFixedSize(200, 150)
+        self.nomeja.setFixedSize(200, 100)
         self.nomeja.move(520, 350)
         self.nomeja.setStyleSheet('''
         padding: 11px 30px 11px 30px;
@@ -73,12 +74,37 @@ class nomejaWindow(QWidget):
         ''')
         self.nomeja.setFont(inter16)
 
+        # button selanjutnya 
+        self.selanjutnyaButton = QPushButton(self)
+        self.selanjutnyaButton.setText("Selanjutnya")
+        self.selanjutnyaButton.setFixedSize(150, 75)
+        self.selanjutnyaButton.move(550, 500)
+        self.selanjutnyaButton.setStyleSheet('''
+        QPushButton {
+            color: #ffffff;
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #5561ff, stop:1 #3643fc);
+            border: none;
+            border-radius: 12px;
+        }
+        QPushButton:hover {
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop:1 #535fff);
+        }
+        ''')
+        self.selanjutnyaButton.setFont(inter24)
+        self.selanjutnyaButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.selanjutnyaButton.clicked.connect(self.on_pushselanjutnyaButton_clicked)
+        self.menuwindowdialog = MenuWindow()
+
         # button Kembali
         kembaliText = QPushButton(self)
         kembaliText.setText("Kembali")
         kembaliText.move(30, 20)
         kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
         kembaliText.setFont(fonts.inter18bold)
+
+    def on_pushselanjutnyaButton_clicked(self):
+        self.menuwindowdialog.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
