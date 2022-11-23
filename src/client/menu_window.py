@@ -173,7 +173,7 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["card"].setPixmap(QPixmap("img/card-template-new.png"))
                 
                 self.makananCards[flag]["cardIllustration"] = QLabel(self)
-                self.makananCards[flag]["cardIllustration"].setGeometry(QRect(120 + (i*230), 142, 120, 95))
+                self.makananCards[flag]["cardIllustration"].setGeometry(QRect(133 + (i*230), 142, 120, 95))
                 self.makananCards[flag]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
                 self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
 
@@ -220,7 +220,7 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["card"].setPixmap(QPixmap("img/card-template-new.png"))
                 
                 self.minumanCards[flagMinuman]["cardIllustration"] = QLabel(self)
-                self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(120 + (i*230), 182 + 245, 95, 95))
+                self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(133 + (i*230), 182 + 245, 95, 95))
                 self.minumanCards[flagMinuman]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
 
@@ -266,7 +266,7 @@ class MenuWindow(QWidget):
         while start < len(makanan):
             self.makananCards[start]["cardTitle"].setText(listMakanan[start]["name"])
             # buat ilustrasi
-            self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/makanan-{start}.png"))
+            self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/minuman-{start}.png"))
             rp_harga = "Rp " + str(listMakanan[start]["price"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
             start += 1
