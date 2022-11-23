@@ -17,7 +17,7 @@ python3 -m venv venv
 3. Aktifkan venv
 ```sh
 source venv/bin/activate #Untuk WSL
-???????????????????????? #Untuk powershell
+venv/Scripts/activate #Untuk powershell
 ```
 4. Install module yang ada di requirements.txt dengan
 ```sh
