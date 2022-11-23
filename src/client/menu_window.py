@@ -267,7 +267,6 @@ class MenuWindow(QWidget):
         validIdx = []
         for i in range(5):
             validIdx.append(i+self.startIndeksMakanan)
-        print(validIdx)
         for i in range(len(makanan)):
             if i not in validIdx:
                 self.hideMakanan(i)
@@ -387,24 +386,16 @@ class MenuWindow(QWidget):
     def updateHarga(self):
         dataHargaMakanan = [0] * len(makanan)
         j = 0
-        startMakanan = self.pageMakanan*5
-        for i in range(5):
-            total = self.makananCards[i]['Spinbox'].value() * makanan[startMakanan+i]['harga']
+        for i in range(len(makanan)):
+            total = self.makananCards[i]['Spinbox'].value() * makanan[i]['harga']
             dataHargaMakanan[j] = total
             j += 1
-            if i == 4:
-                i = 0
-                startMakanan += 1
         dataHargaMinuman = [0] * len(minuman)
-        k=0
-        startMinuman = self.pageMakanan*5
-        for i in range(5):
-            total = self.minumanCards[i]['Spinbox'].value() * minuman[startMinuman+i]['harga']
+        k = 0
+        for i in range(len(minuman)):
+            total = self.minumanCards[i]['Spinbox'].value() * minuman[i]['harga']
             dataHargaMinuman[k] = total
             k += 1
-            if i == 4:
-                i = 0
-                startMinuman += 1
         self.totalHarga = sum(dataHargaMakanan) + sum(dataHargaMinuman)
         self.totalPriceText.setText("Rp " + str(self.totalHarga))
         self.totalHargaText.setStyleSheet(f'color: {PRIMARY_WHITE}')
@@ -413,7 +404,7 @@ class MenuWindow(QWidget):
     def fetchMakanan(self):
         dataMakanan = []
         for i in range(len(makanan)):
-              dataMakanan.append({
+            dataMakanan.append({
                 "id": makanan[i]["id"],
                 "name": makanan[i]["nama"],
                 "price": makanan[i]["harga"],
@@ -425,7 +416,7 @@ class MenuWindow(QWidget):
     def fetchMinuman(self):
         dataMinuman = []
         for i in range(len(minuman)):
-              dataMinuman.append({
+            dataMinuman.append({
                 "id": minuman[i]["id"],
                 "name": minuman[i]["nama"],
                 "price": minuman[i]["harga"],
@@ -435,14 +426,10 @@ class MenuWindow(QWidget):
         self.minuman = dataMinuman
 
     def spinboxMakananClicked(self, idx):
-        # for i in range(self.pageMakanan+1):
-        #     if i == page and self.makananCards[idx]["Spinbox"].isVisible():
         n = self.makananCards[idx]["Spinbox"].value()
         self.updateHarga()
     
     def spinboxMinumanClicked(self, idx):
-        # for i in range(self.pageMinuman+1):
-        #     if i == page and self.minumanCards[idx]["Spinbox"].isVisible():
         n = self.minumanCards[idx]["Spinbox"].value()
         self.updateHarga()
     
