@@ -555,7 +555,27 @@ class MenuWindow(QWidget):
             self.setUpDisplayMakanan()
             self.fetchMinuman()
             self.setUpDisplayMinuman()
-            
+
+    def checkoutClicked(self):
+        with open("tes.txt", "w") as f:
+            f.write("Dine In")
+            nomorMeja = 0
+            f.write("Nomor Meja:", nomorMeja)
+            print()
+            f.write("Pesanan Anda:")
+            order = 1
+            print("Makanan")
+            flag = False
+            for i in range(len(makanan)):
+                if self.makananCards[i]["Spinbox"].value() != 0:
+                    nama = self.makananCards[i]["cardTitle"]
+                    kuantitas = self.makananCards[i]["Spinbox"].value()
+                    f.write(f"{order}. ")
+                    self.makananCards[i]["Notes"].hide()
+                return
+            if not flag:
+                print("Tidak ada makanan yang Anda pesan")
+            print("Minuman")
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MenuWindow()
