@@ -114,12 +114,14 @@ class MenuWindow(QWidget):
         self.rightMinumanButton.setStyleSheet("background-image: url(img/right-btn.png);")
         self.rightMinumanButton.clicked.connect(self.rightMinumanButtonClicked)
         self.rightMinumanButton.hide()
+        self.rightMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.leftMinumanButton = QPushButton(self)
         self.leftMinumanButton.setGeometry(QRect(20, 480, 48, 48))
         self.leftMinumanButton.setStyleSheet("background-image: url(img/left-btn.png);")
         self.leftMinumanButton.clicked.connect(self.leftMinumanButtonClicked)
         self.leftMinumanButton.hide()
+        self.leftMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         
         # Set up menu cards from cards
         self.initializeMenu()
@@ -186,6 +188,8 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.makananCards[flag]["Spinbox"].setObjectName("SpinBox")
                 self.makananCards[flag]["Spinbox"].valueChanged.connect(lambda x, i=flag: self.spinboxMakananClicked(i))
+                
+                self.hideMakanan(flag)
                 if flag == len(makanan):
                     break
                 else:
@@ -223,6 +227,7 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["Spinbox"].setObjectName("SpinBox")
                 self.minumanCards[flagMinuman]["Spinbox"].valueChanged.connect(lambda x, i=flagMinuman: self.spinboxMinumanClicked(i))
+                self.hideMinuman(flagMinuman)
                 if flagMinuman == len(minuman):
                     break
                 else:
@@ -244,14 +249,9 @@ class MenuWindow(QWidget):
             #     self.makananCards[self.startIndeksMakanan]["cardIllustration"].setPixmap(QPixmap(listMakanan[self.startIndeksMakanan]["linkIllustration"]))
             rp_harga = "Rp " + str(listMakanan[start]["price"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
-            self.makananCards[start]["card"].hide()
-            self.makananCards[start]["cardIllustration"].hide()
-            self.makananCards[start]["cardTitle"].hide()
-            self.makananCards[start]["cardPrice"].hide()
-            self.makananCards[start]["Spinbox"].hide()
             start += 1
         
-        self.updateDisplayMakanan()
+        self.showDisplayMakanan()
         
         if self.pageMakanan == 0:
             self.leftMakananButton.hide()
@@ -262,19 +262,47 @@ class MenuWindow(QWidget):
             self.rightMakananButton.show()
         else:
             self.rightMakananButton.hide()
-    
-    def updateDisplayMakanan(self):
-        for i in range(5):
-            self.makananCards[self.startIndeksMakanan+i]["card"].show()
-            self.makananCards[self.startIndeksMakanan+i]["cardIllustration"].show()
-            self.makananCards[self.startIndeksMakanan+i]["cardTitle"].show()
-            self.makananCards[self.startIndeksMakanan+i]["cardPrice"].show()
-            self.makananCards[self.startIndeksMakanan+i]["Spinbox"].show()
-            if self.startIndeksMakanan+i == len(makanan):
-                break
 
+    def showDisplayMakanan(self):
+        validIdx = []
+        for i in range(5):
+            validIdx.append(i+self.startIndeksMakanan)
+        print(validIdx)
+        for i in range(len(makanan)):
+            if i not in validIdx:
+                self.hideMakanan(i)
+            else:
+                self.showMakanan(i)
+                    
+    def showMakanan(self, i):
+        self.makananCards[i]["card"].show()
+        self.makananCards[i]["cardIllustration"].show()
+        self.makananCards[i]["cardTitle"].show()
+        self.makananCards[i]["cardPrice"].show()
+        self.makananCards[i]["Spinbox"].show()
+    
+    def hideMakanan(self, i):
+        self.makananCards[i]["card"].hide()
+        self.makananCards[i]["cardIllustration"].hide()
+        self.makananCards[i]["cardTitle"].hide()
+        self.makananCards[i]["cardPrice"].hide()
+        self.makananCards[i]["Spinbox"].hide()
+        
+    def showMinuman(self, i):
+        self.minumanCards[i]["card"].show()
+        self.minumanCards[i]["cardIllustration"].show()
+        self.minumanCards[i]["cardTitle"].show()
+        self.minumanCards[i]["cardPrice"].show()
+        self.minumanCards[i]["Spinbox"].show()
+    
+    def hideMinuman(self, i):
+        self.minumanCards[i]["card"].hide()
+        self.minumanCards[i]["cardIllustration"].hide()
+        self.minumanCards[i]["cardTitle"].hide()
+        self.minumanCards[i]["cardPrice"].hide()
+        self.minumanCards[i]["Spinbox"].hide()
+        
     def setUpDisplayMinuman(self):
-        print("Len:", len(self.minumanCards))
         listMinuman = self.minuman
         start = 0
         while start < len(minuman):
@@ -297,7 +325,8 @@ class MenuWindow(QWidget):
             self.minumanCards[start]["Spinbox"].hide()
             start += 1
             
-        self.updateDisplayMinuman()
+        self.showDisplayMinuman()
+        self.hideDisplayMinuman()
             
         if self.pageMinuman == 0:
             self.leftMinumanButton.hide()
@@ -309,20 +338,34 @@ class MenuWindow(QWidget):
         else:
             self.rightMinumanButton.hide()
 
-    def updateDisplayMinuman(self):
+    def showDisplayMinuman(self):
         for i in range(5):
             self.minumanCards[self.startIndeksMinuman+i]["card"].show()
             self.minumanCards[self.startIndeksMinuman+i]["cardIllustration"].show()
             self.minumanCards[self.startIndeksMinuman+i]["cardTitle"].show()
             self.minumanCards[self.startIndeksMinuman+i]["cardPrice"].show()
             self.minumanCards[self.startIndeksMinuman+i]["Spinbox"].show()
+            if self.startIndeksMinuman+i == len(minuman):
+                break
 
+    def hideDisplayMinuman(self):
+        validIdx = []
+        for i in range(5):
+            validIdx.append(i+self.startIndeksMinuman)
+        for i in range(len(minuman)):
+            if i not in validIdx:
+                self.minumanCards[i]["card"].hide()
+                self.minumanCards[i]["cardIllustration"].hide()
+                self.minumanCards[i]["cardTitle"].hide()
+                self.minumanCards[i]["cardPrice"].hide()
+                self.minumanCards[i]["Spinbox"].hide()
+                
     def rightMakananButtonClicked(self):
         if self.pageMakanan < (len(self.makanan)//5):
             self.pageMakanan += 1
             self.startIndeksMakanan += 5
             self.setUpDisplayMakanan()
-      
+            
     def leftMakananButtonClicked(self):
         if self.pageMakanan > 0:
             self.pageMakanan -= 1
