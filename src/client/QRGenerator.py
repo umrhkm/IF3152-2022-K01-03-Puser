@@ -98,7 +98,7 @@ class QRWindow(QMainWindow):
         # setting window title
         self.setFixedSize(1280, 720)
         self.setWindowTitle("QR Code")
-        self.setContentsMargins(100,-100,100,200)
+        self.setContentsMargins(100,-100,100,100)
         # setting geometry
         #self.setGeometry(100, 100, 300, 300)
         self.setStyleSheet(f'background-color: {DARK_MODE_BG}')
@@ -116,6 +116,13 @@ class QRWindow(QMainWindow):
         silakanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         silakanText.move(480, 90)
         silakanText.setFont(fonts.inter24)
+
+        checkOutText = QPushButton(self)
+        checkOutText.setText("Done")
+        checkOutText.move(575, 660)
+        checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
+        checkOutText.setFont(fonts.inter24bold)
+
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignTop)
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         # creating a label to show the qr code
@@ -140,14 +147,14 @@ class QRWindow(QMainWindow):
         layout = QGridLayout(self)
         # layout.columnCount() = 16
         # layout.rowCount() = 16
-        
+
         # adding label to the layout
         layout.addWidget(logo, 0,1, alignment=Qt.AlignmentFlag.AlignCenter)
         # layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
         # layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
         layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignCenter)
- 
+        layout.addWidget(checkOutText,3,1,alignment=Qt.AlignmentFlag.AlignCenter)
         # creating a QWidget object
         widget = QWidget()
  
