@@ -96,15 +96,24 @@ class nomejaWindow(QWidget):
         self.menuwindowdialog = MenuWindow()
 
         # button Kembali
-        kembaliText = QPushButton(self)
-        kembaliText.setText("Kembali")
-        kembaliText.move(30, 20)
-        kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
-        kembaliText.setFont(fonts.inter18bold)
+        # kembaliText = QPushButton(self)
+        # kembaliText.setText("Kembali")
+        # kembaliText.move(30, 20)
+        # kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
+        # kembaliText.setFont(fonts.inter18bold)
+
+        # self.kembaliText.setFont(inter24)
+        # self.kembaliText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # self.kembaliText.clicked.connect(self.on_pushselanjutnyaButton_clicked)
+        # self.ditawindowdialog = ditaWindow()
 
     def on_pushselanjutnyaButton_clicked(self):
         self.menuwindowdialog.show()
         self.close()
+
+    # def on_pushkembaliButton_clicked(self):
+    #     self.ditawindowdialog.show()
+    #     self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

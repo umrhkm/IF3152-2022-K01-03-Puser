@@ -19,6 +19,7 @@ from custom_widgets import ClickableLabel
 import qrcode
 import sys
 import fonts
+# from dita_window import ditaWindow
 
 BG_COLOR = '#FFFFFF'
 DARK_MODE_BG = '#383a59'
@@ -94,7 +95,7 @@ class QRWindow(QMainWindow):
     # constructor
     def __init__(self):
         QMainWindow.__init__(self)
- 
+
         # setting window title
         self.setFixedSize(1280, 720)
         self.setWindowTitle("QR Code")
@@ -123,16 +124,22 @@ class QRWindow(QMainWindow):
         checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
         checkOutText.setFont(fonts.inter24bold)
 
+        # from dita_window import ditaWindow
+        checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        checkOutText.clicked.connect(self.on_checkoutText_clicked)
+        # 3self.close()
+        # self.checkOutText = ditaWindow()
+
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignTop)
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         # creating a label to show the qr code
         qRCode = QLabel(self)
-         
+        
         # get the text
         with open('tes.txt') as f:
             text = f.read()
             print(text)
- 
+
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
         qr_image2 = qr_image.scaled(300,300)
@@ -142,7 +149,7 @@ class QRWindow(QMainWindow):
         qRCode.move(572,300)
         # qRCode.move(180,180)
         # qRCode.setAlignment(Qt.AlignmentFlag.AlignCenter)
- 
+
         # creating a vertical layout
         layout = QGridLayout(self)
         # layout.columnCount() = 16
@@ -157,29 +164,29 @@ class QRWindow(QMainWindow):
         layout.addWidget(checkOutText,3,1,alignment=Qt.AlignmentFlag.AlignCenter)
         # creating a QWidget object
         widget = QWidget()
- 
+
         # setting layout to the widget
         widget.setLayout(layout)
- 
+
         # setting widget as central widget to the main window
         self.setCentralWidget(widget)
- 
- 
+
+
     # # method called by the line edit
     # def handleTextEntered(self):
- 
+
     #     # get the text
     #     text = "Aku juga"
- 
+
     #     # creating a pix map of qr code
     #     qr_image = qrcode.make(text, image_factory = Image).pixmap()
- 
+
     #     # set image to the label
     #     self.label.setPixmap(qr_image)
- 
- 
- 
 
+    def on_checkoutText_clicked(self):
+        # self.ditadialog.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
