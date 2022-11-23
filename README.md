@@ -59,8 +59,9 @@ python3 app.py
 
   
 ## Daftar Tabel Basis Data
-- Daftar Seluruh Tabel
-  ![image](https://user-images.githubusercontent.com/93817324/203573890-f45e205b-69e3-4ce5-bfb5-afee42fffd9c.png)
+- Daftar Seluruh Tabel <br />
+   
+![image](https://user-images.githubusercontent.com/93817324/203573890-f45e205b-69e3-4ce5-bfb5-afee42fffd9c.png)
 
 - Tabel Menu
   ![image](https://user-images.githubusercontent.com/93817324/203574043-8ff3c316-34f9-4300-8be1-39cb32066873.png)
