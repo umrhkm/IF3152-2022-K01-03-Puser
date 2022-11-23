@@ -33,7 +33,7 @@ touch .env #Untuk WSL
 #Didalam file .env
 DATABASE_URL = "postgresql://wgnkqtmt:NHQ1LhueR2QAauehJrWyQ8dXA3-D5-Jh@tiny.db.elephantsql.com/wgnkqtmt"
 ```
-6. Run server dengan
+6. Run aplikasi dengan
 ```sh
 cd .. #Folder src
 python3 app.py
