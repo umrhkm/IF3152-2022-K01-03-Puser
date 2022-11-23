@@ -97,7 +97,7 @@ class QRWindow(QMainWindow):
         # setting window title
         self.setFixedSize(1280, 720)
         self.setWindowTitle("QR Code")
-        self.setContentsMargins(100,100,100,200)
+        self.setContentsMargins(100,100,0,200)
         # setting geometry
         #self.setGeometry(100, 100, 300, 300)
         self.setStyleSheet(f'background-color: {DARK_MODE_BG}')
@@ -107,6 +107,7 @@ class QRWindow(QMainWindow):
         logoImg = QPixmap("img/Puser.png")
         logo.setPixmap(logoImg)
         logo.move(572, 20)
+        #logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Label untuk teks di bawah logo
         silakanText = QLabel(self)
@@ -136,10 +137,11 @@ class QRWindow(QMainWindow):
         # layout.rowCount() = 16
 
         # adding label to the layout
+        layout.addWidget(logo, 0,1, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
-        layout.addWidget(QLabel(''),0,3, alignment=Qt.AlignmentFlag.AlignRight)
-        layout.addWidget(silakanText,0,1, alignment=Qt.AlignmentFlag.AlignHCenter)
-        layout.addWidget(qRCode,1,1,alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignHCenter)
  
         # creating a QWidget object
         widget = QWidget()
