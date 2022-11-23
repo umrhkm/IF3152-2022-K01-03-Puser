@@ -357,7 +357,7 @@ class MenuWindow(QWidget):
         self.minumanCards[i]["cardTitle"].hide()
         self.minumanCards[i]["cardPrice"].hide()
         self.minumanCards[i]["Spinbox"].hide()
-        self.minumanCards[i]["Notes"].show()
+        self.minumanCards[i]["Notes"].hide()
                 
     def rightMakananButtonClicked(self):
         if self.pageMakanan < (len(self.makanan)//5):
@@ -372,7 +372,7 @@ class MenuWindow(QWidget):
             self.setUpDisplayMakanan()
 
     def rightMinumanButtonClicked(self):
-        if self.pageMinuman + 1 < (len(self.minuman)//5):
+        if self.pageMakanan < (len(self.minuman)//5):
             self.pageMinuman += 1
             self.startIndeksMinuman += 5
             self.setUpDisplayMinuman()
