@@ -3,7 +3,8 @@ Nomor Meja: 0
 Pesanan Anda:
 
 Makanan
-Tidak ada makanan yang Anda pesan
+1. Mie Goreng: 1 buah
+Catatan tambahan: 
 
 Minuman
 Tidak ada minuman yang Anda pesan

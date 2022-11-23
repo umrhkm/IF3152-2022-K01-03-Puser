@@ -28,23 +28,23 @@ from QRGenerator import QRWindow
 
 
 # Kalo program udah jadi, buka aja comment ini
-# response = requests.get("http://localhost:5000/api/menus/")
+response = requests.get("http://localhost:5000/api/menus/")
 
-# jsonresponse = response.json()
-# makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
-# minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
+jsonresponse = response.json()
+makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
+minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 
-# modelmakanan = [sub['nama'] for sub in makanan]
-# modelminuman = [sub['nama'] for sub in minuman]
-# model = modelmakanan+modelminuman
-
-# Buat ngetes, biar ga request-request dulu
-
-makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
-minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
 modelmakanan = [sub['nama'] for sub in makanan]
 modelminuman = [sub['nama'] for sub in minuman]
 model = modelmakanan+modelminuman
+
+# Buat ngetes, biar ga request-request dulu
+
+# makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
+# minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
+# modelmakanan = [sub['nama'] for sub in makanan]
+# modelminuman = [sub['nama'] for sub in minuman]
+# model = modelmakanan+modelminuman
 
 class MenuWindow(QWidget):
     switch = pyqtSignal(str, dict)
@@ -149,19 +149,19 @@ class MenuWindow(QWidget):
         self.completer = QCompleter(model)
         self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.searchbar.setCompleter(self.completer)
-
-        self.totalHargaText = QLabel(self)
-        self.totalHargaText.setText("Total Harga")
-        self.totalHargaText.setStyleSheet(f'color: {DARK_MODE_BG}')
-        self.totalHargaText.move(50, 645)
-        self.totalHargaText.setFont(fonts.inter14bold)
         
         self.totalPriceText = QLabel(self)
         self.totalPriceText.setText("Rp 0000000000000" + str(self.totalHarga))
         self.totalPriceText.setStyleSheet(f'color: {DARK_MODE_BG}')
         self.totalPriceText.move(50, 665)
         self.totalPriceText.setFont(fonts.inter24bold)
-
+        
+        self.totalHargaText = QLabel(self)
+        self.totalHargaText.setText("Total Harga")
+        self.totalHargaText.setStyleSheet(f'color: {DARK_MODE_BG}')
+        self.totalHargaText.move(50, 645)
+        self.totalHargaText.setFont(fonts.inter14bold)
+        
         self.checkOutText = QPushButton(self)
         self.checkOutText.setText("Check Out")
         self.checkOutText.move(575, 660)
@@ -175,7 +175,6 @@ class MenuWindow(QWidget):
     def on_checkoutButton_clicked(self):
         self.qrdialog.show()
         self.close()
-        
         
     def initializeMenu(self):
         # Set up empty menu cards
@@ -192,7 +191,7 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["cardIllustration"] = QLabel(self)
                 self.makananCards[flag]["cardIllustration"].setGeometry(QRect(136 + (i*230), 142, 120, 95))
                 self.makananCards[flag]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-                self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
+                self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("img/default-icon.png"))
 
                 self.makananCards[flag]["cardTitle"] = QLabel(self)
                 self.makananCards[flag]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
@@ -220,7 +219,7 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["Notes"].setFont(fonts.inter11)
                 
                 self.hideMakanan(flag)
-
+                
                 if flag == len(makanan):
                     break
                 else:
@@ -239,7 +238,7 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["cardIllustration"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(136 + (i*230), 182 + 245, 95, 95))
                 self.minumanCards[flagMinuman]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-                self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
+                self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("img/default-icon.png"))
 
                 self.minumanCards[flagMinuman]["cardTitle"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
@@ -267,7 +266,7 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["Notes"].setFont(fonts.inter11)
                 
                 self.hideMinuman(flagMinuman)
-                
+
                 if flagMinuman == len(minuman):
                     break
                 else:
@@ -305,8 +304,11 @@ class MenuWindow(QWidget):
                 self.hideMakanan(i)
             else:
                 self.showMakanan(i)
-                    
-        
+                if (self.makananCards[i]["Spinbox"].value() != 0):
+                    self.makananCards[i]["Notes"].show()
+                else:
+                    self.makananCards[i]["Notes"].hide()
+                
     def setUpDisplayMinuman(self):
         listMinuman = self.minuman
         start = 0
@@ -339,6 +341,10 @@ class MenuWindow(QWidget):
                 self.hideMinuman(i)
             else:
                 self.showMinuman(i)
+                if (self.minumanCards[i]["Spinbox"].value() != 0):
+                    self.minumanCards[i]["Notes"].show()
+                else:
+                    self.minumanCards[i]["Notes"].hide()
 
     def showMakanan(self, i):
         self.makananCards[i]["card"].show()
@@ -346,11 +352,6 @@ class MenuWindow(QWidget):
         self.makananCards[i]["cardTitle"].show()
         self.makananCards[i]["cardPrice"].show()
         self.makananCards[i]["Spinbox"].show()
-        self.makananCards[i]["Notes"].hide()
-        # if self.makananCards[i]["Spinbox"].value() == 0:
-        #     self.makananCards[i]["Notes"].hide()
-        # else:
-        #     self.makananCards[i]["Notes"].show()
     
     def hideMakanan(self, i):
         self.makananCards[i]["card"].hide()
@@ -366,11 +367,6 @@ class MenuWindow(QWidget):
         self.minumanCards[i]["cardTitle"].show()
         self.minumanCards[i]["cardPrice"].show()
         self.minumanCards[i]["Spinbox"].show()
-        self.minumanCards[i]["Notes"].hide()
-        # if self.minumanCards[i]["Spinbox"].value() == 0:
-        #     self.minumanCards[i]["Notes"].hide()
-        # else:
-        #     self.minumanCards[i]["Notes"].show()
     
     def hideMinuman(self, i):
         self.minumanCards[i]["card"].hide()
@@ -404,6 +400,18 @@ class MenuWindow(QWidget):
             self.startIndeksMinuman -= 5
             self.setUpDisplayMinuman()
 
+    def showMakananNotes(self, i):
+        if (self.makananCards[i]["Spinbox"].value() != 0):
+            self.makananCards[i]["Notes"].show()
+        else:
+            self.makananCards[i]["Notes"].hide()
+    
+    def showMinumanNotes(self, i):
+        if (self.minumanCards[i]["Spinbox"].value() != 0):
+            self.minumanCards[i]["Notes"].show()
+        else:
+            self.minumanCards[i]["Notes"].hide()
+            
     def updateHarga(self):
         dataHargaMakanan = [0] * len(makanan)
         j = 0
@@ -433,8 +441,7 @@ class MenuWindow(QWidget):
                 "id": makanan[i]["id"],
                 "name": makanan[i]["nama"],
                 "price": makanan[i]["harga"],
-                #"stock": makanan[i]["jumlahStok"],
-                "linkIllustration": makanan[i]["fotoUrl"]
+                #"stock": makanan[i]["jumlahStok"]
             })
         self.makanan = dataMakanan
         
@@ -445,8 +452,7 @@ class MenuWindow(QWidget):
                 "id": minuman[i]["id"],
                 "name": minuman[i]["nama"],
                 "price": minuman[i]["harga"],
-                # "stock": minuman[i]["jumlahStok"],
-                "linkIllustration": minuman[i]["fotoUrl"],
+                # "stock": minuman[i]["jumlahStok"]
             })
         self.minuman = dataMinuman
 
@@ -489,7 +495,6 @@ class MenuWindow(QWidget):
                 while start < len(indexsearchmakanan):
                     self.showMakanan(indexsearchmakanan[start])
                     start += 1
-
 
             indexsearchminuman = []
             for k in range(len(minuman2)):
