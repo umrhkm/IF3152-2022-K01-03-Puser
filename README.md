@@ -36,7 +36,9 @@ DATABASE_URL = "postgresql://wgnkqtmt:NHQ1LhueR2QAauehJrWyQ8dXA3-D5-Jh@tiny.db.e
 6. Run aplikasi dengan
 ```sh
 cd .. #Folder src
-python3 app.py
+python3 app.py #sesuaikan terminal
+cd src/client/
+python3 dita_window.py #sesuaikan terminal
 ```
 7. Selesai!
 
