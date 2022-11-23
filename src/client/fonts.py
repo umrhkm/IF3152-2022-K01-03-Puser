@@ -33,6 +33,11 @@ inter11 = QFont()
 inter11.setFamily("Inter")
 inter11.setPixelSize(11)
 
+inter15bold = QFont()
+inter15bold.setFamily("Inter")
+inter15bold.setPixelSize(15)
+inter15bold.setBold(True)
+
 inter16bold = QFont()
 inter16bold.setFamily("Inter")
 inter16bold.setPixelSize(16)
