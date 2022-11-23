@@ -97,6 +97,7 @@ class QRWindow(QMainWindow):
         # setting window title
         self.setFixedSize(1280, 720)
         self.setWindowTitle("QR Code")
+        self.setContentsMargins(100,100,100,200)
         # setting geometry
         #self.setGeometry(100, 100, 300, 300)
         self.setStyleSheet(f'background-color: {DARK_MODE_BG}')
@@ -114,18 +115,12 @@ class QRWindow(QMainWindow):
         silakanText.move(480, 90)
         silakanText.setFont(fonts.inter24)
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignTop)
-        silakanText.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # silakanText.setAlignment(Qt.AlignmentFlag.AlignCenter)
         # creating a label to show the qr code
         qRCode = QLabel(self)
- 
-        # # creating a line edit to receive text
-        # self.edit = QLineEdit(self)
- 
-        # adding action when entered is pressed
-        # self.edit.returnPressed.connect(self.handleTextEntered)
          
         # get the text
-        text = "Aku juga"
+        text = "testing"
  
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
@@ -133,16 +128,18 @@ class QRWindow(QMainWindow):
         # set image to the label
         qRCode.setPixmap(qr_image)
         # qRCode.move(180,180)
-        qRCode.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # qRCode.setAlignment(Qt.AlignmentFlag.AlignCenter)
  
         # creating a vertical layout
-        layout = QVBoxLayout(self)
- 
+        layout = QGridLayout(self)
+        # layout.columnCount() = 16
+        # layout.rowCount() = 16
+
         # adding label to the layout
-        layout.addWidget(silakanText)
-        layout.addWidget(qRCode)
-        # # adding line edit to )the layout
-        # layout.addWidget(self.edit)
+        layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
+        layout.addWidget(QLabel(''),0,3, alignment=Qt.AlignmentFlag.AlignRight)
+        layout.addWidget(silakanText,0,1, alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(qRCode,1,1,alignment=Qt.AlignmentFlag.AlignHCenter)
  
         # creating a QWidget object
         widget = QWidget()
