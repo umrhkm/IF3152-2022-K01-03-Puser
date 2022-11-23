@@ -1,0 +1,13 @@
+Dine In
+Nomor Meja: 0 
+Pesanan Anda:
+
+Makanan
+1. Ayam Goreng: 4 buah
+Catatan tambahan: 
+2. Ayam Bakar: 3 buah
+Catatan tambahan: 
+
+Minuman
+1. Fanta: 5 buah
+Catatan tambahan: 

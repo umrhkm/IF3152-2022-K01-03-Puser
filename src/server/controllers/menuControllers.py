@@ -10,9 +10,8 @@ class menuController:
             harga = request.json.get("harga")
             kategori = request.json.get("kategori")
             jumlahStok = request.json.get("jumlahStok")
-            fotoUrl = request.json.get("fotoUrl")
 
-            Menu(nama, harga, kategori,jumlahStok, fotoUrl)
+            Menu(nama, harga, kategori,jumlahStok)
 
             return "Menu Berhasil Ditambahkan!", 201
         
@@ -73,18 +72,6 @@ class menuController:
     def getJumlahStok(id):
         menu = Menu.getMenuById(id)
         return menu.getJumlahStokMenu()
-    
-    @staticmethod
-    def setMenuFoto(id):
-        fotobaru = request.json.get("fotoUrl")
-        menu = Menu.getMenuById(id)
-        menu.setFoto(fotobaru, id)
-        return "Foto Menu Berhasil Diperbarui!", 201
-
-    @staticmethod
-    def getMenuFoto(id):
-        menu = Menu.getMenuById(id)
-        return menu.getFoto()
     
     @staticmethod
     def deleteMenu(id):
