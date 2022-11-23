@@ -62,7 +62,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu WHERE nama = %s", (nama))
+                cursor.execute("SELECT * FROM menu WHERE nama = (%s)", (nama,))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
@@ -89,7 +89,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu WHERE id = %s", id)
+                cursor.execute("SELECT * FROM menu WHERE id = (%s)", (id,))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
@@ -124,7 +124,7 @@ class Menu():
             self.nama = namabaru
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE menu SET nama = %s WHERE id = %s", (self.nama, id))
+                cursor.execute("UPDATE menu SET nama = (%s) WHERE id = (%s)", (self.nama, id,))
             connection.commit()
             connection.close()
 
@@ -144,7 +144,7 @@ class Menu():
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET harga = %s WHERE id = %s", (self.harga, id))
+                    cursor.execute("UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
                 connection.commit()
                 connection.close()
 
@@ -168,7 +168,7 @@ class Menu():
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET jumlahStok = %s WHERE id = %s", (self.jumlahStok, id))
+                    cursor.execute("UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
                 connection.commit()
                 connection.close()
 
@@ -180,7 +180,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM menu WHERE id = %s", (id))
+                cursor.execute("DELETE FROM menu WHERE id = (%s)", (id,))
             connection.commit()
             connection.close()
 
