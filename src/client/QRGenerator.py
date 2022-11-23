@@ -140,11 +140,11 @@ class QRWindow(QMainWindow):
         layout = QGridLayout(self)
         # layout.columnCount() = 16
         # layout.rowCount() = 16
-
+        
         # adding label to the layout
         layout.addWidget(logo, 0,1, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
-        layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
+        # layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
+        # layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
         layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignCenter)
  
