@@ -33,7 +33,7 @@ touch .env #Untuk WSL
 #Didalam file .env
 DATABASE_URL = "postgresql://wgnkqtmt:NHQ1LhueR2QAauehJrWyQ8dXA3-D5-Jh@tiny.db.elephantsql.com/wgnkqtmt"
 ```
-6. Run server dengan
+6. Run aplikasi dengan
 ```sh
 cd .. #Folder src
 python3 app.py
@@ -50,14 +50,10 @@ python3 app.py
   
 ## Daftar Tabel Basis Data
 - Daftar Seluruh Tabel
-  ![image](https://user-images.githubusercontent.com/93817324/203487834-0073055d-324d-42a7-a622-59a77fd58197.png)
+  ![image](https://user-images.githubusercontent.com/93817324/203573890-f45e205b-69e3-4ce5-bfb5-afee42fffd9c.png)
 
 - Tabel Menu
-  ![image](https://user-images.githubusercontent.com/93817324/203488521-44cdec0d-31d8-40c9-8a22-d5d305e21d98.png)
-
-- Tabel Pesanan
-  ![image](https://user-images.githubusercontent.com/93817324/203488453-46550849-7a79-449b-88f0-67396029592a.png)
-
+  ![image](https://user-images.githubusercontent.com/93817324/203574043-8ff3c316-34f9-4300-8be1-39cb32066873.png)
 
 ### Note
 1. JANGAN KILL TERMINAL SERVER! PASTIKAN SERVER TETAP JALAN!
