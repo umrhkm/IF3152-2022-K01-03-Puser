@@ -127,9 +127,11 @@ class QRWindow(QMainWindow):
  
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
- 
+        qr_image2 = qr_image.scaled(300,300)
+
         # set image to the label
-        qRCode.setPixmap(qr_image)
+        qRCode.setPixmap(qr_image2)
+        qRCode.move(572,300)
         # qRCode.move(180,180)
         # qRCode.setAlignment(Qt.AlignmentFlag.AlignCenter)
  
@@ -142,8 +144,8 @@ class QRWindow(QMainWindow):
         layout.addWidget(logo, 0,1, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
         layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
-        layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignHCenter)
-        layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignCenter)
  
         # creating a QWidget object
         widget = QWidget()
