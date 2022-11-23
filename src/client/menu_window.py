@@ -165,7 +165,9 @@ class MenuWindow(QWidget):
         self.checkOutText.move(575, 660)
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
         self.checkOutText.setFont(fonts.inter24bold)
-            
+        self.checkOutText.clicked.connect(self.checkoutClicked)
+        
+        
     def initializeMenu(self):
         # Set up empty menu cards
         self.makananCards = []
@@ -447,115 +449,84 @@ class MenuWindow(QWidget):
         try:
             responsesearch = requests.get('http://localhost:5000/api/menus/search-nama/'+self.searchbar.text())
             jsonresponsesearch = responsesearch.json()
-            makanan = [x for x in jsonresponsesearch if x['kategori'] == 'makanan']
-            minuman = [x for x in jsonresponsesearch if x['kategori'] == 'minuman']
+            makanan2 = [x for x in jsonresponsesearch if x['kategori'] == 'makanan']
+            minuman2 = [x for x in jsonresponsesearch if x['kategori'] == 'minuman']
+            print(len(makanan2))
 
-            dataMakananSearch = []
-            for i in range(len(makanan)):
-                dataMakananSearch.append({
-                    "id": makanan[i]["id"],
-                    "name": makanan[i]["nama"],
-                    "price": makanan[i]["harga"],
-                    #"stock": makanan[i]["jumlahStok"],
-                    "linkIllustration": makanan[i]["fotoUrl"]
-                })
-            self.makanan = dataMakananSearch
-
-            listMakanan = self.makanan
-            start = self.pageMakanan*5
-            for i in range(5):
-                if start+i < len(listMakanan):
-                    self.makananCards[i]["cardTitle"].setText(listMakanan[start+i]["name"])
-                    ## INI MASI ERROR
-                    # if (listMakanan[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMakanan[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.makananCards[i]["cardIllustration"].setPixmap(QPixmap(listMakanan[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMakanan[start+i]["price"])
-                    self.makananCards[i]["cardPrice"].setText(rp_harga)
-                    
-                    self.makananCards[i]["card"].show()
-                    self.makananCards[i]["cardIllustration"].show()
-                    self.makananCards[i]["cardTitle"].show()
-                    self.makananCards[i]["cardPrice"].show()
-                    self.makananCards[i]["Spinbox"].show()
-                else:
-                    self.makananCards[i]["card"].hide()
-                    self.makananCards[i]["cardIllustration"].hide()
-                    self.makananCards[i]["cardTitle"].hide()
-                    self.makananCards[i]["cardPrice"].hide()
-                    self.makananCards[i]["Spinbox"].hide()
-
-            if self.pageMakanan == 0:
-                self.leftMakananButton.hide()
-            else:
-                self.leftMakananButton.show()
-
-            if start + 5 < len(listMakanan):
-                self.rightMakananButton.show()
-            else:
+            indexsearchmakanan = []
+            for i in range(len(makanan2)):
+                for j in range(len(makanan)):
+                    if makanan2[i]["nama"] == makanan[j]["nama"]:
+                        indexsearchmakanan.append(j)
+                
+            if (len(makanan2) < 5):
                 self.rightMakananButton.hide()
+                self.leftMakananButton.hide()
+                for i in range(len(makanan)):
+                    self.hideMakanan(i)
+                start = 0
+                while start < len(indexsearchmakanan):
+                    self.showMakanan(indexsearchmakanan[start])
+                    start += 1
 
 
-            dataMinumanSearch = []
-            for i in range(len(minuman)):
-                dataMinumanSearch.append({
-                    "id": minuman[i]["id"],
-                    "name": minuman[i]["nama"],
-                    "price": minuman[i]["harga"],
-                    # "stock": minuman[i]["jumlahStok"],
-                    "linkIllustration": minuman[i]["fotoUrl"],
-                })
-            self.minuman = dataMinumanSearch
-
-            listMinuman = self.minuman
-            start = self.pageMinuman*5
-            for i in range(5):
-                if start+i < len(listMinuman):
-                    self.minumanCards[i]["cardTitle"].setText(listMinuman[start+i]["name"])
-                    
-                    ## INI MASI ERROR
-                    # if (listMinuman[start+i]["linkIllustration"][:4] == "http"):
-                    #     pixmap = QPixmap()
-                    #     request = requests.get(listMinuman[start+i]["linkIllustration"])
-                    #     pixmap.loadFromData(request.content)
-                    #     pixmap.scaledToHeight(120)
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                    # else:
-                    #     self.minumanCards[i]["cardIllustration"].setPixmap(QPixmap(listMinuman[start+i]["linkIllustration"]))
-                    rp_harga = "Rp " + str(listMinuman[start+i]["price"])
-                    self.minumanCards[i]["cardPrice"].setText(rp_harga)
-                    self.minumanCards[i]["card"].show()
-                    self.minumanCards[i]["cardIllustration"].show()
-                    self.minumanCards[i]["cardTitle"].show()
-                    self.minumanCards[i]["cardPrice"].show()
-                    self.minumanCards[i]["Spinbox"].show()
-                else:
-                    self.minumanCards[i]["card"].hide()
-                    self.minumanCards[i]["cardIllustration"].hide()
-                    self.minumanCards[i]["cardTitle"].hide()
-                    self.minumanCards[i]["cardPrice"].hide()
-                    self.minumanCards[i]["Spinbox"].hide()
-
-            if self.pageMinuman == 0:
-                self.leftMinumanButton.hide()
-            else:
-                self.leftMinumanButton.show()
-
-            if start + 5 < len(listMinuman):
-                self.rightMinumanButton.show()
-            else:
+            indexsearchminuman = []
+            for k in range(len(minuman2)):
+                for l in range(len(minuman)):
+                    if minuman2[k]["nama"] == minuman[l]["nama"]:
+                        indexsearchminuman.append(l)
+                
+            if (len(minuman2) < 5):
                 self.rightMinumanButton.hide()
+                self.leftMinumanButton.hide()
+                for i in range(len(minuman)):
+                    self.hideMinuman(i)
+                start2 = 0
+                while start2 < len(indexsearchminuman):
+                    self.showMinuman(indexsearchminuman[start2])
+                    start2 += 1
         except ValueError as e:
             self.fetchMakanan()
             self.setUpDisplayMakanan()
             self.fetchMinuman()
             self.setUpDisplayMinuman()
-            
+
+    def checkoutClicked(self):
+        with open("tes.txt", "w") as f:
+            f.write("Dine In\n")
+            nomorMeja = 0
+            f.write(f"Nomor Meja: {nomorMeja} \n")
+            f.write("Pesanan Anda:\n\n")
+            urutanMakanan = 1
+            f.write("Makanan\n")
+            flag = False
+            for i in range(len(makanan)):
+                if self.makananCards[i]["Spinbox"].value() != 0:
+                    nama = self.makananCards[i]["cardTitle"].text()
+                    kuantitas = self.makananCards[i]["Spinbox"].value()
+                    catatan = self.makananCards[i]["Notes"].text()
+                    f.write(f"{urutanMakanan}. {nama}: {kuantitas} buah\n")
+                    f.write(f"Catatan tambahan: {catatan}\n")
+                    urutanMakanan += 1
+                    flag=True
+            if not flag:
+                f.write("Tidak ada makanan yang Anda pesan\n")
+            f.write("\n")
+            f.write("Minuman\n")
+            urutanMinuman = 1
+            flag = False
+            for i in range(len(minuman)):
+                if self.minumanCards[i]["Spinbox"].value() != 0:
+                    nama = self.minumanCards[i]["cardTitle"].text()
+                    kuantitas = self.minumanCards[i]["Spinbox"].value()
+                    catatan = self.minumanCards[i]["Notes"].text()
+                    f.write(f"{urutanMinuman}. {nama}: {kuantitas} buah\n")
+                    f.write(f"Catatan tambahan: {catatan}\n")
+                    urutanMinuman += 1
+                    flag=True
+            if not flag:
+                f.write("Tidak ada minuman yang Anda pesan\n")
+                
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MenuWindow()

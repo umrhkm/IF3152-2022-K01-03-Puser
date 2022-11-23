@@ -1,0 +1,13 @@
+Dine In
+Nomor Meja: 0 
+Pesanan Anda:
+
+Makanan
+1. Original Burger: 5 buah
+Catatan tambahan: ayam goreng ya mas
+2. Ayam Bakar: 5 buah
+Catatan tambahan: 
+
+Minuman
+1. Es Jeruk: 4 buah
+Catatan tambahan: 
