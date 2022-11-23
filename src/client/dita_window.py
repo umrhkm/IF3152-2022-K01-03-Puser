@@ -2,6 +2,8 @@ import sys
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
+from nomeja_window import nomejaWindow
+from menu_window import MenuWindow
 
 class ditaWindow(QWidget):
     switch = pyqtSignal(str, dict)
@@ -11,7 +13,7 @@ class ditaWindow(QWidget):
         self.setUpDitaWindow()
     
     def dita(self):
-        c = self.conn.cursor()
+        c = self.cursor()
 
     def setUpDitaWindow(self):
         self.setFixedSize(1280, 720)
@@ -37,7 +39,7 @@ class ditaWindow(QWidget):
 
         # Label untuk logo
         logo = QLabel(self)
-        logoImg = QPixmap('../img/Puser.png')
+        logoImg = QPixmap('img/Puser.png')
         logo.setPixmap(logoImg)
         logo.move(495, 45)
 
@@ -76,7 +78,8 @@ class ditaWindow(QWidget):
         ''')
         self.dineinButton.setFont(inter24)
         self.dineinButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.dineinButton.clicked.connect(self.dita)
+        self.dineinButton.clicked.connect(self.on_pushdineinButton_clicked)
+        self.nomejadialog = nomejaWindow()
 
         # Take Away Button
         self.takeawayButton = QPushButton(self)
@@ -96,7 +99,15 @@ class ditaWindow(QWidget):
         ''')
         self.takeawayButton.setFont(inter24)
         self.takeawayButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.takeawayButton.clicked.connect(self.dita)
+        self.takeawayButton.clicked.connect(self.on_pushtakeawayButton_clicked)
+        self.menuwindowdialog = MenuWindow()
+
+    def on_pushtakeawayButton_clicked(self):
+        self.menuwindowdialog.show()
+        self.close()
+    def on_pushdineinButton_clicked(self):
+        self.nomejadialog.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

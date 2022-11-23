@@ -11,7 +11,7 @@ class nomejaWindow(QWidget):
         self.setUpNomejaWindow()
 
     def nomeja(self):
-        c = self.conn.cursor()
+        c = self.cursor()
 
     def setUpNomejaWindow(self):
         self.setFixedSize(1280, 720)
