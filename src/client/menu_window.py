@@ -97,9 +97,9 @@ class MenuWindow(QWidget):
         kembaliText = QPushButton(self)
         kembaliText.setText("Kembali")
         kembaliText.move(30, 20)
-        kembaliText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+        kembaliText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: #DA6676")
         kembaliText.setFont(fonts.inter18bold)
-        
+
         # Set up previous / next button
         self.rightMakananButton = QPushButton(self)
         self.rightMakananButton.setGeometry(QRect(1215, 217, 48, 48))
@@ -159,6 +159,12 @@ class MenuWindow(QWidget):
         self.totalPriceText.setStyleSheet(f'color: {DARK_MODE_BG}')
         self.totalPriceText.move(50, 665)
         self.totalPriceText.setFont(fonts.inter24bold)
+
+        self.checkOutText = QPushButton(self)
+        self.checkOutText.setText("Check Out")
+        self.checkOutText.move(575, 660)
+        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
+        self.checkOutText.setFont(fonts.inter24bold)
             
     def initializeMenu(self):
         # Set up empty menu cards
@@ -400,6 +406,10 @@ class MenuWindow(QWidget):
         self.totalPriceText.setText("Rp " + str(self.totalHarga))
         self.totalHargaText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         self.totalPriceText.setStyleSheet(f'color: {PRIMARY_WHITE}')
+        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
+
+        if self.totalHarga == 0:
+            self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
     
     def fetchMakanan(self):
         dataMakanan = []

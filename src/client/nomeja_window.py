@@ -1,4 +1,5 @@
 import sys
+import fonts
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
@@ -71,6 +72,13 @@ class nomejaWindow(QWidget):
         background-color: #3E405B
         ''')
         self.nomeja.setFont(inter16)
+
+        # button Kembali
+        kembaliText = QPushButton(self)
+        kembaliText.setText("Kembali")
+        kembaliText.move(30, 20)
+        kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
+        kembaliText.setFont(fonts.inter18bold)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

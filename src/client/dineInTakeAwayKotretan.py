@@ -1,4 +1,4 @@
-
+import fonts
 import sys
 
 import bcrypt
@@ -81,6 +81,13 @@ class LoginWindow(QWidget):
         # background-color: #3E405B
         # ''')
         # self.usernameEdit.setFont(inter16)
+
+        # button Kembali
+        self.kembaliText = QPushButton(self)
+        self.kembaliText.setText("Kembali")
+        self.kembaliText.move(30, 20)
+        self.kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
+        self.kembaliText.setFont(fonts.inter18bold)
 
         # Dine In Button
         self.dineinButton = QPushButton(self)
