@@ -3,6 +3,7 @@ import fonts
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
+from menu_window import MenuWindow
 
 class nomejaWindow(QWidget):
     switch = pyqtSignal(str,dict)
@@ -49,7 +50,7 @@ class nomejaWindow(QWidget):
         logoText.move(579, 143)
         logoText.setFont(inter16)
 
-        # Label Pertanyaan makan dimana
+        # Label No Meja Anda
         nomejaText = QLabel(self)
         nomejaText.setText("Masukkan Nomor Meja Anda")  
         nomejaText.setStyleSheet('''
@@ -62,7 +63,7 @@ class nomejaWindow(QWidget):
         #Input No Meja
         self.nomeja = QLineEdit(self)
         self.nomeja.setPlaceholderText("Nomor Meja")
-        self.nomeja.setFixedSize(200, 150)
+        self.nomeja.setFixedSize(200, 100)
         self.nomeja.move(520, 350)
         self.nomeja.setStyleSheet('''
         padding: 11px 30px 11px 30px;
@@ -72,6 +73,28 @@ class nomejaWindow(QWidget):
         background-color: #3E405B
         ''')
         self.nomeja.setFont(inter16)
+        self.nomeja.setCursor(QCursor(Qt.CursorShape.IBeamCursor))
+
+        # button Selanjutnya
+        self.nextButton = QPushButton(self)
+        self.nextButton.setText("Selanjutnya")
+        self.nextButton.setFixedSize(150,75)
+        self.nextButton.move(540, 500)
+        self.nextButton.setStyleSheet('''
+        QPushButton {
+            color: #ffffff;
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #5561ff, stop:1 #3643fc);
+            border: none;
+            border-radius: 12px;
+        }
+        QPushButton:hover {
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop:1 #535fff);
+        }
+        ''')
+        self.nextButton.setFont(fonts.inter18bold)
+        self.nextButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.nextButton.clicked.connect(self.on_pushednextButton_clicked)
+        self.menuwindowdialog = MenuWindow()
 
         # button Kembali
         kembaliText = QPushButton(self)
@@ -79,6 +102,10 @@ class nomejaWindow(QWidget):
         kembaliText.move(30, 20)
         kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
         kembaliText.setFont(fonts.inter18bold)
+
+    def on_pushednextButton_clicked(self):
+        self.menuwindowdialog.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

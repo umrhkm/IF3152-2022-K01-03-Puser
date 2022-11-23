@@ -24,6 +24,7 @@ from PyQt6.QtCore import Qt, pyqtSignal, QRect
 from PyQt6.QtGui import QCursor, QPixmap, QImage
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter)
 from custom_widgets import ClickableLabel
+from QRGenerator import QRWindow
 
 # Kalo program udah jadi, buka aja comment ini
 response = requests.get("http://localhost:5000/api/menus/")
@@ -165,6 +166,13 @@ class MenuWindow(QWidget):
         self.checkOutText.move(575, 660)
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
         self.checkOutText.setFont(fonts.inter24bold)
+        self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
+        self.qrdialog = QRWindow()
+
+    def on_checkoutButton_clicked(self):
+        self.qrdialog.show()
+        self.close()
             
     def initializeMenu(self):
         # Set up empty menu cards
