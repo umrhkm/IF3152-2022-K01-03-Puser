@@ -8,14 +8,15 @@ from PySide6.QtWidgets import *
 ## ==> SPLASH SCREEN
 from ui_splash_screen import Ui_SplashScreen
 
-## ==> MAIN WINDOW
-from menu_window import MenuWindow
+# ## ==> MAIN WINDOW
+# from menu_window import MenuWindow
 from dita_window import ditaWindow
+
 ## ==> GLOBALS
 counter = 0
 
 # YOUR APPLICATION
-class MainWindow(QWidget):
+class ditaWindow(QWidget):
     def __init__(self):
         QWidget.__init__(self)
         self.ui = ditaWindow()

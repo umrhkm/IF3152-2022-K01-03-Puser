@@ -2,7 +2,7 @@ from server.config.db import get_connection
 import validators
 
 class Menu():
-    def __init__(self, nama, harga, kategori, jumlahStok, fotoUrl):
+    def __init__(self, nama, harga, kategori, jumlahStok):
         self.nama = nama
 
         if (harga <= 0):
@@ -19,16 +19,11 @@ class Menu():
             raise Exception(f"{harga} tidak valid, hurus lebih dari atau sama dengan 0!")
         else:
             self.jumlahStok = jumlahStok
-        
-        if not validators.url(fotoUrl):
-            raise Exception(f"{fotoUrl} bukanlah url yang valid!")
-        else:
-            self.fotoUrl = fotoUrl
 
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok, fotoUrl) VALUES (%s, %s, %s, %s, %s)", (self.nama, self.harga, self.kategori, self.jumlahStok, self.fotoUrl))
+                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok) VALUES (%s, %s, %s, %s)", (self.nama, self.harga, self.kategori, self.jumlahStok))
             connection.commit()
             connection.close()
 
@@ -54,7 +49,6 @@ class Menu():
                 datamenu["harga"] = menu[2]
                 datamenu["kategori"] = menu[3]
                 datamenu["jumlahStok"] = menu[4]
-                datamenu["fotoUrl"] = menu[5]
                 hasil.append(datamenu)
             
             return (hasil)
@@ -68,7 +62,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu WHERE nama iLIKE '%" + nama + "%'")
+                cursor.execute("SELECT * FROM menu WHERE nama = (%s)", (nama,))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
@@ -82,7 +76,6 @@ class Menu():
                 datamenu["harga"] = menu[2]
                 datamenu["kategori"] = menu[3]
                 datamenu["jumlahStok"] = menu[4]
-                datamenu["fotoUrl"] = menu[5]
                 hasil.append(datamenu)
             
             return (hasil)
@@ -96,7 +89,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu WHERE id = %s", id)
+                cursor.execute("SELECT * FROM menu WHERE id = (%s)", (id,))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
@@ -104,7 +97,7 @@ class Menu():
             if resultset is None:
                 raise Exception(f"Id menu {id} tidak ada!")
             else:
-                id, nama, harga, kategori, jumlahStok, fotoUrl = resultset[0]
+                id, nama, harga, kategori, jumlahStok = resultset[0]
 
                 self = cls.__new__(cls)
                 self.id = id
@@ -112,7 +105,6 @@ class Menu():
                 self.harga = harga
                 self.kategori = kategori
                 self.jumlahStok = jumlahStok
-                self.fotoUrl = fotoUrl
 
                 return self
 
@@ -120,7 +112,7 @@ class Menu():
             raise Exception(err)
 
     def getMenuData(self):
-        return ({"id" : self.id, "nama" : self.nama, "harga" : self.harga, "kategori": self.kategori, "jumlahStok": self.jumlahStok, "fotoUrl": self.fotoUrl})
+        return ({"id" : self.id, "nama" : self.nama, "harga" : self.harga, "kategori": self.kategori, "jumlahStok": self.jumlahStok})
 
 
     def getNamaMenu(self):
@@ -132,7 +124,7 @@ class Menu():
             self.nama = namabaru
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE menu SET nama = %s WHERE id = %s", (self.nama, id))
+                cursor.execute("UPDATE menu SET nama = (%s) WHERE id = (%s)", (self.nama, id,))
             connection.commit()
             connection.close()
 
@@ -152,7 +144,7 @@ class Menu():
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET harga = %s WHERE id = %s", (self.harga, id))
+                    cursor.execute("UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
                 connection.commit()
                 connection.close()
 
@@ -176,7 +168,7 @@ class Menu():
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET jumlahStok = %s WHERE id = %s", (self.jumlahStok, id))
+                    cursor.execute("UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
                 connection.commit()
                 connection.close()
 
@@ -188,27 +180,9 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM menu WHERE id = %s", (id))
+                cursor.execute("DELETE FROM menu WHERE id = (%s)", (id,))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
-    
-    def setFoto(self, fotoUrlBaru, id):
-        if not validators.url(fotoUrlBaru):
-            raise Exception(f"{fotoUrlBaru} bukanlah url yang valid!")
-        else:
-            self.fotoUrl = fotoUrlBaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET fotoUrl = %s WHERE id = %s", (self.fotoUrl, id))
-                connection.commit()
-                connection.close()
-
-            except Exception as err:
-                raise Exception(err)
-    
-    def getFoto(self):
-        return self.fotoUrl
