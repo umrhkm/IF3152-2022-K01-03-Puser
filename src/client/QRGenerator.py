@@ -50,12 +50,13 @@ class Image(qrcode.image.base.BaseImage):
  
         # assigning border
         self.border = border
- 
+
         # assigning  width
         self.width = width
  
         # assigning box size
         self.box_size = box_size
+
  
         # creating size
         size = (width + border * 2) * box_size
@@ -97,7 +98,7 @@ class QRWindow(QMainWindow):
         # setting window title
         self.setFixedSize(1280, 720)
         self.setWindowTitle("QR Code")
-        self.setContentsMargins(100,100,0,200)
+        self.setContentsMargins(100,-100,100,200)
         # setting geometry
         #self.setGeometry(100, 100, 300, 300)
         self.setStyleSheet(f'background-color: {DARK_MODE_BG}')
@@ -139,11 +140,11 @@ class QRWindow(QMainWindow):
         layout = QGridLayout(self)
         # layout.columnCount() = 16
         # layout.rowCount() = 16
-
+        
         # adding label to the layout
         layout.addWidget(logo, 0,1, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
-        layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
+        # layout.addWidget(QPushButton('Log In'),0,0, alignment=Qt.AlignmentFlag.AlignLeft)
+        # layout.addWidget(QLabel(''),1,3, alignment=Qt.AlignmentFlag.AlignRight)
         layout.addWidget(silakanText,1,1, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(qRCode,2,1,alignment=Qt.AlignmentFlag.AlignCenter)
  
