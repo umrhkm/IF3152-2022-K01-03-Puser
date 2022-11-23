@@ -42,10 +42,20 @@ python3 app.py
 
 
 ## Daftar Modul yang Diimplementasi
-### 1. Menampilkan Seluruh Menu (18220...)
-<foto screen>
+### 1. Menampilkan Seluruh Menu (18220097 Muhamad Fikri Nurohman)
 
-### 2. dst
+### 2. Membuat dan implementasi searchbar (18220071 Muhammad Zaky)
+
+### 3. Menampilkan dan implementasi QR Code berisi detail pesanan (18220003 Made Adhika Wiwardhana)
+
+### 4. Menampilkan catatan dan button (18220081 Muhammad Fariz Ramadhan)
+
+### 5. Membuat pilihan Dine-In dan Take-Away serta penomoran Meja (18220061 Vincentius Verel Siedharta)
+
+### 6. Membuat backend serta database (18220073 Umar Hakim)
+
+### 7. Membuat tampilan utama (18220073 Umar Hakim)
+
 
   
 ## Daftar Tabel Basis Data
