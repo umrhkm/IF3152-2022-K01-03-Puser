@@ -165,7 +165,9 @@ class MenuWindow(QWidget):
         self.checkOutText.move(575, 660)
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
         self.checkOutText.setFont(fonts.inter24bold)
-            
+        self.checkOutText.clicked.connect(self.checkoutClicked)
+        
+        
     def initializeMenu(self):
         # Set up empty menu cards
         self.makananCards = []
@@ -558,24 +560,40 @@ class MenuWindow(QWidget):
 
     def checkoutClicked(self):
         with open("tes.txt", "w") as f:
-            f.write("Dine In")
+            f.write("Dine In\n")
             nomorMeja = 0
-            f.write("Nomor Meja:", nomorMeja)
-            print()
-            f.write("Pesanan Anda:")
-            order = 1
-            print("Makanan")
+            f.write(f"Nomor Meja: {nomorMeja} \n")
+            f.write("Pesanan Anda:\n\n")
+            urutanMakanan = 1
+            f.write("Makanan\n")
             flag = False
             for i in range(len(makanan)):
                 if self.makananCards[i]["Spinbox"].value() != 0:
-                    nama = self.makananCards[i]["cardTitle"]
+                    nama = self.makananCards[i]["cardTitle"].text()
                     kuantitas = self.makananCards[i]["Spinbox"].value()
-                    f.write(f"{order}. ")
-                    self.makananCards[i]["Notes"].hide()
-                return
+                    catatan = self.makananCards[i]["Notes"].text()
+                    f.write(f"{urutanMakanan}. {nama}: {kuantitas} buah\n")
+                    f.write(f"Catatan tambahan: {catatan}\n")
+                    urutanMakanan += 1
+                    flag=True
             if not flag:
-                print("Tidak ada makanan yang Anda pesan")
-            print("Minuman")
+                f.write("Tidak ada makanan yang Anda pesan\n")
+            f.write("\n")
+            f.write("Minuman\n")
+            urutanMinuman = 1
+            flag = False
+            for i in range(len(minuman)):
+                if self.minumanCards[i]["Spinbox"].value() != 0:
+                    nama = self.minumanCards[i]["cardTitle"].text()
+                    kuantitas = self.minumanCards[i]["Spinbox"].value()
+                    catatan = self.minumanCards[i]["Notes"].text()
+                    f.write(f"{urutanMinuman}. {nama}: {kuantitas} buah\n")
+                    f.write(f"Catatan tambahan: {catatan}\n")
+                    urutanMinuman += 1
+                    flag=True
+            if not flag:
+                f.write("Tidak ada minuman yang Anda pesan\n")
+                
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MenuWindow()
