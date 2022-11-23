@@ -3,11 +3,7 @@ Nomor Meja: 0
 Pesanan Anda:
 
 Makanan
-1. Original Burger: 5 buah
-Catatan tambahan: ayam goreng ya mas
-2. Ayam Bakar: 5 buah
-Catatan tambahan: 
+Tidak ada makanan yang Anda pesan
 
 Minuman
-1. Es Jeruk: 4 buah
-Catatan tambahan: 
+Tidak ada minuman yang Anda pesan

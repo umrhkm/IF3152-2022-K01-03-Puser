@@ -24,6 +24,8 @@ from PyQt6.QtCore import Qt, pyqtSignal, QRect
 from PyQt6.QtGui import QCursor, QPixmap, QImage
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter)
 from custom_widgets import ClickableLabel
+from QRGenerator import QRWindow
+
 
 # Kalo program udah jadi, buka aja comment ini
 # response = requests.get("http://localhost:5000/api/menus/")
@@ -166,6 +168,13 @@ class MenuWindow(QWidget):
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
         self.checkOutText.setFont(fonts.inter24bold)
         self.checkOutText.clicked.connect(self.checkoutClicked)
+        self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
+        self.qrdialog = QRWindow()
+
+    def on_checkoutButton_clicked(self):
+        self.qrdialog.show()
+        self.close()
         
         
     def initializeMenu(self):
@@ -517,9 +526,9 @@ class MenuWindow(QWidget):
                 for i in range(len(makanan)):
                     self.hideMakanan(i)
                 start = 0
-                while start < len(indexsearchmakanan):
-                    self.showMakanan(indexsearchmakanan[start])
-                    start += 1
+                # while start < len(indexsearchmakanan):
+                #     self.showMakanan(indexsearchmakanan[start])
+                #     start += 1
 
             listMinuman = self.minuman
             start = self.pageMinuman*5
@@ -563,9 +572,9 @@ class MenuWindow(QWidget):
                 for i in range(len(minuman)):
                     self.hideMinuman(i)
                 start2 = 0
-                while start2 < len(indexsearchminuman):
-                    self.showMinuman(indexsearchminuman[start2])
-                    start2 += 1
+                # while start2 < len(indexsearchminuman):
+                #     self.showMinuman(indexsearchminuman[start2])
+                    # start2 += 1
         except ValueError as e:
             self.fetchMakanan()
             self.setUpDisplayMakanan()
