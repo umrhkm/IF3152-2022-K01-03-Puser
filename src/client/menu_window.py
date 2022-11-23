@@ -37,7 +37,6 @@ modelmakanan = [sub['nama'] for sub in makanan]
 modelminuman = [sub['nama'] for sub in minuman]
 model = modelmakanan+modelminuman
 
-
 # Buat ngetes, biar ga request-request dulu
 # makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
 
@@ -52,6 +51,8 @@ class MenuWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.startIndeksMakanan = 0
+        self.startIndeksMinuman = 0
         self.pageMakanan = 0
         self.pageMinuman = 0
         
@@ -63,14 +64,6 @@ class MenuWindow(QWidget):
         self.setFixedSize(1280, 720)
         self.setWindowTitle("Puser - Pilih Menu")
         self.setUpWidgets()
-
-    def updateDisplayMakanan(self):
-        self.fetchMakanan()
-        self.setUpDisplayMakanan()
-        
-    def updateDisplayMinuman(self):
-        self.fetchMinuman()
-        self.setUpDisplayMinuman()
         
     def setUpWidgets(self):
         # Set warna background
@@ -162,175 +155,190 @@ class MenuWindow(QWidget):
     def initializeMenu(self):
         # Set up empty menu cards
         self.makananCards = []
-        j = 0
-        for i in range(5):
-            self.makananCards.append({})
-            self.makananCards[j]["card"] = QLabel(self)
-            self.makananCards[j]["card"].setGeometry(QRect(80 + (i * 230), 130, 200, 220))
-            self.makananCards[j]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
-            self.makananCards[j]["card"].setPixmap(QPixmap("img/card-template-new.png"))
-            
-            self.makananCards[j]["cardIllustration"] = QLabel(self)
-            self.makananCards[j]["cardIllustration"].setGeometry(QRect(120 + (i*230), 142, 120, 95))
-            self.makananCards[j]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-            self.makananCards[j]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
+        flag = 0
+        while flag < len(makanan):
+            for i in range(5):
+                self.makananCards.append({})
+                self.makananCards[flag]["card"] = QLabel(self)
+                self.makananCards[flag]["card"].setGeometry(QRect(80 + (i * 230), 130, 200, 220))
+                self.makananCards[flag]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
+                self.makananCards[flag]["card"].setPixmap(QPixmap("img/card-template-new.png"))
+                
+                self.makananCards[flag]["cardIllustration"] = QLabel(self)
+                self.makananCards[flag]["cardIllustration"].setGeometry(QRect(120 + (i*230), 142, 120, 95))
+                self.makananCards[flag]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
+                self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
 
-            self.makananCards[j]["cardTitle"] = QLabel(self)
-            self.makananCards[j]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
-            self.makananCards[j]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.makananCards[j]["cardTitle"].setText("Title")
-            self.makananCards[j]["cardTitle"].setFont(fonts.inter16bold)
+                self.makananCards[flag]["cardTitle"] = QLabel(self)
+                self.makananCards[flag]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
+                self.makananCards[flag]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.makananCards[flag]["cardTitle"].setText("Title")
+                self.makananCards[flag]["cardTitle"].setFont(fonts.inter16bold)
 
-            self.makananCards[j]["cardPrice"] = QLabel(self)
-            self.makananCards[j]["cardPrice"].setText("Price")
-            self.makananCards[j]["cardPrice"].setGeometry(QRect(90 + (i*230), 285, 80, 14))
-            self.makananCards[j]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.makananCards[j]["cardPrice"].setFont(fonts.inter13)
+                self.makananCards[flag]["cardPrice"] = QLabel(self)
+                self.makananCards[flag]["cardPrice"].setText("Price")
+                self.makananCards[flag]["cardPrice"].setGeometry(QRect(90 + (i*230), 285, 80, 14))
+                self.makananCards[flag]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.makananCards[flag]["cardPrice"].setFont(fonts.inter13)
 
-            self.makananCards[j]["Spinbox"] = QtWidgets.QSpinBox(self)
-            self.makananCards[j]["Spinbox"].setGeometry(QRect(230 + (i*230), 280, 42, 22))
-            self.makananCards[j]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.makananCards[j]["Spinbox"].setObjectName("SpinBox")
-            self.makananCards[j]["Spinbox"].valueChanged.connect(lambda x, page=self.pageMakanan,i=i: self.spinboxMakananClicked(page,i))
-
-            j += 1
-            
+                self.makananCards[flag]["Spinbox"] = QtWidgets.QSpinBox(self)
+                self.makananCards[flag]["Spinbox"].setGeometry(QRect(230 + (i*230), 280, 42, 22))
+                self.makananCards[flag]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.makananCards[flag]["Spinbox"].setObjectName("SpinBox")
+                self.makananCards[flag]["Spinbox"].valueChanged.connect(lambda x, i=flag: self.spinboxMakananClicked(i))
+                if flag == len(makanan):
+                    break
+                else:
+                    flag += 1
+                    
         self.minumanCards = []
-        k = 0
-        for i in range(5):
-            self.minumanCards.append({})
-            self.minumanCards[k]["card"] = QLabel(self)
-            self.minumanCards[k]["card"].setGeometry(QRect(80 + (i * 230), 165 + 245, 200, 220))
-            self.minumanCards[k]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
-            self.minumanCards[k]["card"].setPixmap(QPixmap("img/card-template-new.png"))
-            
-            self.minumanCards[k]["cardIllustration"] = QLabel(self)
-            self.minumanCards[k]["cardIllustration"].setGeometry(QRect(120 + (i*230), 167 + 245, 120, 95))
-            self.minumanCards[k]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-            self.minumanCards[k]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
+        flagMinuman = 0
+        while flagMinuman < len(minuman):
+            for i in range(5):
+                self.minumanCards.append({})
+                self.minumanCards[flagMinuman]["card"] = QLabel(self)
+                self.minumanCards[flagMinuman]["card"].setGeometry(QRect(80 + (i * 230), 165 + 245, 200, 220))
+                self.minumanCards[flagMinuman]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
+                self.minumanCards[flagMinuman]["card"].setPixmap(QPixmap("img/card-template-new.png"))
+                
+                self.minumanCards[flagMinuman]["cardIllustration"] = QLabel(self)
+                self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(120 + (i*230), 167 + 245, 120, 95))
+                self.minumanCards[flagMinuman]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
+                self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("img/push-up.png"))
 
-            self.minumanCards[k]["cardTitle"] = QLabel(self)
-            self.minumanCards[k]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
-            self.minumanCards[k]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.minumanCards[k]["cardTitle"].setText("Title")
-            self.minumanCards[k]["cardTitle"].setFont(fonts.inter16bold)
+                self.minumanCards[flagMinuman]["cardTitle"] = QLabel(self)
+                self.minumanCards[flagMinuman]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
+                self.minumanCards[flagMinuman]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.minumanCards[flagMinuman]["cardTitle"].setText("Title")
+                self.minumanCards[flagMinuman]["cardTitle"].setFont(fonts.inter16bold)
 
-            self.minumanCards[k]["cardPrice"] = QLabel(self)
-            self.minumanCards[k]["cardPrice"].setText("Price")
-            self.minumanCards[k]["cardPrice"].setGeometry(QRect(90 + (i*230), 320 + 245, 80, 14))
-            self.minumanCards[k]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.minumanCards[k]["cardPrice"].setFont(fonts.inter12)
-            
-            self.minumanCards[k]["Spinbox"] = QtWidgets.QSpinBox(self)
-            self.minumanCards[k]["Spinbox"].setGeometry(QRect(230 + (i*230), 315 + 245, 42, 22))
-            self.minumanCards[k]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-            self.minumanCards[k]["Spinbox"].setObjectName("SpinBox")
-            self.minumanCards[k]["Spinbox"].valueChanged.connect(lambda x, page=self.pageMinuman, i=i: self.spinboxMinumanClicked(page, i))
-            
-            k += 1
+                self.minumanCards[flagMinuman]["cardPrice"] = QLabel(self)
+                self.minumanCards[flagMinuman]["cardPrice"].setText("Price")
+                self.minumanCards[flagMinuman]["cardPrice"].setGeometry(QRect(90 + (i*230), 320 + 245, 80, 14))
+                self.minumanCards[flagMinuman]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.minumanCards[flagMinuman]["cardPrice"].setFont(fonts.inter12)
+                
+                self.minumanCards[flagMinuman]["Spinbox"] = QtWidgets.QSpinBox(self)
+                self.minumanCards[flagMinuman]["Spinbox"].setGeometry(QRect(230 + (i*230), 315 + 245, 42, 22))
+                self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.minumanCards[flagMinuman]["Spinbox"].setObjectName("SpinBox")
+                self.minumanCards[flagMinuman]["Spinbox"].valueChanged.connect(lambda x, i=flagMinuman: self.spinboxMinumanClicked(i))
+                if flagMinuman == len(minuman):
+                    break
+                else:
+                    flagMinuman += 1
             
     def setUpDisplayMakanan(self):
         listMakanan = self.makanan
-        start = self.pageMakanan*5
-        j = 0
-        for i in range(5):
-            if start+i < len(listMakanan):
-                self.makananCards[j]["cardTitle"].setText(listMakanan[start+i]["name"])
-                ## INI MASI ERROR
-                # if (listMakanan[start+i]["linkIllustration"][:4] == "http"):
-                #     pixmap = QPixmap()
-                #     request = requests.get(listMakanan[start+i]["linkIllustration"])
-                #     pixmap.loadFromData(request.content)
-                #     pixmap.scaledToHeight(120)
-                #     self.makananCards[j]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                # else:
-                #     self.makananCards[j]["cardIllustration"].setPixmap(QPixmap(listMakanan[start+i]["linkIllustration"]))
-                rp_harga = "Rp " + str(listMakanan[start+i]["price"])
-                self.makananCards[j]["cardPrice"].setText(rp_harga)
-                
-                self.makananCards[j]["card"].show()
-                self.makananCards[j]["cardIllustration"].show()
-                self.makananCards[j]["cardTitle"].show()
-                self.makananCards[j]["cardPrice"].show()
-                self.makananCards[j]["Spinbox"].show()
-            else:
-                self.makananCards[j]["card"].hide()
-                self.makananCards[j]["cardIllustration"].hide()
-                self.makananCards[j]["cardTitle"].hide()
-                self.makananCards[j]["cardPrice"].hide()
-                self.makananCards[j]["Spinbox"].hide()
-            j += 1
-            
+        start = 0
+        while start < len(makanan):
+            self.makananCards[start]["cardTitle"].setText(listMakanan[start]["name"])
+            ## INI MASI ERROR
+            # if (listMakanan[self.startIndeksMakanan]["linkIllustration"][:4] == "http"):
+            #     pixmap = QPixmap()
+            #     request = requests.get(listMakanan[self.startIndeksMakanan]["linkIllustration"])
+            #     pixmap.loadFromData(request.content)
+            #     pixmap.scaledToHeight(120)
+            #     self.makananCards[self.startIndeksMakanan]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
+            # else:
+            #     self.makananCards[self.startIndeksMakanan]["cardIllustration"].setPixmap(QPixmap(listMakanan[self.startIndeksMakanan]["linkIllustration"]))
+            rp_harga = "Rp " + str(listMakanan[start]["price"])
+            self.makananCards[start]["cardPrice"].setText(rp_harga)
+            self.makananCards[start]["card"].hide()
+            self.makananCards[start]["cardIllustration"].hide()
+            self.makananCards[start]["cardTitle"].hide()
+            self.makananCards[start]["cardPrice"].hide()
+            self.makananCards[start]["Spinbox"].hide()
+            start += 1
+        
+        self.updateDisplayMakanan()
+        
         if self.pageMakanan == 0:
             self.leftMakananButton.hide()
         else:
             self.leftMakananButton.show()
 
-        if start + 5 < len(listMakanan):
+        if self.startIndeksMakanan + 5 < len(listMakanan):
             self.rightMakananButton.show()
         else:
             self.rightMakananButton.hide()
-            
-    def setUpDisplayMinuman(self):
-        k = 0
-        listMinuman = self.minuman
-        start = self.pageMinuman*5
+    
+    def updateDisplayMakanan(self):
         for i in range(5):
-            if start+i < len(listMinuman):
-                self.minumanCards[k]["cardTitle"].setText(listMinuman[start+i]["name"])
-                
-                ## INI MASI ERROR
-                # if (listMinuman[start+i]["linkIllustration"][:4] == "http"):
-                #     pixmap = QPixmap()
-                #     request = requests.get(listMinuman[start+i]["linkIllustration"])
-                #     pixmap.loadFromData(request.content)
-                #     pixmap.scaledToHeight(120)
-                #     self.minumanCards[k]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
-                # else:
-                #     self.minumanCards[k]["cardIllustration"].setPixmap(QPixmap(listMinuman[start+i]["linkIllustration"]))
-                rp_harga = "Rp " + str(listMinuman[start+i]["price"])
-                self.minumanCards[k]["cardPrice"].setText(rp_harga)
-                self.minumanCards[k]["card"].show()
-                self.minumanCards[k]["cardIllustration"].show()
-                self.minumanCards[k]["cardTitle"].show()
-                self.minumanCards[k]["cardPrice"].show()
-                self.minumanCards[k]["Spinbox"].show()
-            else:
-                self.minumanCards[k]["card"].hide()
-                self.minumanCards[k]["cardIllustration"].hide()
-                self.minumanCards[k]["cardTitle"].hide()
-                self.minumanCards[k]["cardPrice"].hide()
-                self.minumanCards[k]["Spinbox"].hide()
-            k += 1
+            self.makananCards[self.startIndeksMakanan+i]["card"].show()
+            self.makananCards[self.startIndeksMakanan+i]["cardIllustration"].show()
+            self.makananCards[self.startIndeksMakanan+i]["cardTitle"].show()
+            self.makananCards[self.startIndeksMakanan+i]["cardPrice"].show()
+            self.makananCards[self.startIndeksMakanan+i]["Spinbox"].show()
+            if self.startIndeksMakanan+i == len(makanan):
+                break
+
+    def setUpDisplayMinuman(self):
+        print("Len:", len(self.minumanCards))
+        listMinuman = self.minuman
+        start = 0
+        while start < len(minuman):
+            self.minumanCards[start]["cardTitle"].setText(listMinuman[start]["name"])
+            ## INI MASI ERROR
+            # if (listMinuman[self.startIndeksMakanan]["linkIllustration"][:4] == "http"):
+            #     pixmap = QPixmap()
+            #     request = requests.get(listMinuman[self.startIndeksMakanan]["linkIllustration"])
+            #     pixmap.loadFromData(request.content)
+            #     pixmap.scaledToHeight(120)
+            #     self.minumanCards[self.startIndeksMakanan]["cardIllustration"].setPixmap(pixmap.scaledToHeight(120))
+            # else:
+            #     self.minumanCards[self.startIndeksMakanan]["cardIllustration"].setPixmap(QPixmap(listMinuman[self.startIndeksMakanan]["linkIllustration"]))
+            rp_harga = "Rp " + str(listMinuman[start]["price"])
+            self.minumanCards[start]["cardPrice"].setText(rp_harga)
+            self.minumanCards[start]["card"].hide()
+            self.minumanCards[start]["cardIllustration"].hide()
+            self.minumanCards[start]["cardTitle"].hide()
+            self.minumanCards[start]["cardPrice"].hide()
+            self.minumanCards[start]["Spinbox"].hide()
+            start += 1
+            
+        self.updateDisplayMinuman()
             
         if self.pageMinuman == 0:
             self.leftMinumanButton.hide()
         else:
             self.leftMinumanButton.show()
 
-        if start + 5 < len(listMinuman):
+        if self.startIndeksMinuman + 5 < len(listMinuman):
             self.rightMinumanButton.show()
         else:
             self.rightMinumanButton.hide()
-      
+
+    def updateDisplayMinuman(self):
+        for i in range(5):
+            self.minumanCards[self.startIndeksMinuman+i]["card"].show()
+            self.minumanCards[self.startIndeksMinuman+i]["cardIllustration"].show()
+            self.minumanCards[self.startIndeksMinuman+i]["cardTitle"].show()
+            self.minumanCards[self.startIndeksMinuman+i]["cardPrice"].show()
+            self.minumanCards[self.startIndeksMinuman+i]["Spinbox"].show()
+
     def rightMakananButtonClicked(self):
-        if self.pageMakanan < (len(self.makanan)-1)//3:
+        if self.pageMakanan < (len(self.makanan)//5):
             self.pageMakanan += 1
+            self.startIndeksMakanan += 5
             self.setUpDisplayMakanan()
       
     def leftMakananButtonClicked(self):
         if self.pageMakanan > 0:
             self.pageMakanan -= 1
+            self.startIndeksMakanan -= 5
             self.setUpDisplayMakanan()
 
     def rightMinumanButtonClicked(self):
-        if self.pageMinuman + 1 < (len(self.minuman)//3):
+        if self.pageMinuman + 1 < (len(self.minuman)//5):
             self.pageMinuman += 1
+            self.startIndeksMinuman += 5
             self.setUpDisplayMinuman()
 
     def leftMinumanButtonClicked(self):
         if self.pageMinuman > 0:
             self.pageMinuman -= 1
+            self.startIndeksMinuman -= 5
             self.setUpDisplayMinuman()
 
     def updateHarga(self):
@@ -383,17 +391,17 @@ class MenuWindow(QWidget):
             })
         self.minuman = dataMinuman
 
-    def spinboxMakananClicked(self, page, idx):
-        for i in range(self.pageMakanan+1):
-            if i == page and self.makananCards[idx]["Spinbox"].isVisible():
-                n = self.makananCards[idx]["Spinbox"].value()
-                self.updateHarga()
+    def spinboxMakananClicked(self, idx):
+        # for i in range(self.pageMakanan+1):
+        #     if i == page and self.makananCards[idx]["Spinbox"].isVisible():
+        n = self.makananCards[idx]["Spinbox"].value()
+        self.updateHarga()
     
-    def spinboxMinumanClicked(self, page, idx):
-        for i in range(self.pageMinuman+1):
-            if i == page and self.minumanCards[idx]["Spinbox"].isVisible():
-                n = self.minumanCards[idx]["Spinbox"].value()
-                self.updateHarga()
+    def spinboxMinumanClicked(self, idx):
+        # for i in range(self.pageMinuman+1):
+        #     if i == page and self.minumanCards[idx]["Spinbox"].isVisible():
+        n = self.minumanCards[idx]["Spinbox"].value()
+        self.updateHarga()
     
     def search(self):
         try:
