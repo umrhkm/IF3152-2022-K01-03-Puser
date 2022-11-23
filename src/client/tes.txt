@@ -1,0 +1,10 @@
+Dine In
+Nomor Meja: 0 
+Pesanan Anda: 
+ 
+Makanan 
+1. Ayam Bakar: 1 buah 
+Catatan tambahan: f 
+
+Minuman 
+Tidak ada minuman yang Anda pesan
