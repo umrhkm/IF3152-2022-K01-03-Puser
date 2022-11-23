@@ -62,7 +62,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu WHERE nama iLIKE '%" + nama + "%'")
+                cursor.execute("SELECT * FROM menu WHERE nama = %s", (nama))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
