@@ -23,7 +23,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok, fotoUrl) VALUES (%s, %s, %s, %s)", (self.nama, self.harga, self.kategori, self.jumlahStok))
+                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok) VALUES (%s, %s, %s, %s)", (self.nama, self.harga, self.kategori, self.jumlahStok))
             connection.commit()
             connection.close()
 
