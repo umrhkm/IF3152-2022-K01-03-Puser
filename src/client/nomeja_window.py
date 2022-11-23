@@ -39,9 +39,9 @@ class nomejaWindow(QWidget):
 
         # Label untuk logo
         logo = QLabel(self)
-        logoImg = QPixmap('../img/Puser.png')
+        logoImg = QPixmap('img/Puser.png')
         logo.setPixmap(logoImg)
-        logo.move(495, 45)
+        logo.move(560, 45)
 
         # Label untuk teks di bawah logo
         logoText = QLabel(self)
@@ -94,18 +94,6 @@ class nomejaWindow(QWidget):
         self.selanjutnyaButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.selanjutnyaButton.clicked.connect(self.on_pushselanjutnyaButton_clicked)
         self.menuwindowdialog = MenuWindow()
-
-        # button Kembali
-        # kembaliText = QPushButton(self)
-        # kembaliText.setText("Kembali")
-        # kembaliText.move(30, 20)
-        # kembaliText.setStyleSheet(f"color: #000000; background-color: #DA6676")
-        # kembaliText.setFont(fonts.inter18bold)
-
-        # self.kembaliText.setFont(inter24)
-        # self.kembaliText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        # self.kembaliText.clicked.connect(self.on_pushselanjutnyaButton_clicked)
-        # self.ditawindowdialog = ditaWindow()
 
     def on_pushselanjutnyaButton_clicked(self):
         self.menuwindowdialog.show()

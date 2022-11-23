@@ -25,7 +25,7 @@ from PyQt6.QtGui import QCursor, QPixmap, QImage
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter)
 from custom_widgets import ClickableLabel
 from QRGenerator import QRWindow
-
+from QR_data import QR_data
 
 # Kalo program udah jadi, buka aja comment ini
 response = requests.get("http://localhost:5000/api/menus/")
@@ -95,13 +95,7 @@ class MenuWindow(QWidget):
         minumanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         minumanText.move(50, 380)
         minumanText.setFont(fonts.inter18bold)
-
-        kembaliText = QPushButton(self)
-        kembaliText.setText("Kembali")
-        kembaliText.move(30, 20)
-        kembaliText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: #DA6676")
-        kembaliText.setFont(fonts.inter18bold)
-
+        
         # Set up previous / next button
         self.rightMakananButton = QPushButton(self)
         self.rightMakananButton.setGeometry(QRect(1215, 217, 48, 48))
@@ -162,15 +156,24 @@ class MenuWindow(QWidget):
         self.totalHargaText.move(50, 645)
         self.totalHargaText.setFont(fonts.inter14bold)
         
+        self.addKeranjang = QPushButton(self)
+        self.addKeranjang.setText("Update Keranjang")
+        self.addKeranjang.move(360, 660)
+        self.addKeranjang.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
+        self.addKeranjang.setFont(fonts.inter24bold)
+        self.addKeranjang.clicked.connect(self.checkoutClicked)
+        self.addKeranjang.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.addKeranjang.setEnabled(True)
+        
         self.checkOutText = QPushButton(self)
         self.checkOutText.setText("Check Out")
-        self.checkOutText.move(575, 660)
+        self.checkOutText.move(880, 660)
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
         self.checkOutText.setFont(fonts.inter24bold)
-        self.checkOutText.clicked.connect(self.checkoutClicked)
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
-        self.checkOutText.setEnabled(True)
+        self.checkOutText.setEnabled(False)
+        
         self.qrdialog = QRWindow()
 
     def on_checkoutButton_clicked(self):
@@ -430,12 +433,9 @@ class MenuWindow(QWidget):
         self.totalPriceText.setText("Rp " + str(self.totalHarga))
         self.totalHargaText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         self.totalPriceText.setStyleSheet(f'color: {PRIMARY_WHITE}')
-        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
         if self.totalHarga == 0:
             self.checkOutText.setEnabled(False)
             self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
-        else:
-            self.checkOutText.setEnabled(True)
     
     def fetchMakanan(self):
         dataMakanan = []
@@ -555,7 +555,15 @@ class MenuWindow(QWidget):
                     flag=True
             if not flag:
                 f.write("Tidak ada minuman yang Anda pesan\n")
-                
+            f.close()
+        self.checkOutText.setEnabled(True)
+        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
+        
+        halo = QR_data()
+        
+        with open('tes.txt', 'r') as file:
+            halo.text = file.read()
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MenuWindow()

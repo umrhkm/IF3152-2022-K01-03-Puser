@@ -11,7 +11,7 @@ class ditaWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setUpDitaWindow()
-    
+
     def dita(self):
         c = self.cursor()
 
@@ -41,7 +41,7 @@ class ditaWindow(QWidget):
         logo = QLabel(self)
         logoImg = QPixmap('img/Puser.png')
         logo.setPixmap(logoImg)
-        logo.move(495, 45)
+        logo.move(560, 45)
 
         # Label untuk teks di bawah logo
         logoText = QLabel(self)

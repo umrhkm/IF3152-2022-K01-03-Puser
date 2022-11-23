@@ -19,6 +19,7 @@ from custom_widgets import ClickableLabel
 import qrcode
 import sys
 import fonts
+from QR_data import QR_data
 # from dita_window import ditaWindow
 
 BG_COLOR = '#FFFFFF'
@@ -138,7 +139,6 @@ class QRWindow(QMainWindow):
         # get the text
         with open('tes.txt') as f:
             text = f.read()
-            print(text)
 
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()

@@ -1,11 +1,3 @@
-################################################################################
-##
-## BY: WANDERSON M.PIMENTA
-## PROJECT MADE WITH: Qt Designer and PySide2
-## V: 1.0.0
-##
-################################################################################
-
 import sys
 import platform
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -18,7 +10,7 @@ from ui_splash_screen import Ui_SplashScreen
 
 ## ==> MAIN WINDOW
 from menu_window import MenuWindow
-
+from dita_window import ditaWindow
 ## ==> GLOBALS
 counter = 0
 
@@ -26,7 +18,7 @@ counter = 0
 class MainWindow(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.ui = MenuWindow()
+        self.ui = ditaWindow()
 
 
 # SPLASH SCREEN
@@ -88,7 +80,7 @@ class SplashScreen(QMainWindow):
             self.timer.stop()
 
             # SHOW MAIN WINDOW
-            self.main = MenuWindow()
+            self.main = ditaWindow()
             self.main.show()
 
             # CLOSE SPLASH SCREEN
