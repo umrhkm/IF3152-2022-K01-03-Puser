@@ -1,3 +1,6 @@
-cd src && python app.py
-
-cd src/client && python main.py
+@ECHO OFF
+CD src
+START python app.py
+CD client
+START python dita_window.py
+EXIT
