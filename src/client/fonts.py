@@ -29,6 +29,10 @@ inter24 = QFont()
 inter24.setFamily("Inter")
 inter24.setPixelSize(24)
 
+inter11 = QFont()
+inter11.setFamily("Inter")
+inter11.setPixelSize(11)
+
 inter16bold = QFont()
 inter16bold.setFamily("Inter")
 inter16bold.setPixelSize(16)

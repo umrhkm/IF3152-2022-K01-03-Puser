@@ -27,23 +27,24 @@ from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPush
 from custom_widgets import ClickableLabel
 
 # # Kalo program udah jadi, buka aja comment ini
-response = requests.get("http://localhost:5000/api/menus/")
+# response = requests.get("http://localhost:5000/api/menus/")
 
-jsonresponse = response.json()
-makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
-minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
+# jsonresponse = response.json()
+# # makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
+# # minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 
+# # modelmakanan = [sub['nama'] for sub in makanan]
+# # modelminuman = [sub['nama'] for sub in minuman]
+# # model = modelmakanan+modelminuman
+
+# Buat ngetes, biar ga request-request dulu
+
+makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
+minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
 modelmakanan = [sub['nama'] for sub in makanan]
 modelminuman = [sub['nama'] for sub in minuman]
 model = modelmakanan+modelminuman
 
-# Buat ngetes, biar ga request-request dulu
-# makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
-
-# minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
-# modelmakanan = [sub['nama'] for sub in makanan]
-# modelminuman = [sub['nama'] for sub in minuman]
-# model = modelmakanan+modelminuman
 class MenuWindow(QWidget):
     switch = pyqtSignal(str, dict)
     totalHarga = 0
@@ -93,6 +94,12 @@ class MenuWindow(QWidget):
         minumanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         minumanText.move(50, 380)
         minumanText.setFont(fonts.inter18bold)
+
+        kembaliText = QPushButton(self)
+        kembaliText.setText("Kembali")
+        kembaliText.move(30, 20)
+        kembaliText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+        kembaliText.setFont(fonts.inter18bold)
         
         # Set up previous / next button
         self.rightMakananButton = QPushButton(self)
@@ -190,10 +197,19 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["Spinbox"].valueChanged.connect(lambda x, i=flag: self.spinboxMakananClicked(i))
                 
                 self.hideMakanan(flag)
+
+                self.makananCards[flag]["Notes"] = QtWidgets.QLineEdit(self)
+                self.makananCards[flag]["Notes"].setFixedSize(125,20)
+                self.makananCards[flag]["Notes"].setGeometry(QRect(90 + (i*230), 315, 50, 10))
+                self.makananCards[flag]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
+                self.makananCards[flag]["Notes"].setPlaceholderText("tambah catatan")
+                self.makananCards[flag]["Notes"].setFont(fonts.inter11)
                 if flag == len(makanan):
                     break
                 else:
                     flag += 1
+
+
                     
         self.minumanCards = []
         flagMinuman = 0
@@ -227,12 +243,24 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["Spinbox"].setObjectName("SpinBox")
                 self.minumanCards[flagMinuman]["Spinbox"].valueChanged.connect(lambda x, i=flagMinuman: self.spinboxMinumanClicked(i))
+
                 self.hideMinuman(flagMinuman)
+                
+                self.minumanCards[flagMinuman]["Notes"] = QtWidgets.QLineEdit(self)
+                self.minumanCards[flagMinuman]["Notes"].setFixedSize(125,20)
+                self.minumanCards[flagMinuman]["Notes"].setGeometry(QRect(90 + (i*230), 280+ 315, 50, 10))
+                self.minumanCards[flagMinuman]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
+                self.minumanCards[flagMinuman]["Notes"].setPlaceholderText("tambah catatan")
+                self.minumanCards[flagMinuman]["Notes"].setFont(fonts.inter11)
                 if flagMinuman == len(minuman):
                     break
                 else:
                     flagMinuman += 1
-            
+
+    # def notesMakananPopUp(self):
+      #  for i in range(5):
+       #     if self.makananCards[i]
+
     def setUpDisplayMakanan(self):
         listMakanan = self.makanan
         start = 0
