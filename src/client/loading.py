@@ -15,13 +15,6 @@ from dita_window import ditaWindow
 ## ==> GLOBALS
 counter = 0
 
-# YOUR APPLICATION
-class ditaWindow(QWidget):
-    def __init__(self):
-        QWidget.__init__(self)
-        self.ui = ditaWindow()
-
-
 # SPLASH SCREEN
 class SplashScreen(QMainWindow):
     def __init__(self):
