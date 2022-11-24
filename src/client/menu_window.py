@@ -497,6 +497,10 @@ class MenuWindow(QWidget):
                 start = 0
                 while start < len(indexsearchmakanan):
                     self.showMakanan(indexsearchmakanan[start])
+                    if (self.makananCards[indexsearchmakanan[start]]["Spinbox"].value() != 0):
+                        self.makananCards[indexsearchmakanan[start]]["Notes"].show()
+                    else:
+                        self.makananCards[indexsearchmakanan[start]]["Notes"].hide()
                     start += 1
 
             indexsearchminuman = []
@@ -513,7 +517,12 @@ class MenuWindow(QWidget):
                 start2 = 0
                 while start2 < len(indexsearchminuman):
                     self.showMinuman(indexsearchminuman[start2])
+                    if (self.minumanCards[indexsearchminuman[start]]["Spinbox"].value() != 0):
+                        self.minumanCards[indexsearchminuman[start]]["Notes"].show()
+                    else:
+                        self.minumanCards[indexsearchminuman[start]]["Notes"].hide()
                     start2 += 1
+                    
         except ValueError as e:
             self.fetchMakanan()
             self.setUpDisplayMakanan()
