@@ -3,8 +3,8 @@ Nomor Meja: 0
 Pesanan Anda:
 
 Makanan
-Tidak ada makanan yang Anda pesan
+1. Ayam Bakar: 3 buah
+Catatan tambahan: jangan pedes
 
 Minuman
-1. Es Teh: 3 buah
-Catatan tambahan: 
+Tidak ada minuman yang Anda pesan

@@ -530,18 +530,28 @@ class MenuWindow(QWidget):
     
     def search(self):
         searchmenu = self.searchbar.text()
-
+        print(searchmenu.lower())
         #initialize search index
         indexsearchmakanan = -1
         indexsearchminuman = -1
-
-        #change index if found
+        tes1 = []
+        tes2 = []
         for i in range(len(makanan)):
-            if (searchmenu == makanan[i]["nama"]):
-                indexsearchmakanan = i
+            if (searchmenu.lower() in makanan[i]["nama"].lower()):
+                print(makanan[i]["nama"])
+                tes1.append(i)
         for i in range(len(minuman)):
-            if (searchmenu == minuman[i]["nama"]):
-                indexsearchminuman = i
+            if (searchmenu.lower() in minuman[i]["nama"].lower()):
+                tes2.append(i)
+        print("tes1", tes1)
+
+        # #change index if found
+        # for i in range(len(makanan)):
+        #     if (searchmenu == makanan[i]["nama"]):
+        #         indexsearchmakanan = i
+        # for i in range(len(minuman)):
+        #     if (searchmenu == minuman[i]["nama"]):
+        #         indexsearchminuman = i
 
         #if searchbar is clear
         if (searchmenu == ''):
@@ -549,7 +559,7 @@ class MenuWindow(QWidget):
             self.setUpDisplayMinuman()
 
         #if found in makanan
-        elif (indexsearchmakanan != -1):
+        if (len(tes1) != 0):
             #hide all button
             self.rightMakananButton.hide()
             self.leftMakananButton.hide()
@@ -563,15 +573,16 @@ class MenuWindow(QWidget):
                 self.hideMinuman(i)
 
             #show only makanan in search
-            self.cardMakananPositioning(indexsearchmakanan, 0)
-            self.showMakanan(indexsearchmakanan)
-            if(self.makananCards[indexsearchmakanan]["Spinbox"].value() != 0):
-                self.makananCards[indexsearchmakanan]["Notes"].show()
-            else:
-                self.makananCards[indexsearchmakanan]["Notes"].hide()
+            for i in range(len(tes1)):
+                self.cardMakananPositioning(indexsearchmakanan, i)
+                self.showMakanan(indexsearchmakanan)
+                if(self.makananCards[indexsearchmakanan]["Spinbox"].value() != 0):
+                    self.makananCards[indexsearchmakanan]["Notes"].show()
+                else:
+                    self.makananCards[indexsearchmakanan]["Notes"].hide()
 
         #if found in minuman
-        elif (indexsearchminuman != -1):
+        if (len(tes2) != 0):
             #hide all button
             self.rightMakananButton.hide()
             self.leftMakananButton.hide()
@@ -585,12 +596,57 @@ class MenuWindow(QWidget):
                 self.hideMinuman(i)
 
             #show only minuman in search
-            self.cardMinumanPositioning(indexsearchminuman, 0)
-            self.showMinuman(indexsearchminuman)
-            if(self.minumanCards[indexsearchminuman]["Spinbox"].value() != 0):
-                self.minumanCards[indexsearchminuman]["Notes"].show()
-            else:
-                self.minumanCards[indexsearchminuman]["Notes"].hide()
+            for i in range(len(tes2)):
+                self.cardMinumanPositioning(indexsearchminuman, 0)
+                self.showMinuman(indexsearchminuman)
+                if(self.minumanCards[indexsearchminuman]["Spinbox"].value() != 0):
+                    self.minumanCards[indexsearchminuman]["Notes"].show()
+                else:
+                    self.minumanCards[indexsearchminuman]["Notes"].hide()
+
+        # #if found in makanan
+        # elif (indexsearchmakanan != -1):
+        #     #hide all button
+        #     self.rightMakananButton.hide()
+        #     self.leftMakananButton.hide()
+        #     self.rightMinumanButton.hide()
+        #     self.leftMinumanButton.hide()
+
+        #     #hide all makanan and minuman
+        #     for i in range(len(makanan)):
+        #         self.hideMakanan(i)
+        #     for i in range(len(minuman)):
+        #         self.hideMinuman(i)
+
+        #     #show only makanan in search
+        #     self.cardMakananPositioning(indexsearchmakanan, 0)
+        #     self.showMakanan(indexsearchmakanan)
+        #     if(self.makananCards[indexsearchmakanan]["Spinbox"].value() != 0):
+        #         self.makananCards[indexsearchmakanan]["Notes"].show()
+        #     else:
+        #         self.makananCards[indexsearchmakanan]["Notes"].hide()
+
+        # #if found in minuman
+        # elif (indexsearchminuman != -1):
+        #     #hide all button
+        #     self.rightMakananButton.hide()
+        #     self.leftMakananButton.hide()
+        #     self.rightMinumanButton.hide()
+        #     self.leftMinumanButton.hide()
+
+        #     #hide all makanan and minuman
+        #     for i in range(len(makanan)):
+        #         self.hideMakanan(i)
+        #     for i in range(len(minuman)):
+        #         self.hideMinuman(i)
+
+        #     #show only minuman in search
+        #     self.cardMinumanPositioning(indexsearchminuman, 0)
+        #     self.showMinuman(indexsearchminuman)
+        #     if(self.minumanCards[indexsearchminuman]["Spinbox"].value() != 0):
+        #         self.minumanCards[indexsearchminuman]["Notes"].show()
+        #     else:
+        #         self.minumanCards[indexsearchminuman]["Notes"].hide()
 
         #if not found
         else:

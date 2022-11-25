@@ -25,8 +25,8 @@ class Controller:
     def fromNomeja(self):
         self.nomejaWindow.close()
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    controller = Controller()
-    controller.start()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     controller = Controller()
+#     controller.start()
+#     sys.exit(app.exec())

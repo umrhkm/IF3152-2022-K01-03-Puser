@@ -6,6 +6,8 @@ import sys
 from server.routes import menuRoutes
 from server.routes import pesananRoutes
 from server.routes import detailPesananRoutes
+import client.controller as cont
+from PyQt6.QtWidgets import QApplication
 
 app = Flask(__name__)
 app.debug = True
@@ -29,3 +31,7 @@ if __name__ == '__main__':
     #Front-end, Launch App
     # window = QApplication(sys.argv)
     # sys.exit(window.exec())
+    window = QApplication(sys.argv)
+    controller = cont.Controller()
+    controller.start()
+    sys.exit(window.exec())
