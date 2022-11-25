@@ -30,17 +30,149 @@ response = requests.get("http://localhost:5000/api/menus/")
 jsonresponse = response.json()
 print(jsonresponse)
 
-# Add Menu
-print("\n======== ADD MENU ========")
-response = requests.post("http://localhost:5000/api/menus/add", json={"nama":"Es Teh","harga":5000,"kategori":"minuman","jumlahStok":99,"fotoUrl":""}) #URL Harus Valid
-if (response):
-    print("Menu Berhasil Ditambahkan!")
-else:
-    print("eror")
+# # Add Menu
+# print("\n======== ADD MENU ========")
+# response = requests.post("http://localhost:5000/api/menus/add", json={"nama":"Es Teh","harga":5000,"kategori":"minuman","jumlahStok":99,"fotoUrl":""}) #URL Harus Valid
+# if (response):
+#     print("Menu Berhasil Ditambahkan!")
+# else:
+#     print("eror")
 
 #Get Menu By Nama
 print("\n======== GET MENU BY NAMA ========")
 response = requests.get("http://localhost:5000/api/menus/search-nama/Es%20Teh")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Add Pesanan
+print("\n======== ADD PESANAN ========")
+response = requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":1,"id_menu":1,"kuantitas": 3}) #Kalau udah ada pesanannya bakal eror
+if (response):
+    print("Pesanan Berhasil Ditambahkan!")
+else:
+    print("eror")
+
+#Get Pesanan By ID
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Update Kuantitas Menu Pada Pesanan
+print("\n======== UPDATE KUANTITAS MENU PADA PESANAN BY ID ========")
+response = requests.put("http://localhost:5000/api/pesanan/update/kuantitas/1/1", json={"kuantitas":1})
+
+if (response):
+    print("Kuantitas Menu Pada Pesanan Berhasil Diperbarui!")
+
+#Get Pesanan By ID
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Update Catatan Menu Pada Pesanan
+print("\n======== UPDATE CATATAN MENU PADA PESANAN BY ID ========")
+response = requests.put("http://localhost:5000/api/pesanan/update/catatan/1/1", json={"catatan": "ini misalnya catatan"})
+
+if (response):
+    print("Catatan Menu Pada Pesanan Berhasil Diperbarui!")
+
+#Get Pesanan By ID
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Delete Menu Pada Pesanan By ID
+print("\n======== DELETE MENU IN PESANAN ========")
+response = requests.delete("http://localhost:5000/api/pesanan/delete/1/1")
+if (response):
+    print("Menu Pada Pesanan Berhasil Dihapus")
+
+#Get Pesanan By ID
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/1")
+if (response):
+    jsonresponse = response.json()
+    print(jsonresponse)
+else:
+    print("Pesanan Tidak Ada")
+
+#Delete Pesanan By ID
+print("\n======== DELETE PESANAN ========")
+response = requests.delete("http://localhost:5000/api/pesanan/delete/1")
+if (response):
+    jsonresponse = response.json()
+    print(jsonresponse)
+else:
+    print("Pesanan Tidak Ada")
+
+#Get All Pesanan
+print("\n======== GET ALL PESANAN (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+
+
+#Add Detail Pesanan
+print("\n======== ADD DETAIL PESANAN ========")
+response = requests.post("http://localhost:5000/api/detail-pesanan/add", json={"dine_in_status": False}) #Kalau udah ada pesanannya bakal eror
+if (response):
+    print("Detail Pesanan Berhasil Ditambahkan!")
+else:
+    print("eror")
+
+#Get Pesanan By ID
+print("\n======== GET DETAIL PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/detail-pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Update Dine In Status 
+print("\n======== UPDATE DINE IN STATUS DETAIL PESANAN BY ID ========")
+response = requests.put("http://localhost:5000/api/detail-pesanan/update/dine-in-status/1", json={"dine_in_status": True})
+
+if (response):
+    print("Dine In Status Detail Pesanan Berhasil Diperbarui!")
+
+#Get Detail Pesanan By ID
+print("\n======== GET DETAIL PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/detail-pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Update Nomor Meja Detail Pesanan
+print("\n======== UPDATE NOMOR MEJA DETAIL PESANAN BY ID ========")
+response = requests.put("http://localhost:5000/api/detail-pesanan/update/nomor-meja/1", json={"nomor_meja": 1})
+
+if (response):
+    print("Nomor Meja Detail Pesanan Berhasil Diperbarui!")
+
+#Get Detail Pesanan By ID
+print("\n======== GET DETAIL PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/1")
+jsonresponse = response.json()
+
+print(jsonresponse)
+
+#Delete Detail Pesanan By ID
+print("\n======== DELETE DETAIL PESANAN BY ID ========")
+response = requests.delete("http://localhost:5000/api/detail-pesanan/delete/1")
+if (response):
+    print("Detail Pesanan Berhasil Dihapus")
+
+#Get All Pesanan
+print("\n======== GET ALL DETAIL PESANAN (HASIL) ========")
+response = requests.get("http://localhost:5000/api/detail-pesanan/")
 jsonresponse = response.json()
 
 print(jsonresponse)
