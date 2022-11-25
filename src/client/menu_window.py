@@ -179,6 +179,22 @@ class MenuWindow(QWidget):
     def on_checkoutButton_clicked(self):
         self.qrdialog.show()
         self.close()
+    
+    def cardMakananPositioning(self, flag, i):
+        self.makananCards[flag]["card"].setGeometry(QRect(80 + (i * 230), 130, 200, 220))
+        self.makananCards[flag]["cardIllustration"].setGeometry(QRect(136 + (i*230), 142, 120, 95))
+        self.makananCards[flag]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
+        self.makananCards[flag]["cardPrice"].setGeometry(QRect(90 + (i*230), 285, 80, 14))
+        self.makananCards[flag]["Spinbox"].setGeometry(QRect(230 + (i*230), 280, 42, 22))
+        self.makananCards[flag]["Notes"].setGeometry(QRect(90 + (i*230), 315, 50, 10))
+        
+    def cardMinumanPositioning(self, flagMinuman, i):
+        self.minumanCards[flagMinuman]["card"].setGeometry(QRect(80 + (i * 230), 165 + 245, 200, 220))
+        self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(136 + (i*230), 182 + 245, 95, 95))
+        self.minumanCards[flagMinuman]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
+        self.minumanCards[flagMinuman]["cardPrice"].setGeometry(QRect(90 + (i*230), 320 + 245, 80, 14))
+        self.minumanCards[flagMinuman]["Spinbox"].setGeometry(QRect(230 + (i*230), 315 + 245, 42, 22))
+        self.minumanCards[flagMinuman]["Notes"].setGeometry(QRect(90 + (i*230), 280+ 315, 50, 10))
         
     def initializeMenu(self):
         # Set up empty menu cards
@@ -188,40 +204,35 @@ class MenuWindow(QWidget):
             for i in range(5):
                 self.makananCards.append({})
                 self.makananCards[flag]["card"] = QLabel(self)
-                self.makananCards[flag]["card"].setGeometry(QRect(80 + (i * 230), 130, 200, 220))
                 self.makananCards[flag]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
                 self.makananCards[flag]["card"].setPixmap(QPixmap("img/card-template-new.png"))
                 
                 self.makananCards[flag]["cardIllustration"] = QLabel(self)
-                self.makananCards[flag]["cardIllustration"].setGeometry(QRect(136 + (i*230), 142, 120, 95))
                 self.makananCards[flag]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
                 self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("img/default-icon.png"))
 
                 self.makananCards[flag]["cardTitle"] = QLabel(self)
-                self.makananCards[flag]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
                 self.makananCards[flag]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.makananCards[flag]["cardTitle"].setText("Title")
                 self.makananCards[flag]["cardTitle"].setFont(fonts.inter15bold)
 
                 self.makananCards[flag]["cardPrice"] = QLabel(self)
                 self.makananCards[flag]["cardPrice"].setText("Price")
-                self.makananCards[flag]["cardPrice"].setGeometry(QRect(90 + (i*230), 285, 80, 14))
                 self.makananCards[flag]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.makananCards[flag]["cardPrice"].setFont(fonts.inter13)
 
                 self.makananCards[flag]["Spinbox"] = QtWidgets.QSpinBox(self)
-                self.makananCards[flag]["Spinbox"].setGeometry(QRect(230 + (i*230), 280, 42, 22))
                 self.makananCards[flag]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.makananCards[flag]["Spinbox"].setObjectName("SpinBox")
                 self.makananCards[flag]["Spinbox"].valueChanged.connect(lambda x, i=flag: self.spinboxMakananClicked(i))
                 
                 self.makananCards[flag]["Notes"] = QtWidgets.QLineEdit(self)
                 self.makananCards[flag]["Notes"].setFixedSize(125,20)
-                self.makananCards[flag]["Notes"].setGeometry(QRect(90 + (i*230), 315, 50, 10))
                 self.makananCards[flag]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
                 self.makananCards[flag]["Notes"].setPlaceholderText("tambah catatan")
                 self.makananCards[flag]["Notes"].setFont(fonts.inter11)
                 
+                self.cardMakananPositioning(flag, i)
                 self.hideMakanan(flag)
                 
                 if flag == len(makanan):
@@ -235,40 +246,35 @@ class MenuWindow(QWidget):
             for i in range(5):
                 self.minumanCards.append({})
                 self.minumanCards[flagMinuman]["card"] = QLabel(self)
-                self.minumanCards[flagMinuman]["card"].setGeometry(QRect(80 + (i * 230), 165 + 245, 200, 220))
                 self.minumanCards[flagMinuman]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
                 self.minumanCards[flagMinuman]["card"].setPixmap(QPixmap("img/card-template-new.png"))
                 
                 self.minumanCards[flagMinuman]["cardIllustration"] = QLabel(self)
-                self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(136 + (i*230), 182 + 245, 95, 95))
                 self.minumanCards[flagMinuman]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("img/default-icon.png"))
 
                 self.minumanCards[flagMinuman]["cardTitle"] = QLabel(self)
-                self.minumanCards[flagMinuman]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
                 self.minumanCards[flagMinuman]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardTitle"].setText("Title")
                 self.minumanCards[flagMinuman]["cardTitle"].setFont(fonts.inter15bold)
 
                 self.minumanCards[flagMinuman]["cardPrice"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardPrice"].setText("Price")
-                self.minumanCards[flagMinuman]["cardPrice"].setGeometry(QRect(90 + (i*230), 320 + 245, 80, 14))
                 self.minumanCards[flagMinuman]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardPrice"].setFont(fonts.inter12)
                 
                 self.minumanCards[flagMinuman]["Spinbox"] = QtWidgets.QSpinBox(self)
-                self.minumanCards[flagMinuman]["Spinbox"].setGeometry(QRect(230 + (i*230), 315 + 245, 42, 22))
                 self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["Spinbox"].setObjectName("SpinBox")
                 self.minumanCards[flagMinuman]["Spinbox"].valueChanged.connect(lambda x, i=flagMinuman: self.spinboxMinumanClicked(i))
 
                 self.minumanCards[flagMinuman]["Notes"] = QtWidgets.QLineEdit(self)
                 self.minumanCards[flagMinuman]["Notes"].setFixedSize(125,20)
-                self.minumanCards[flagMinuman]["Notes"].setGeometry(QRect(90 + (i*230), 280+ 315, 50, 10))
                 self.minumanCards[flagMinuman]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
                 self.minumanCards[flagMinuman]["Notes"].setPlaceholderText("tambah catatan")
                 self.minumanCards[flagMinuman]["Notes"].setFont(fonts.inter11)
                 
+                self.cardMinumanPositioning(flagMinuman, i)
                 self.hideMinuman(flagMinuman)
 
                 if flagMinuman == len(minuman):
@@ -279,12 +285,18 @@ class MenuWindow(QWidget):
     def setUpDisplayMakanan(self):
         listMakanan = self.makanan
         start = 0
+        i = 0
         while start < len(makanan):
             self.makananCards[start]["cardTitle"].setText(listMakanan[start]["name"])
             # buat ilustrasi
             self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/makanan-{start}.png"))
             rp_harga = "Rp " + str(listMakanan[start]["price"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
+            self.cardMakananPositioning(start, i)
+            if (i==4):
+                i = 0
+            else:
+                i += 1
             start += 1
             
         self.showDisplayMakanan()
@@ -316,12 +328,18 @@ class MenuWindow(QWidget):
     def setUpDisplayMinuman(self):
         listMinuman = self.minuman
         start = 0
+        i = 0
         while start < len(minuman):
             self.minumanCards[start]["cardTitle"].setText(listMinuman[start]["name"])
             # buat ilustrasi
             self.minumanCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/minuman-{start}.png"))
             rp_harga = "Rp " + str(listMinuman[start]["price"])
             self.minumanCards[start]["cardPrice"].setText(rp_harga)
+            self.cardMinumanPositioning(start, i)
+            if (i == 4):
+                i = 0
+            else:
+                i += 1
             start += 1
             
         self.showDisplayMinuman()
@@ -510,6 +528,7 @@ class MenuWindow(QWidget):
                 self.hideMinuman(i)
 
             #show only makanan in search
+            self.cardMakananPositioning(indexsearchmakanan, 0)
             self.showMakanan(indexsearchmakanan)
             if(self.makananCards[indexsearchmakanan]["Spinbox"].value() != 0):
                 self.makananCards[indexsearchmakanan]["Notes"].show()
@@ -531,6 +550,7 @@ class MenuWindow(QWidget):
                 self.hideMinuman(i)
 
             #show only minuman in search
+            self.cardMinumanPositioning(indexsearchminuman, 0)
             self.showMinuman(indexsearchminuman)
             if(self.minumanCards[indexsearchminuman]["Spinbox"].value() != 0):
                 self.minumanCards[indexsearchminuman]["Notes"].show()
