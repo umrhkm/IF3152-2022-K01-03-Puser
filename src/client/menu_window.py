@@ -393,7 +393,7 @@ class MenuWindow(QWidget):
             self.setUpDisplayMakanan()
 
     def rightMinumanButtonClicked(self):
-        if self.pageMakanan < (len(self.minuman)//5):
+        if self.pageMinuman < (len(self.minuman)//5):
             self.pageMinuman += 1
             self.startIndeksMinuman += 5
             self.setUpDisplayMinuman()
