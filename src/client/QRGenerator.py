@@ -121,8 +121,9 @@ class QRWindow(QMainWindow):
 
         checkOutText = QPushButton(self)
         checkOutText.setText("Done")
+        checkOutText.setFixedSize(90,40)
         checkOutText.move(575, 660)
-        checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
+        checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
         checkOutText.setFont(fonts.inter24bold)
 
         # from dita_window import ditaWindow

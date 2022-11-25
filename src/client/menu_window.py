@@ -22,7 +22,7 @@ import fonts
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt, pyqtSignal, QRect
 from PyQt6.QtGui import QCursor, QPixmap, QImage
-from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter)
+from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter, QMessageBox)
 from custom_widgets import ClickableLabel
 from QRGenerator import QRWindow
 from QR_data import QR_data
@@ -37,7 +37,7 @@ minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 modelmakanan = [sub['nama'] for sub in makanan]
 modelminuman = [sub['nama'] for sub in minuman]
 model = modelmakanan+modelminuman
-
+            
 # Buat ngetes, biar ga request-request dulu
 
 # makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
@@ -156,35 +156,39 @@ class MenuWindow(QWidget):
         self.totalHargaText.move(50, 645)
         self.totalHargaText.setFont(fonts.inter14bold)
         
-        self.addKeranjang = QPushButton(self)
-        self.addKeranjang.setText("Update Keranjang")
-        self.addKeranjang.move(360, 660)
-        self.addKeranjang.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
-        self.addKeranjang.setFont(fonts.inter24bold)
-        self.addKeranjang.clicked.connect(self.checkoutClicked)
-        self.addKeranjang.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.addKeranjang.setEnabled(True)
-        
         self.checkOutText = QPushButton(self)
         self.checkOutText.setText("Check Out")
-        self.checkOutText.move(880, 660)
-        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
+        self.checkOutText.move(550, 650)
+        self.checkOutText.setFixedSize(180, 50)
+        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
         self.checkOutText.setFont(fonts.inter24bold)
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.checkOutText.clicked.connect(self.checkoutClicked)
         self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
         self.checkOutText.setEnabled(False)
         
         self.qrdialog = QRWindow()
 
     def on_checkoutButton_clicked(self):
-        self.qrdialog.show()
-        self.close()
+        flag = True
+        for i in range(len(makanan)):
+            if (makanan[i]["jumlahStok"]) < self.makananCards[i]["Spinbox"].value():
+                flag = False
+        for i in range(len(minuman)):
+            if (minuman[i]["jumlahStok"]) < self.minumanCards[i]["Spinbox"].value():
+                flag = False
+        if flag:
+            self.qrdialog.show()
+            self.close()
+        else:
+            self.pesananNotValid()
     
     def cardMakananPositioning(self, flag, i):
         self.makananCards[flag]["card"].setGeometry(QRect(80 + (i * 230), 130, 200, 220))
         self.makananCards[flag]["cardIllustration"].setGeometry(QRect(136 + (i*230), 142, 120, 95))
         self.makananCards[flag]["cardTitle"].setGeometry(QRect(90 + (i*230), 255, 120, 20))
-        self.makananCards[flag]["cardPrice"].setGeometry(QRect(90 + (i*230), 285, 80, 14))
+        self.makananCards[flag]["cardPrice"].setGeometry(QRect(90 + (i*230), 277, 80, 14))
+        self.makananCards[flag]["cardStock"].setGeometry(QRect(90 + (i*230), 293, 80, 14))
         self.makananCards[flag]["Spinbox"].setGeometry(QRect(230 + (i*230), 280, 42, 22))
         self.makananCards[flag]["Notes"].setGeometry(QRect(90 + (i*230), 315, 50, 10))
         
@@ -192,7 +196,8 @@ class MenuWindow(QWidget):
         self.minumanCards[flagMinuman]["card"].setGeometry(QRect(80 + (i * 230), 165 + 245, 200, 220))
         self.minumanCards[flagMinuman]["cardIllustration"].setGeometry(QRect(136 + (i*230), 182 + 245, 95, 95))
         self.minumanCards[flagMinuman]["cardTitle"].setGeometry(QRect(90 + (i*230), 290 + 245, 120, 20))
-        self.minumanCards[flagMinuman]["cardPrice"].setGeometry(QRect(90 + (i*230), 320 + 245, 80, 14))
+        self.minumanCards[flagMinuman]["cardPrice"].setGeometry(QRect(90 + (i*230), 312 + 245, 80, 14))
+        self.minumanCards[flagMinuman]["cardStock"].setGeometry(QRect(90 + (i*230), 328 + 245, 80, 14))
         self.minumanCards[flagMinuman]["Spinbox"].setGeometry(QRect(230 + (i*230), 315 + 245, 42, 22))
         self.minumanCards[flagMinuman]["Notes"].setGeometry(QRect(90 + (i*230), 280+ 315, 50, 10))
         
@@ -219,7 +224,12 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["cardPrice"] = QLabel(self)
                 self.makananCards[flag]["cardPrice"].setText("Price")
                 self.makananCards[flag]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-                self.makananCards[flag]["cardPrice"].setFont(fonts.inter13)
+                self.makananCards[flag]["cardPrice"].setFont(fonts.inter12)
+                
+                self.makananCards[flag]["cardStock"] = QLabel(self)
+                self.makananCards[flag]["cardStock"].setText("Stock")
+                self.makananCards[flag]["cardStock"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.makananCards[flag]["cardStock"].setFont(fonts.inter12)
 
                 self.makananCards[flag]["Spinbox"] = QtWidgets.QSpinBox(self)
                 self.makananCards[flag]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
@@ -263,6 +273,11 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardPrice"].setFont(fonts.inter12)
                 
+                self.minumanCards[flagMinuman]["cardStock"] = QLabel(self)
+                self.minumanCards[flagMinuman]["cardStock"].setText("Stock")
+                self.minumanCards[flagMinuman]["cardStock"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
+                self.minumanCards[flagMinuman]["cardStock"].setFont(fonts.inter12)
+                
                 self.minumanCards[flagMinuman]["Spinbox"] = QtWidgets.QSpinBox(self)
                 self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["Spinbox"].setObjectName("SpinBox")
@@ -292,6 +307,8 @@ class MenuWindow(QWidget):
             self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/makanan-{start}.png"))
             rp_harga = "Rp " + str(listMakanan[start]["price"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
+            stock =  "Stok: " + str(listMakanan[start]["stock"])
+            self.makananCards[start]["cardStock"].setText(stock)
             self.cardMakananPositioning(start, i)
             if (i==4):
                 i = 0
@@ -335,6 +352,8 @@ class MenuWindow(QWidget):
             self.minumanCards[start]["cardIllustration"].setPixmap(QPixmap(f"img/minuman-{start}.png"))
             rp_harga = "Rp " + str(listMinuman[start]["price"])
             self.minumanCards[start]["cardPrice"].setText(rp_harga)
+            stock =  "Stok: " + str(listMinuman[start]["stock"])
+            self.minumanCards[start]["cardStock"].setText(stock)
             self.cardMinumanPositioning(start, i)
             if (i == 4):
                 i = 0
@@ -373,6 +392,7 @@ class MenuWindow(QWidget):
         self.makananCards[i]["cardIllustration"].show()
         self.makananCards[i]["cardTitle"].show()
         self.makananCards[i]["cardPrice"].show()
+        self.makananCards[i]["cardStock"].show()
         self.makananCards[i]["Spinbox"].show()
     
     def hideMakanan(self, i):
@@ -380,24 +400,36 @@ class MenuWindow(QWidget):
         self.makananCards[i]["cardIllustration"].hide()
         self.makananCards[i]["cardTitle"].hide()
         self.makananCards[i]["cardPrice"].hide()
+        self.makananCards[i]["cardStock"].hide()
         self.makananCards[i]["Spinbox"].hide()
         self.makananCards[i]["Notes"].hide()
-        
+
     def showMinuman(self, i):
         self.minumanCards[i]["card"].show()
         self.minumanCards[i]["cardIllustration"].show()
         self.minumanCards[i]["cardTitle"].show()
         self.minumanCards[i]["cardPrice"].show()
+        self.minumanCards[i]["cardStock"].show()
         self.minumanCards[i]["Spinbox"].show()
-    
+
     def hideMinuman(self, i):
         self.minumanCards[i]["card"].hide()
         self.minumanCards[i]["cardIllustration"].hide()
         self.minumanCards[i]["cardTitle"].hide()
         self.minumanCards[i]["cardPrice"].hide()
+        self.minumanCards[i]["cardStock"].hide()
         self.minumanCards[i]["Spinbox"].hide()
         self.minumanCards[i]["Notes"].hide()
-                
+
+    def pesananNotValid(self):
+        self.msgBox = QMessageBox()
+        self.msgBox.setText("Tidak dapat membuat pesanan \nStock tidak cukup!")
+        self.msgBox.setWindowTitle("Pesanan gagal")
+        self.msgBox.setIcon(QMessageBox.Icon.Warning)
+        self.msgBox.setStyleSheet(f"Background-color: {PRIMARY_WHITE}")
+        self.msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
+        self.msgBox.exec()
+
     def rightMakananButtonClicked(self):
         if self.pageMakanan < (len(self.makanan)//5):
             self.pageMakanan += 1
@@ -453,7 +485,10 @@ class MenuWindow(QWidget):
         self.totalPriceText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         if self.totalHarga == 0:
             self.checkOutText.setEnabled(False)
-            self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}")
+            self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
+        else:
+            self.checkOutText.setEnabled(True)
+            self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
     
     def fetchMakanan(self):
         dataMakanan = []
@@ -462,7 +497,7 @@ class MenuWindow(QWidget):
                 "id": makanan[i]["id"],
                 "name": makanan[i]["nama"],
                 "price": makanan[i]["harga"],
-                #"stock": makanan[i]["jumlahStok"]
+                "stock": makanan[i]["jumlahStok"]
             })
         self.makanan = dataMakanan
         
@@ -473,7 +508,7 @@ class MenuWindow(QWidget):
                 "id": minuman[i]["id"],
                 "name": minuman[i]["nama"],
                 "price": minuman[i]["harga"],
-                # "stock": minuman[i]["jumlahStok"]
+                "stock": minuman[i]["jumlahStok"]
             })
         self.minuman = dataMinuman
 
@@ -608,13 +643,6 @@ class MenuWindow(QWidget):
             if not flag:
                 f.write("Tidak ada minuman yang Anda pesan\n")
             f.close()
-        self.checkOutText.setEnabled(True)
-        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}")
-        
-        halo = QR_data()
-        
-        with open('tes.txt', 'r') as file:
-            halo.text = file.read()
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)

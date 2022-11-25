@@ -6,7 +6,5 @@ Makanan
 Tidak ada makanan yang Anda pesan
 
 Minuman
-1. Es Teh: 8 buah
-Catatan tambahan: 
-2. Es Jeruk: 6 buah
+1. Es Teh: 3 buah
 Catatan tambahan: 
