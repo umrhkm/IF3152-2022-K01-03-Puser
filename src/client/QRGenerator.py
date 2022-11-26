@@ -20,6 +20,8 @@ import qrcode
 import sys
 import fonts
 from QR_data import QR_data
+import requests
+import json
 # from dita_window import ditaWindow
 
 BG_COLOR = '#FFFFFF'
@@ -35,9 +37,9 @@ BTN_COLOR_HOVER = 'qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop
 
 # # Kalo program udah jadi, buka aja comment ini
 # response = requests.get("http://localhost:5000/api/menus/")
-# jsonresponse = response.json()
-# makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
-# minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
+# text = response.json()
+# makanan = [x for x in text if x['kategori'] == 'makanan']
+# minuman = [x for x in text if x['kategori'] == 'minuman']
 
 # Buat ngetes, biar ga request-request dulu
 makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
@@ -138,8 +140,26 @@ class QRWindow(QMainWindow):
         qRCode = QLabel(self)
         
         # get the text
-        with open('tes.txt') as f:
-            text = f.read()
+        # with open('tes.txt') as f:
+        #     text = f.read()
+        text= []
+        counter = 1
+        
+        print("\n======== GET PESANAN BY ID (HASIL) ========")
+        response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
+        textdetail = response.json()
+        # textdetail = json.dumps(text, indent=4) 
+        text.append(textdetail)  
+        print (textdetail)
+        print(response)
+        print(text)
+        
+        print("\n======== GET PESANAN BY ID (HASIL) ========")
+        response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
+        textkeranjang = response.json()
+        # textkeranjang = json.dumps(text, indent=4)
+        text.extend(textkeranjang)
+        print(text)
 
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
