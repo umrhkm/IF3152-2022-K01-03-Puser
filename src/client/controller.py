@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication
 
 from dita_window import ditaWindow
 from nomeja_window import nomejaWindow
+from menu_window import MenuWindow
 
 class Controller:
     def __init__(self):
@@ -16,12 +17,19 @@ class Controller:
     def start(self):
         self.ditaWindow.show()
     
-    def fromDita(self):
+    def fromDita(self, page):
         self.ditaWindow.close()
-        self.nomejaWindow.show()
+        if page == "nomeja":
+            self.nomejaWindow.show()
+        elif page=="menu":
+            self.MenuWindow.show()
 
-    def fromNomeja(self):
+    def fromNomeja(self,page):
         self.nomejaWindow.close()
+        if page == "dita":
+            self.ditaWindow.show()
+        elif page=="menu":
+            self.MenuWindow.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
