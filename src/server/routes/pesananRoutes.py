@@ -5,13 +5,15 @@ from server.controllers.pesananControllers import pesananController
 
 pesananRoutes = Blueprint('pesananRoutes', __name__)
 
+
 @pesananRoutes.route('/', methods=['GET'])
 def get_pesanan():
     try:
         pesanan = pesananController.getAllPesanan()
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/<id>', methods=['GET'])
 def get_pesanan_by_id(id):
@@ -19,7 +21,8 @@ def get_pesanan_by_id(id):
         pesanan = pesananController.getPesananDataById(id)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/<id_pesanan>/<id_menu>', methods=['GET'])
 def get_menu_pesanan_by_id(id_pesanan, id_menu):
@@ -27,7 +30,8 @@ def get_menu_pesanan_by_id(id_pesanan, id_menu):
         pesanan = pesananController.getMenuPesananDataById(id_pesanan, id_menu)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/kuantitas/<id_pesanan>/<id_menu>', methods=['GET'])
 def get_kuantitas(id_pesanan, id_menu):
@@ -35,7 +39,8 @@ def get_kuantitas(id_pesanan, id_menu):
         pesanan = pesananController.getKuantitas(id_pesanan, id_menu)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/catatan/<id_pesanan>/<id_menu>', methods=['GET'])
 def get_catatan(id_pesanan, id_menu):
@@ -43,7 +48,8 @@ def get_catatan(id_pesanan, id_menu):
         pesanan = pesananController.getCatatan(id_pesanan, id_menu)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/update/kuantitas/<id_pesanan>/<id_menu>', methods=['PUT'])
 def update_kuantitas(id_pesanan, id_menu):
@@ -51,7 +57,8 @@ def update_kuantitas(id_pesanan, id_menu):
         pesanan = pesananController.setKuantitas(id_pesanan, id_menu)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/update/catatan/<id_pesanan>/<id_menu>', methods=['PUT'])
 def update_catatan(id_pesanan, id_menu):
@@ -59,7 +66,8 @@ def update_catatan(id_pesanan, id_menu):
         pesanan = pesananController.setCatatan(id_pesanan, id_menu)
         return jsonify(pesanan)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/add', methods=['POST'])
 def add_pesanan():
@@ -71,7 +79,8 @@ def add_pesanan():
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @pesananRoutes.route('/delete/<id>', methods=['DELETE'])
 def delete_pesanan(id):
@@ -80,7 +89,8 @@ def delete_pesanan(id):
         return jsonify({'Pesan': "Pesanan Berhasil Dihapus!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 50
+        return jsonify({'Pesan': str(err)}), 50
+
 
 @pesananRoutes.route('/delete/<id_pesanan>/<id_menu>', methods=['DELETE'])
 def delete_menu_in_pesanan(id_pesanan, id_menu):
@@ -89,4 +99,4 @@ def delete_menu_in_pesanan(id_pesanan, id_menu):
         return jsonify({'Pesan': "Menu Pada Pesanan Berhasil Dihapus!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 50
+        return jsonify({'Pesan': str(err)}), 50

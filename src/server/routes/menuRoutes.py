@@ -5,13 +5,15 @@ from server.controllers.menuControllers import menuController
 
 menuRoutes = Blueprint('menuRoutes', __name__)
 
+
 @menuRoutes.route('/', methods=['GET'])
 def get_menus():
     try:
         menus = menuController.getAllMenu()
         return jsonify(menus)
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/search-id/<id>', methods=['GET'])
 def get_menu_by_id(id):
@@ -23,7 +25,8 @@ def get_menu_by_id(id):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/search-nama/<nama>', methods=['GET'])
 def get_menu_by_nama(nama):
@@ -35,7 +38,8 @@ def get_menu_by_nama(nama):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/nama/<id>', methods=['GET'])
 def get_nama(id):
@@ -47,7 +51,8 @@ def get_nama(id):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/harga/<id>', methods=['GET'])
 def get_harga(id):
@@ -59,7 +64,8 @@ def get_harga(id):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/kategori/<id>', methods=['GET'])
 def get_kategori(id):
@@ -71,7 +77,8 @@ def get_kategori(id):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/jumlah-stok/<id>', methods=['GET'])
 def get_jumlahStok(id):
@@ -83,19 +90,8 @@ def get_jumlahStok(id):
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
 
-@menuRoutes.route('/foto/<id>', methods=['GET'])
-def get_foto_menu(id):
-    try:
-        menu = menuController.getMenuFoto(id)
-        if menu != None:
-            return jsonify(menu)
-        else:
-            return jsonify({}), 404
-
-    except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
 
 @menuRoutes.route('/add', methods=['POST'])
 def add_menu():
@@ -107,7 +103,8 @@ def add_menu():
             return jsonify({}), 404
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/update/nama/<id>', methods=['PUT'])
 def update_menu_nama(id):
@@ -116,7 +113,8 @@ def update_menu_nama(id):
         return jsonify({'Pesan': "Nama Menu Berhasil Diperbarui!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/update/harga/<id>', methods=['PUT'])
 def update_menu_harga(id):
@@ -125,7 +123,8 @@ def update_menu_harga(id):
         return jsonify({'Pesan': "Harga Menu Berhasil Diperbarui!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 500
+        return jsonify({'Pesan': str(err)}), 500
+
 
 @menuRoutes.route('/update/jumlah-stok/<id>', methods=['PUT'])
 def update_menu_jumlahStok(id):
@@ -134,16 +133,8 @@ def update_menu_jumlahStok(id):
         return jsonify({'Pesan': "Jumlah Stok Menu Berhasil Diperbarui!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 50
+        return jsonify({'Pesan': str(err)}), 50
 
-@menuRoutes.route('/update/foto/<id>', methods=['PUT'])
-def update_menu_foto(id):
-    try:
-        menuController.setMenuFoto(id)
-        return jsonify({'Pesan': "Foto Menu Berhasil Diperbarui!"})
-
-    except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 50
 
 @menuRoutes.route('/delete/<id>', methods=['DELETE'])
 def delete_menu(id):
@@ -152,4 +143,4 @@ def delete_menu(id):
         return jsonify({'Pesan': "Menu Berhasil Dihapus!"})
 
     except Exception as err:
-        return jsonify({'Pesan' : str(err)}), 50
+        return jsonify({'Pesan': str(err)}), 50

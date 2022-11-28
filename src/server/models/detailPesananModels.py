@@ -1,5 +1,6 @@
 from server.config.db import get_connection
 
+
 class DetailPesanan():
     def __init__(self, dine_in_status):
         self.dine_in_status = dine_in_status
@@ -7,13 +8,14 @@ class DetailPesanan():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO detail_pesanan (dine_in_status) VALUES (%s)", (self.dine_in_status,))
+                cursor.execute(
+                    "INSERT INTO detail_pesanan (dine_in_status) VALUES (%s)", (self.dine_in_status,))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
-    
+
     def getAllDetailPesanan():
         try:
             connection = get_connection()
@@ -31,7 +33,7 @@ class DetailPesanan():
                 datapesanan["dine_in_status"] = pesanan[1]
                 datapesanan["nomor_meja"] = pesanan[2]
                 hasil.append(datapesanan)
-            
+
             return (hasil)
 
         except Exception as err:
@@ -42,11 +44,11 @@ class DetailPesanan():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM detail_pesanan WHERE id = (%s)", (id,))
+                cursor.execute(
+                    "SELECT * FROM detail_pesanan WHERE id = (%s)", (id,))
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
-            
 
             if resultset is None:
                 raise Exception(f"Data tidak ditemukan!")
@@ -62,10 +64,10 @@ class DetailPesanan():
 
         except Exception as err:
             raise Exception(err)
-    
+
     def getDetailPesananData(self):
-        return ({"id" : self.id, "dine_in_status" : self.dine_in_status, "nomor_meja" : self.nomor_meja})
-    
+        return ({"id": self.id, "dine_in_status": self.dine_in_status, "nomor_meja": self.nomor_meja})
+
     def getDineInStatus(self):
         return self.dine_in_status
 
@@ -74,25 +76,27 @@ class DetailPesanan():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE detail_pesanan SET dine_in_status = (%s) WHERE id = (%s)", (self.dine_in_status, id,))
+                cursor.execute(
+                    "UPDATE detail_pesanan SET dine_in_status = (%s) WHERE id = (%s)", (self.dine_in_status, id,))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
-    
+
     def getNomorMeja(self):
         return self.nomor_meja
 
     def setNomorMeja(self, nomormejabaru, id):
-        if(nomormejabaru <= 0):
+        if (nomormejabaru <= 0):
             raise Exception("Nomor mehja tidak valid, harus lebih dari 0!")
         else:
             self.nomor_meja = nomormejabaru
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE detail_pesanan SET nomor_meja = (%s) WHERE id = (%s)", (self.nomor_meja, id,))
+                    cursor.execute(
+                        "UPDATE detail_pesanan SET nomor_meja = (%s) WHERE id = (%s)", (self.nomor_meja, id,))
                 connection.commit()
                 connection.close()
 
@@ -103,7 +107,8 @@ class DetailPesanan():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM detail_pesanan WHERE id = (%s)", (id,))
+                cursor.execute(
+                    "DELETE FROM detail_pesanan WHERE id = (%s)", (id,))
             connection.commit()
             connection.close()
 

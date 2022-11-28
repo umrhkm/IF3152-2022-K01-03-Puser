@@ -1,6 +1,7 @@
 from server.config.db import get_connection
 import validators
 
+
 class Menu():
     def __init__(self, nama, harga, kategori, jumlahStok):
         self.nama = nama
@@ -11,25 +12,27 @@ class Menu():
             self.harga = harga
 
         if ((kategori != "makanan") and (kategori != "minuman")):
-            raise Exception(f"{kategori} tidak valid, harus antara makanan atau minuman!")
+            raise Exception(
+                f"{kategori} tidak valid, harus antara makanan atau minuman!")
         else:
             self.kategori = kategori
-        
+
         if (jumlahStok < 0):
-            raise Exception(f"{harga} tidak valid, hurus lebih dari atau sama dengan 0!")
+            raise Exception(
+                f"{harga} tidak valid, hurus lebih dari atau sama dengan 0!")
         else:
             self.jumlahStok = jumlahStok
 
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok) VALUES (%s, %s, %s, %s)", (self.nama, self.harga, self.kategori, self.jumlahStok))
+                cursor.execute("INSERT INTO menu (nama, harga, kategori, jumlahStok) VALUES (%s, %s, %s, %s)", (
+                    self.nama, self.harga, self.kategori, self.jumlahStok))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
-
 
     def getAllMenu():
         try:
@@ -50,12 +53,11 @@ class Menu():
                 datamenu["kategori"] = menu[3]
                 datamenu["jumlahStok"] = menu[4]
                 hasil.append(datamenu)
-            
+
             return (hasil)
 
         except Exception as err:
             raise Exception(err)
-    
 
     @classmethod
     def getMenuByNama(self, nama):
@@ -77,12 +79,11 @@ class Menu():
                 datamenu["kategori"] = menu[3]
                 datamenu["jumlahStok"] = menu[4]
                 hasil.append(datamenu)
-            
+
             return (hasil)
 
         except Exception as err:
             raise Exception(err)
-    
 
     @classmethod
     def getMenuById(cls, id):
@@ -112,30 +113,27 @@ class Menu():
             raise Exception(err)
 
     def getMenuData(self):
-        return ({"id" : self.id, "nama" : self.nama, "harga" : self.harga, "kategori": self.kategori, "jumlahStok": self.jumlahStok})
-
+        return ({"id": self.id, "nama": self.nama, "harga": self.harga, "kategori": self.kategori, "jumlahStok": self.jumlahStok})
 
     def getNamaMenu(self):
         return self.nama
-
 
     def setNama(self, namabaru, id):
         try:
             self.nama = namabaru
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("UPDATE menu SET nama = (%s) WHERE id = (%s)", (self.nama, id,))
+                cursor.execute(
+                    "UPDATE menu SET nama = (%s) WHERE id = (%s)", (self.nama, id,))
             connection.commit()
             connection.close()
 
         except Exception as err:
             raise Exception(err)
-    
 
     def getHargaMenu(self):
         return self.harga
-        
-    
+
     def setHarga(self, hargabaru, id):
         if (hargabaru <= 0):
             raise Exception(f"{hargabaru} tidak valid, hurus lebih dari 0!")
@@ -144,37 +142,36 @@ class Menu():
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
+                    cursor.execute(
+                        "UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
                 connection.commit()
                 connection.close()
 
             except Exception as err:
                 raise Exception(err)
-    
 
     def getKategoriMenu(self):
         return self.kategori
 
-
     def getJumlahStokMenu(self):
         return self.jumlahStok
 
-
     def setJumlahStok(self, jumlahstokbaru, id):
-        if(jumlahstokbaru < 0):
-            raise Exception(f"{jumlahstokbaru} tidak valid, harus lebih dari 0!")
+        if (jumlahstokbaru < 0):
+            raise Exception(
+                f"{jumlahstokbaru} tidak valid, harus lebih dari 0!")
         else:
             self.jumlahStok = jumlahstokbaru
             try:
                 connection = get_connection()
                 with connection.cursor() as cursor:
-                    cursor.execute("UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
+                    cursor.execute(
+                        "UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
                 connection.commit()
                 connection.close()
 
             except Exception as err:
                 raise Exception(err)
-    
 
     def deleteMenu(self, id):
         try:

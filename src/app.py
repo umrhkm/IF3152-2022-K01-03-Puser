@@ -27,10 +27,6 @@ if __name__ == '__main__':
 
     import client.controller as cont
     from PyQt6.QtWidgets import QApplication
-    #Front-end, Launch App
-    # window = QApplication(sys.argv)
-    # sys.exit(window.exec())
-
 
     window = QApplication(sys.argv)
     controller = cont.Controller()
