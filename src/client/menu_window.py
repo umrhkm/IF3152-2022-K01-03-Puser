@@ -246,7 +246,7 @@ class MenuWindow(QWidget):
         self.checkOutText.setText("Check Out")
         self.checkOutText.move(550, 650)
         self.checkOutText.setFixedSize(180, 50)
-        self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
+        self.checkOutText.setStyleSheet(f"color: {PRIMARY_WHITE}; background-color: {'#696969'}; border-color: {'#696969'}; border-radius: 12px")
         self.checkOutText.setFont(inter24bold)
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkOutText.clicked.connect(self.checkoutClicked)
@@ -663,7 +663,7 @@ class MenuWindow(QWidget):
         self.totalPriceText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         if self.totalHarga == 0:
             self.checkOutText.setEnabled(False)
-            self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {DARK_MODE_BG}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
+            self.checkOutText.setStyleSheet(f"color: {PRIMARY_WHITE}; background-color: {'#696969'}; border-color: {'#696969'}; border-radius: 12px")
         else:
             self.checkOutText.setEnabled(True)
             self.checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}; border-color: {PRIMARY_BLACK}; border-radius: 12px")

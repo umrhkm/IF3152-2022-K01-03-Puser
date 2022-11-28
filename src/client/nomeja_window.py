@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
-from client.menu_window import MenuWindow
+# from client.menu_window import MenuWindow
 
 class nomejaWindow(QWidget):
     switch = pyqtSignal(str,dict)
@@ -77,7 +77,7 @@ class nomejaWindow(QWidget):
         self.selanjutnyaButton = QPushButton(self)
         self.selanjutnyaButton.setText("Selanjutnya")
         self.selanjutnyaButton.setFixedSize(150, 75)
-        self.selanjutnyaButton.move(550, 500)
+        self.selanjutnyaButton.move(650, 500)
         self.selanjutnyaButton.setStyleSheet('''
         QPushButton {
             color: #ffffff;
@@ -91,12 +91,36 @@ class nomejaWindow(QWidget):
         ''')
         self.selanjutnyaButton.setFont(inter24)
         self.selanjutnyaButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.selanjutnyaButton.clicked.connect(self.on_pushselanjutnyaButton_clicked)
-        self.menuwindowdialog = MenuWindow()
+        self.selanjutnyaButton.clicked.connect(self.menu)
+        # self.menuwindowdialog = MenuWindow()
 
-    def on_pushselanjutnyaButton_clicked(self):
-        self.menuwindowdialog.show()
-        self.close()
+        # button kembali
+        self.kembaliButton = QPushButton(self)
+        self.kembaliButton.setText("Kembali")
+        self.kembaliButton.setFixedSize(150, 75)
+        self.kembaliButton.move(450, 500)
+        self.kembaliButton.setStyleSheet('''
+        QPushButton {
+            color: #ffffff;
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #f55951, stop:1 #f55951);
+            border: none;
+            border-radius: 12px;
+        }
+        QPushButton:hover {
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #ff0c00, stop:1 #ff0c00);
+        }
+        ''')
+        self.kembaliButton.setFont(inter24)
+        self.kembaliButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.kembaliButton.clicked.connect(self.dita)
+
+    def menu(self):
+        self.switch.emit("menu",{})
+        # self.close()
+        
+    def dita(self):
+        self.switch.emit("dita",{})
+        # self.close()
 
     # def on_pushkembaliButton_clicked(self):
     #     self.ditawindowdialog.show()

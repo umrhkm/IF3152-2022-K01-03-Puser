@@ -78,8 +78,8 @@ class ditaWindow(QWidget):
         ''')
         self.dineinButton.setFont(inter24)
         self.dineinButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.dineinButton.clicked.connect(self.on_pushdineinButton_clicked)
-        self.nomejadialog = nomejaWindow()
+        self.dineinButton.clicked.connect(self.dineIn)
+        # self.nomejadialog = nomejaWindow()
 
         # Take Away Button
         self.takeawayButton = QPushButton(self)
@@ -99,15 +99,15 @@ class ditaWindow(QWidget):
         ''')
         self.takeawayButton.setFont(inter24)
         self.takeawayButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.takeawayButton.clicked.connect(self.on_pushtakeawayButton_clicked)
-        self.menuwindowdialog = MenuWindow()
+        self.takeawayButton.clicked.connect(self.takeAway)
+        # self.menuwindowdialog = MenuWindow()
 
-    def on_pushtakeawayButton_clicked(self):
-        self.menuwindowdialog.show()
-        self.close()
-    def on_pushdineinButton_clicked(self):
-        self.nomejadialog.show()
-        self.close()
+    def takeAway(self):
+        self.switch.emit("menu",{})
+        # self.close()
+    
+    def dineIn(self):
+        self.switch.emit("nomeja",{})
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
