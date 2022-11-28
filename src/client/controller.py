@@ -3,9 +3,9 @@ import sys
 from tkinter import E
 from PyQt6.QtWidgets import QApplication
 
-from dita_window import ditaWindow
-from nomeja_window import nomejaWindow
-from loading import SplashScreen
+from client.dita_window import ditaWindow
+from client.nomeja_window import nomejaWindow
+from client.loading import SplashScreen
 
 class Controller:
     def __init__(self):

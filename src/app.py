@@ -6,8 +6,7 @@ import sys
 from server.routes import menuRoutes
 from server.routes import pesananRoutes
 from server.routes import detailPesananRoutes
-import client.controller as cont
-from PyQt6.QtWidgets import QApplication
+
 
 app = Flask(__name__)
 app.debug = True
@@ -21,16 +20,18 @@ def loadBackend():
     app.run(port=5000, use_reloader=False)
 
 if __name__ == '__main__':
-    loadBackend()
-    
-    #Dipakai kalau front-end udah siap
-    # threadBackend = Thread(target=loadBackend)
-    # threadBackend.setDaemon(True)
-    # threadBackend.start()
+    # #Dipakai kalau front-end udah siap
+    threadBackend = Thread(target=loadBackend)
+    threadBackend.setDaemon(True)
+    threadBackend.start()
 
+    import client.controller as cont
+    from PyQt6.QtWidgets import QApplication
     #Front-end, Launch App
     # window = QApplication(sys.argv)
     # sys.exit(window.exec())
+
+
     window = QApplication(sys.argv)
     controller = cont.Controller()
     controller.start()

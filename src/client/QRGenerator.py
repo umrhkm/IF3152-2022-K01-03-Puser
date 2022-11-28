@@ -15,11 +15,10 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
-from custom_widgets import ClickableLabel
+from client.custom_widgets import ClickableLabel
 import qrcode
 import sys
-import fonts
-from QR_data import QR_data
+from client.QR_data import QR_data
 import requests
 import json
 # from dita_window import ditaWindow
@@ -45,6 +44,66 @@ BTN_COLOR_HOVER = 'qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop
 makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
 
 minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
+
+from PyQt6.QtGui import QFont 
+
+inter10 = QFont()
+inter10.setFamily("Inter")
+inter10.setPixelSize(10)
+
+inter12 = QFont()
+inter12.setFamily("Inter")
+inter12.setPixelSize(12)
+
+inter13 = QFont()
+inter13.setFamily("Inter")
+inter13.setPixelSize(13)
+
+inter14 = QFont()
+inter14.setFamily("Inter")
+inter14.setPixelSize(14)
+
+inter14bold = QFont()
+inter14bold.setFamily("Inter")
+inter14bold.setPixelSize(14)
+inter14bold.setBold(True)
+
+inter16 = QFont()
+inter16.setFamily("Inter")
+inter16.setPixelSize(16)
+
+inter24 = QFont()
+inter24.setFamily("Inter")
+inter24.setPixelSize(24)
+
+inter11 = QFont()
+inter11.setFamily("Inter")
+inter11.setPixelSize(11)
+
+inter15bold = QFont()
+inter15bold.setFamily("Inter")
+inter15bold.setPixelSize(15)
+inter15bold.setBold(True)
+
+inter16bold = QFont()
+inter16bold.setFamily("Inter")
+inter16bold.setPixelSize(16)
+inter16bold.setBold(True)
+
+inter18bold = QFont()
+inter18bold.setFamily("Inter")
+inter18bold.setPixelSize(18)
+inter18bold.setBold(True)
+
+inter24bold = QFont()
+inter24bold.setFamily("Inter")
+inter24bold.setPixelSize(24)
+inter24bold.setBold(True)
+
+inter48 = QFont()
+inter48.setFamily("Inter")
+inter48.setPixelSize(48)
+inter48.setBold(True)
 
 # Image class for QR code
 class Image(qrcode.image.base.BaseImage):
@@ -109,7 +168,7 @@ class QRWindow(QMainWindow):
 
         # Label untuk logo
         logo = QLabel(self)
-        logoImg = QPixmap("img/Puser.png")
+        logoImg = QPixmap("client/img/Puser.png")
         logo.setPixmap(logoImg)
         logo.move(572, 20)
         #logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -119,14 +178,14 @@ class QRWindow(QMainWindow):
         silakanText.setText("Silakan scan untuk pembayaran")
         silakanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         silakanText.move(480, 90)
-        silakanText.setFont(fonts.inter24)
+        silakanText.setFont(inter24)
 
         checkOutText = QPushButton(self)
         checkOutText.setText("Done")
         checkOutText.setFixedSize(90,40)
         checkOutText.move(575, 660)
         checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
-        checkOutText.setFont(fonts.inter24bold)
+        checkOutText.setFont(inter24bold)
 
         # from dita_window import ditaWindow
         checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))

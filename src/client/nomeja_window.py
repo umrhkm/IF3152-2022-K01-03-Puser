@@ -1,9 +1,8 @@
 import sys
-import fonts
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QCursor, QFont, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
-from menu_window import MenuWindow
+from client.menu_window import MenuWindow
 
 class nomejaWindow(QWidget):
     switch = pyqtSignal(str,dict)
@@ -39,7 +38,7 @@ class nomejaWindow(QWidget):
 
         # Label untuk logo
         logo = QLabel(self)
-        logoImg = QPixmap('img/Puser.png')
+        logoImg = QPixmap('client/img/Puser.png')
         logo.setPixmap(logoImg)
         logo.move(560, 45)
 

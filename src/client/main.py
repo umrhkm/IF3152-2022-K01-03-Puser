@@ -6,11 +6,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFo
 from PySide6.QtWidgets import *
 
 ## ==> SPLASH SCREEN
-from ui_splash_screen import Ui_SplashScreen
+from client.ui_splash_screen import Ui_SplashScreen
 
 ## ==> MAIN WINDOW
-from menu_window import MenuWindow
-from dita_window import ditaWindow
+from client.menu_window import MenuWindow
+from client.dita_window import ditaWindow
 ## ==> GLOBALS
 counter = 0
 

@@ -66,7 +66,7 @@ class Ui_SplashScreen(object):
         self.label = QLabel(self.dropShadowFrame)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(260, 120, 151, 51))
-        self.label.setPixmap(QPixmap(u"img/Puser.png"))
+        self.label.setPixmap(QPixmap(u"client/img/Puser.png"))
         self.label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.dropShadowFrame)
