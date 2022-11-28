@@ -251,8 +251,30 @@ class MenuWindow(QWidget):
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
         self.checkOutText.setEnabled(False)
-        
-        self.qrdialog = QRWindow()
+        # self.qrdialog = QRWindow()
+
+        # button kembali
+        self.kembaliButton = QPushButton(self)
+        self.kembaliButton.setText("Kembali")
+        self.kembaliButton.setFixedSize(180, 50)
+        self.kembaliButton.move(150, 650)
+        self.kembaliButton.setStyleSheet('''
+        QPushButton {
+            color: #ffffff;
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #f55951, stop:1 #f55951);
+            border: none;
+            border-radius: 12px;
+        }
+        QPushButton:hover {
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #ff0c00, stop:1 #ff0c00);
+        }
+        ''')
+        self.kembaliButton.setFont(inter24)
+        self.kembaliButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.kembaliButton.clicked.connect(self.dita)
+    
+    def dita(self):
+        self.switch.emit("dita",{})
 
     def on_checkoutButton_clicked(self):
         with open("tes.txt", "w") as f:
@@ -299,8 +321,9 @@ class MenuWindow(QWidget):
             if (minuman[i]["jumlahStok"]) < self.minumanCards[i]["Spinbox"].value():
                 flag = False
         if flag:
-            self.qrdialog.show()
-            self.close()
+            # self.qrdialog.show()
+            # self.close()
+            self.switch.emit("qr",{})
         else:
             self.pesananNotValid()
     

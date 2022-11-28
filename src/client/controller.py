@@ -7,6 +7,7 @@ from client.dita_window import ditaWindow
 from client.nomeja_window import nomejaWindow
 from client.loading import SplashScreen
 from client.menu_window import MenuWindow
+from client.QRGenerator import QRWindow
 
 class Controller:
     
@@ -17,7 +18,9 @@ class Controller:
         self.nomejaWindow = nomejaWindow()
         self.nomejaWindow.switch.connect(self.fromNomeja)
         self.MenuWindow = MenuWindow()
-        self.nomejaWindow.switch.connect(self.fromMenu)
+        self.MenuWindow.switch.connect(self.fromMenu)
+        self.QRWindow = QRWindow()
+        self.QRWindow.switch.connect(self.fromQR)
 
     def start(self):
         # self.loading.show()
@@ -39,6 +42,13 @@ class Controller:
 
     def fromMenu(self,page):
         self.MenuWindow.close()
+        if page == "qr":
+            self.QRWindow.show()
+        elif page == "dita":
+            self.ditaWindow.show()
+
+    def fromQR(self,page):
+        self.QRWindow.close()
         if page == "dita":
             self.ditaWindow.show()
 

@@ -153,7 +153,7 @@ class Image(qrcode.image.base.BaseImage):
  
 # Main Window class
 class QRWindow(QMainWindow):
- 
+    switch = pyqtSignal(str,dict)
     # constructor
     def __init__(self):
         QMainWindow.__init__(self)
@@ -189,8 +189,8 @@ class QRWindow(QMainWindow):
 
         # from dita_window import ditaWindow
         checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        checkOutText.clicked.connect(self.on_checkoutText_clicked)
-        # 3self.close()
+        checkOutText.clicked.connect(self.dita)
+        # self.close()
         # self.checkOutText = ditaWindow()
 
         # silakanText.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -264,9 +264,9 @@ class QRWindow(QMainWindow):
     #     # set image to the label
     #     self.label.setPixmap(qr_image)
 
-    def on_checkoutText_clicked(self):
+    def dita(self):
         # self.ditadialog.show()
-        self.close()
+        self.switch.emit("dita",{})
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
