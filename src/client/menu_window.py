@@ -251,7 +251,7 @@ class MenuWindow(QWidget):
                     print("stok", kuantitasMakanan-kuantitas)
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
                     requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
-                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"kuantitas":kuantitasMakanan-kuantitas})
+                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"jumlahStok":kuantitasMakanan-kuantitas})
             # Minuman
             for i in range(len(minuman)):
                 if self.minumanCards[i]["Spinbox"].value() != 0:
@@ -262,7 +262,7 @@ class MenuWindow(QWidget):
                     print("stok", kuantitasMinuman-kuantitas)
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
                     requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
-                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"kuantitas":kuantitasMinuman-kuantitas})
+                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"jumlahStok":kuantitasMinuman-kuantitas})
             self.switch.emit("qr",{})
             
         else:
