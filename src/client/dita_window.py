@@ -1,9 +1,8 @@
 import sys
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QCursor, QFont, QPixmap
-from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
-from client.nomeja_window import nomejaWindow
-from client.menu_window import MenuWindow
+from PyQt6.QtGui import QCursor, QPixmap
+from PyQt6.QtWidgets import (QApplication, QLabel, QPushButton, QWidget)
+import client.fonts
 
 class ditaWindow(QWidget):
     switch = pyqtSignal(str, dict)
@@ -24,19 +23,6 @@ class ditaWindow(QWidget):
         # Set warna background
         self.setStyleSheet('background-color: #28293D') 
 
-        # Set up font
-        inter14 = QFont()
-        inter14.setFamily("Inter")
-        inter14.setPixelSize(14)
-
-        inter16 = QFont()
-        inter16.setFamily("Inter")
-        inter16.setPixelSize(16)
-
-        inter24 = QFont()
-        inter24.setFamily("Inter")
-        inter24.setPixelSize(24)
-
         # Label untuk logo
         logo = QLabel(self)
         logoImg = QPixmap('client/img/Puser.png')
@@ -48,7 +34,7 @@ class ditaWindow(QWidget):
         logoText.setText("Punten Meser")
         logoText.setStyleSheet('color: #68FCD6')
         logoText.move(579, 143)
-        logoText.setFont(inter16)
+        logoText.setFont(client.fonts.inter16)
 
         # Label Pertanyaan makan dimana
         ditaText = QLabel(self)
@@ -58,7 +44,7 @@ class ditaWindow(QWidget):
         background-color:  #28293D 
         ''')
         ditaText.move(512, 227)
-        ditaText.setFont(inter24)
+        ditaText.setFont(client.fonts.inter24)
 
         # Dine In Button
         self.dineinButton = QPushButton(self)
@@ -76,7 +62,7 @@ class ditaWindow(QWidget):
             background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop:1 #535fff);
         }
         ''')
-        self.dineinButton.setFont(inter24)
+        self.dineinButton.setFont(client.fonts.inter24)
         self.dineinButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.dineinButton.clicked.connect(self.dineIn)
         # self.nomejadialog = nomejaWindow()
@@ -97,7 +83,7 @@ class ditaWindow(QWidget):
             background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop:1 #535fff);
         }
         ''')
-        self.takeawayButton.setFont(inter24)
+        self.takeawayButton.setFont(client.fonts.inter24)
         self.takeawayButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.takeawayButton.clicked.connect(self.takeAway)
         # self.menuwindowdialog = MenuWindow()
@@ -105,8 +91,10 @@ class ditaWindow(QWidget):
     def takeAway(self):
         self.switch.emit("menu",{})
         # self.close()
-    
+
     def dineIn(self):
+        global status
+        status = True
         self.switch.emit("nomeja",{})
 
 if __name__ == "__main__":

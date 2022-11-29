@@ -1,13 +1,14 @@
-import os.path
-import sys
-from tkinter import E
-from PyQt6.QtWidgets import QApplication
-
+# import os.path
+# import sys
+# from tkinter import E
+# from PyQt6.QtWidgets import QApplication
 from client.dita_window import ditaWindow
 from client.nomeja_window import nomejaWindow
-from client.loading import SplashScreen
 from client.menu_window import MenuWindow
 from client.QRGenerator import QRWindow
+
+status = ''
+tableNumber = 0
 
 class Controller:
     
@@ -32,6 +33,8 @@ class Controller:
             self.nomejaWindow.setUpWidgets()
             self.nomejaWindow.show()
         elif page=="menu":
+            global status
+            status = 'Take away'
             self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 
@@ -40,6 +43,11 @@ class Controller:
         if page == "dita":
             self.ditaWindow.show()
         elif page=="menu":
+            from client.nomeja_window import nomorMeja
+            global status
+            global tableNumber
+            status = 'Dine in'
+            tableNumber = nomorMeja
             self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 

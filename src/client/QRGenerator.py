@@ -15,12 +15,12 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
-from client.custom_widgets import ClickableLabel
 import qrcode
 import sys
-from client.QR_data import QR_data
 import requests
 import json
+import client.fonts
+from PyQt6.QtGui import QFont 
 # from dita_window import ditaWindow
 
 BG_COLOR = '#FFFFFF'
@@ -45,65 +45,6 @@ makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hambu
 
 minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
 
-from PyQt6.QtGui import QFont 
-
-inter10 = QFont()
-inter10.setFamily("Inter")
-inter10.setPixelSize(10)
-
-inter12 = QFont()
-inter12.setFamily("Inter")
-inter12.setPixelSize(12)
-
-inter13 = QFont()
-inter13.setFamily("Inter")
-inter13.setPixelSize(13)
-
-inter14 = QFont()
-inter14.setFamily("Inter")
-inter14.setPixelSize(14)
-
-inter14bold = QFont()
-inter14bold.setFamily("Inter")
-inter14bold.setPixelSize(14)
-inter14bold.setBold(True)
-
-inter16 = QFont()
-inter16.setFamily("Inter")
-inter16.setPixelSize(16)
-
-inter24 = QFont()
-inter24.setFamily("Inter")
-inter24.setPixelSize(24)
-
-inter11 = QFont()
-inter11.setFamily("Inter")
-inter11.setPixelSize(11)
-
-inter15bold = QFont()
-inter15bold.setFamily("Inter")
-inter15bold.setPixelSize(15)
-inter15bold.setBold(True)
-
-inter16bold = QFont()
-inter16bold.setFamily("Inter")
-inter16bold.setPixelSize(16)
-inter16bold.setBold(True)
-
-inter18bold = QFont()
-inter18bold.setFamily("Inter")
-inter18bold.setPixelSize(18)
-inter18bold.setBold(True)
-
-inter24bold = QFont()
-inter24bold.setFamily("Inter")
-inter24bold.setPixelSize(24)
-inter24bold.setBold(True)
-
-inter48 = QFont()
-inter48.setFamily("Inter")
-inter48.setPixelSize(48)
-inter48.setBold(True)
 
 # Image class for QR code
 class Image(qrcode.image.base.BaseImage):
@@ -178,14 +119,14 @@ class QRWindow(QMainWindow):
         silakanText.setText("Silakan scan untuk pembayaran")
         silakanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         silakanText.move(480, 90)
-        silakanText.setFont(inter24)
+        silakanText.setFont(client.fonts.inter24)
 
         checkOutText = QPushButton(self)
         checkOutText.setText("Done")
         checkOutText.setFixedSize(90,40)
         checkOutText.move(575, 660)
         checkOutText.setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_GREEN}; border-color: {PRIMARY_BLACK}; border-radius: 12px")
-        checkOutText.setFont(inter24bold)
+        checkOutText.setFont(client.fonts.inter24bold)
 
         # from dita_window import ditaWindow
         checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
@@ -204,30 +145,30 @@ class QRWindow(QMainWindow):
         text= []
         counter = 1
         
-        #Membuat counter dari jumlah data pada tabel pesanan
-        print("\n======== GET ALL PESANAN (HASIL) ========")
-        responsecounter = requests.get("http://localhost:5000/api/pesanan/")
-        counterdetail = responsecounter.json()
-        counter = len(counterdetail)
-        # print(counter)
+        # #Membuat counter dari jumlah data pada tabel pesanan
+        # print("\n======== GET ALL PESANAN (HASIL) ========")
+        # responsecounter = requests.get("http://localhost:5000/api/pesanan/")
+        # counterdetail = responsecounter.json()
+        # counter = len(counterdetail)
+        # # print(counter)
 
-        #Mengambil data pesanan pada indeks terakhir pada tabel
-        text= []       
-        print("\n======== GET PESANAN BY ID (HASIL) ========")
-        response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
-        textdetail = response.json()
-        # textdetail = json.dumps(text, indent=4) 
-        text.append(textdetail)  
-        # print (textdetail)
-        # print(text)
+        # #Mengambil data pesanan pada indeks terakhir pada tabel
+        # text= []       
+        # print("\n======== GET PESANAN BY ID (HASIL) ========")
+        # response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
+        # textdetail = response.json()
+        # # textdetail = json.dumps(text, indent=4) 
+        # text.append(textdetail)  
+        # # print (textdetail)
+        # # print(text)
         
-        #Mengambil data detail pesanan pada indeks terakhir pada tabel
-        print("\n======== GET PESANAN BY ID (HASIL) ========")
-        response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
-        textkeranjang = response.json()
-        # textkeranjang = json.dumps(text, indent=4)
-        text.extend(textkeranjang)
-        # print(text)
+        # #Mengambil data detail pesanan pada indeks terakhir pada tabel
+        # print("\n======== GET PESANAN BY ID (HASIL) ========")
+        # response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
+        # textkeranjang = response.json()
+        # # textkeranjang = json.dumps(text, indent=4)
+        # text.extend(textkeranjang)
+        # # print(text)
 
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()

@@ -13,11 +13,9 @@ import requests
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt, pyqtSignal, QRect
-from PyQt6.QtGui import QCursor, QPixmap, QImage
+from PyQt6.QtGui import QCursor, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter, QMessageBox)
-from client.custom_widgets import ClickableLabel
-from client.QRGenerator import QRWindow
-from client.QR_data import QR_data
+import client.fonts
 
 # Kalo program udah jadi, buka aja comment ini
 response = requests.get("http://localhost:5000/api/menus/")
@@ -39,64 +37,6 @@ model = modelmakanan+modelminuman
 # model = modelmakanan+modelminuman
 
 from PyQt6.QtGui import QFont 
-
-inter10 = QFont()
-inter10.setFamily("Inter")
-inter10.setPixelSize(10)
-
-inter12 = QFont()
-inter12.setFamily("Inter")
-inter12.setPixelSize(12)
-
-inter13 = QFont()
-inter13.setFamily("Inter")
-inter13.setPixelSize(13)
-
-inter14 = QFont()
-inter14.setFamily("Inter")
-inter14.setPixelSize(14)
-
-inter14bold = QFont()
-inter14bold.setFamily("Inter")
-inter14bold.setPixelSize(14)
-inter14bold.setBold(True)
-
-inter16 = QFont()
-inter16.setFamily("Inter")
-inter16.setPixelSize(16)
-
-inter24 = QFont()
-inter24.setFamily("Inter")
-inter24.setPixelSize(24)
-
-inter11 = QFont()
-inter11.setFamily("Inter")
-inter11.setPixelSize(11)
-
-inter15bold = QFont()
-inter15bold.setFamily("Inter")
-inter15bold.setPixelSize(15)
-inter15bold.setBold(True)
-
-inter16bold = QFont()
-inter16bold.setFamily("Inter")
-inter16bold.setPixelSize(16)
-inter16bold.setBold(True)
-
-inter18bold = QFont()
-inter18bold.setFamily("Inter")
-inter18bold.setPixelSize(18)
-inter18bold.setBold(True)
-
-inter24bold = QFont()
-inter24bold.setFamily("Inter")
-inter24bold.setPixelSize(24)
-inter24bold.setBold(True)
-
-inter48 = QFont()
-inter48.setFamily("Inter")
-inter48.setPixelSize(48)
-inter48.setBold(True)
 
 class MenuWindow(QWidget):
     switch = pyqtSignal(str, dict)
@@ -140,19 +80,19 @@ class MenuWindow(QWidget):
         silakanText.setText("Silakan Pilih Menu Makanan / Minuman Anda")
         silakanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         silakanText.move(400, 60)
-        silakanText.setFont(inter24)
+        silakanText.setFont(client.fonts.inter24)
         
         makananText = QLabel(self)
         makananText.setText("Makanan")
         makananText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         makananText.move(50, 100)
-        makananText.setFont(inter18bold)
+        makananText.setFont(client.fonts.inter18bold)
         
         minumanText = QLabel(self)
         minumanText.setText("Minuman")
         minumanText.setStyleSheet(f'color: {PRIMARY_WHITE}')
         minumanText.move(50, 380)
-        minumanText.setFont(inter18bold)
+        minumanText.setFont(client.fonts.inter18bold)
         
         # Set up previous / next button
         self.rightMakananButton = QPushButton(self)
@@ -223,7 +163,7 @@ class MenuWindow(QWidget):
         self.searchbar.setGeometry(QRect(1000, 50, 38, 38))
         self.searchbar.setStyleSheet(
             """QLineEdit { background-color: #04FFA5; color: black; border-radius: 10px; font-size:12px}""")
-        self.searchbar.setFont(inter14)
+        self.searchbar.setFont(client.fonts.inter14)
         self.searchbar.returnPressed.connect(self.search)
 
         self.completer = QCompleter(model)
@@ -234,20 +174,20 @@ class MenuWindow(QWidget):
         self.totalPriceText.setText("Rp 0000000000000" + str(self.totalHarga))
         self.totalPriceText.setStyleSheet(f'color: {DARK_MODE_BG}')
         self.totalPriceText.move(50, 665)
-        self.totalPriceText.setFont(inter24bold)
+        self.totalPriceText.setFont(client.fonts.inter24bold)
         
         self.totalHargaText = QLabel(self)
         self.totalHargaText.setText("Total Harga")
         self.totalHargaText.setStyleSheet(f'color: {DARK_MODE_BG}')
         self.totalHargaText.move(50, 645)
-        self.totalHargaText.setFont(inter14bold)
+        self.totalHargaText.setFont(client.fonts.inter14bold)
         
         self.checkOutText = QPushButton(self)
         self.checkOutText.setText("Check Out")
         self.checkOutText.move(550, 650)
         self.checkOutText.setFixedSize(180, 50)
         self.checkOutText.setStyleSheet(f"color: {PRIMARY_WHITE}; background-color: {'#696969'}; border-color: {'#696969'}; border-radius: 12px")
-        self.checkOutText.setFont(inter24bold)
+        self.checkOutText.setFont(client.fonts.inter24bold)
         self.checkOutText.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.checkOutText.clicked.connect(self.on_checkoutButton_clicked)
         self.checkOutText.setEnabled(False)
@@ -269,7 +209,7 @@ class MenuWindow(QWidget):
             background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #ff0c00, stop:1 #ff0c00);
         }
         ''')
-        self.kembaliButton.setFont(inter24)
+        self.kembaliButton.setFont(client.fonts.inter18)
         self.kembaliButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.kembaliButton.clicked.connect(self.dita)
     
@@ -277,6 +217,13 @@ class MenuWindow(QWidget):
         self.switch.emit("dita",{})
 
     def on_checkoutButton_clicked(self):
+        from client.nomeja_window import nomorMeja
+        from client.controller import status, tableNumber
+        if status == 'Take away':
+            print("Take away")
+        else:
+            print("Dine in")
+            print(tableNumber)
         with open("tes.txt", "w") as f:
             f.write("Dine In\n")
             nomorMeja = 0
@@ -363,17 +310,17 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["cardTitle"] = QLabel(self)
                 self.makananCards[flag]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.makananCards[flag]["cardTitle"].setText("Title")
-                self.makananCards[flag]["cardTitle"].setFont(inter15bold)
+                self.makananCards[flag]["cardTitle"].setFont(client.fonts.inter15bold)
 
                 self.makananCards[flag]["cardPrice"] = QLabel(self)
                 self.makananCards[flag]["cardPrice"].setText("Price")
                 self.makananCards[flag]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-                self.makananCards[flag]["cardPrice"].setFont(inter12)
+                self.makananCards[flag]["cardPrice"].setFont(client.fonts.inter12)
                 
                 self.makananCards[flag]["cardStock"] = QLabel(self)
                 self.makananCards[flag]["cardStock"].setText("Stock")
                 self.makananCards[flag]["cardStock"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-                self.makananCards[flag]["cardStock"].setFont(inter12)
+                self.makananCards[flag]["cardStock"].setFont(client.fonts.inter12)
 
                 self.makananCards[flag]["Spinbox"] = QtWidgets.QSpinBox(self)
                 self.makananCards[flag]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
@@ -384,7 +331,7 @@ class MenuWindow(QWidget):
                 self.makananCards[flag]["Notes"].setFixedSize(125,20)
                 self.makananCards[flag]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
                 self.makananCards[flag]["Notes"].setPlaceholderText("tambah catatan")
-                self.makananCards[flag]["Notes"].setFont(inter11)
+                self.makananCards[flag]["Notes"].setFont(client.fonts.inter11)
                 
                 self.cardMakananPositioning(flag, i)
                 self.hideMakanan(flag)
@@ -410,17 +357,17 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["cardTitle"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
                 self.minumanCards[flagMinuman]["cardTitle"].setText("Title")
-                self.minumanCards[flagMinuman]["cardTitle"].setFont(inter15bold)
+                self.minumanCards[flagMinuman]["cardTitle"].setFont(client.fonts.inter15bold)
 
                 self.minumanCards[flagMinuman]["cardPrice"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardPrice"].setText("Price")
                 self.minumanCards[flagMinuman]["cardPrice"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-                self.minumanCards[flagMinuman]["cardPrice"].setFont(inter12)
+                self.minumanCards[flagMinuman]["cardPrice"].setFont(client.fonts.inter12)
                 
                 self.minumanCards[flagMinuman]["cardStock"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardStock"].setText("Stock")
                 self.minumanCards[flagMinuman]["cardStock"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
-                self.minumanCards[flagMinuman]["cardStock"].setFont(inter12)
+                self.minumanCards[flagMinuman]["cardStock"].setFont(client.fonts.inter12)
                 
                 self.minumanCards[flagMinuman]["Spinbox"] = QtWidgets.QSpinBox(self)
                 self.minumanCards[flagMinuman]["Spinbox"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
@@ -431,7 +378,7 @@ class MenuWindow(QWidget):
                 self.minumanCards[flagMinuman]["Notes"].setFixedSize(125,20)
                 self.minumanCards[flagMinuman]["Notes"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {PRIMARY_WHITE}")
                 self.minumanCards[flagMinuman]["Notes"].setPlaceholderText("tambah catatan")
-                self.minumanCards[flagMinuman]["Notes"].setFont(inter11)
+                self.minumanCards[flagMinuman]["Notes"].setFont(client.fonts.inter11)
                 
                 self.cardMinumanPositioning(flagMinuman, i)
                 self.hideMinuman(flagMinuman)

@@ -1,8 +1,11 @@
 import sys
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QCursor, QFont, QPixmap
-from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QMessageBox, QPushButton, QWidget)
+from PyQt6.QtGui import QCursor, QPixmap
+from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget)
+import client.fonts
 # from client.menu_window import MenuWindow
+
+nomorMeja = 0
 
 class nomejaWindow(QWidget):
     switch = pyqtSignal(str,dict)
@@ -23,19 +26,6 @@ class nomejaWindow(QWidget):
         # Set warna background
         self.setStyleSheet('background-color: #28293D') 
 
-    # Set up font
-        inter14 = QFont()
-        inter14.setFamily("Inter")
-        inter14.setPixelSize(14)
-
-        inter16 = QFont()
-        inter16.setFamily("Inter")
-        inter16.setPixelSize(16)
-
-        inter24 = QFont()
-        inter24.setFamily("Inter")
-        inter24.setPixelSize(24)
-
         # Label untuk logo
         logo = QLabel(self)
         logoImg = QPixmap('client/img/Puser.png')
@@ -47,7 +37,7 @@ class nomejaWindow(QWidget):
         logoText.setText("Punten Meser")
         logoText.setStyleSheet('color: #68FCD6')
         logoText.move(579, 143)
-        logoText.setFont(inter16)
+        logoText.setFont(client.fonts.inter16)
 
         # Label Pertanyaan makan dimana
         nomejaText = QLabel(self)
@@ -57,7 +47,7 @@ class nomejaWindow(QWidget):
         background-color:  #28293D 
         ''')
         nomejaText.move(475, 250)
-        nomejaText.setFont(inter24)
+        nomejaText.setFont(client.fonts.inter24)
 
         #Input No Meja
         self.nomeja = QLineEdit(self)
@@ -71,7 +61,7 @@ class nomejaWindow(QWidget):
         color: rgba(255, 255, 255, 0.8);
         background-color: #3E405B
         ''')
-        self.nomeja.setFont(inter16)
+        self.nomeja.setFont(client.fonts.inter16)
 
         # button selanjutnya 
         self.selanjutnyaButton = QPushButton(self)
@@ -89,7 +79,7 @@ class nomejaWindow(QWidget):
             background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #6b75ff, stop:1 #535fff);
         }
         ''')
-        self.selanjutnyaButton.setFont(inter24)
+        self.selanjutnyaButton.setFont(client.fonts.inter24)
         self.selanjutnyaButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.selanjutnyaButton.clicked.connect(self.menu)
         # self.menuwindowdialog = MenuWindow()
@@ -110,11 +100,13 @@ class nomejaWindow(QWidget):
             background-color: qlineargradient(x1:0, y1:0, x2:1, y2: 1, stop:0 #ff0c00, stop:1 #ff0c00);
         }
         ''')
-        self.kembaliButton.setFont(inter24)
+        self.kembaliButton.setFont(client.fonts.inter24)
         self.kembaliButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.kembaliButton.clicked.connect(self.dita)
 
     def menu(self):
+        global nomorMeja
+        nomorMeja = int(self.nomeja.text())
         self.switch.emit("menu",{})
         # self.close()
         

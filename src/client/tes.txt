@@ -3,8 +3,15 @@ Nomor Meja: 0
 Pesanan Anda:
 
 Makanan
-1. Ayam Bakar: 3 buah
-Catatan tambahan: jangan pedes
+1. Ayam Bakar: 2 buah
+Catatan tambahan: pedes parah
+2. Nasi Uduk: 2 buah
+Catatan tambahan: 
 
 Minuman
-Tidak ada minuman yang Anda pesan
+1. Fanta: 1 buah
+Catatan tambahan: 
+2. Es Teh: 1 buah
+Catatan tambahan: 
+3. Es Jeruk: 1 buah
+Catatan tambahan: 
