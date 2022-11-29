@@ -205,13 +205,11 @@ class QRWindow(QMainWindow):
         counter = 1
         
         #Membuat counter dari jumlah data pada tabel pesanan
-        listcounter = []
         print("\n======== GET ALL PESANAN (HASIL) ========")
         responsecounter = requests.get("http://localhost:5000/api/pesanan/")
         counterdetail = responsecounter.json()
-        listcounter.append(counterdetail)
-        counter = len(listcounter)
-        print(counter)
+        counter = len(counterdetail)
+        # print(counter)
 
         #Mengambil data pesanan pada indeks terakhir pada tabel
         text= []       
@@ -220,8 +218,8 @@ class QRWindow(QMainWindow):
         textdetail = response.json()
         # textdetail = json.dumps(text, indent=4) 
         text.append(textdetail)  
-        print (textdetail)
-        print(text)
+        # print (textdetail)
+        # print(text)
         
         #Mengambil data detail pesanan pada indeks terakhir pada tabel
         print("\n======== GET PESANAN BY ID (HASIL) ========")
@@ -229,7 +227,7 @@ class QRWindow(QMainWindow):
         textkeranjang = response.json()
         # textkeranjang = json.dumps(text, indent=4)
         text.extend(textkeranjang)
-        print(text)
+        # print(text)
 
         # creating a pix map of qr code
         qr_image = qrcode.make(text, image_factory = Image).pixmap()
