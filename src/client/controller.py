@@ -29,8 +29,10 @@ class Controller:
     def fromDita(self, page):
         self.ditaWindow.close()
         if page == "nomeja":
+            self.nomejaWindow.setUpWidgets()
             self.nomejaWindow.show()
         elif page=="menu":
+            self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 
     def fromNomeja(self,page):
@@ -38,6 +40,7 @@ class Controller:
         if page == "dita":
             self.ditaWindow.show()
         elif page=="menu":
+            self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 
     def fromMenu(self,page):
