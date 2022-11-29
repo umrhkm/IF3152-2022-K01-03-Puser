@@ -256,8 +256,8 @@ class MenuWindow(QWidget):
         # button kembali
         self.kembaliButton = QPushButton(self)
         self.kembaliButton.setText("Kembali")
-        self.kembaliButton.setFixedSize(180, 50)
-        self.kembaliButton.move(50, 40)
+        self.kembaliButton.setFixedSize(180, 42)
+        self.kembaliButton.move(50, 50)
         self.kembaliButton.setStyleSheet('''
         QPushButton {
             color: #ffffff;
