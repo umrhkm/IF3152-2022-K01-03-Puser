@@ -217,49 +217,7 @@ class MenuWindow(QWidget):
         self.switch.emit("dita",{})
 
     def on_checkoutButton_clicked(self):
-        from client.nomeja_window import nomorMeja
-        from client.controller import status, tableNumber
-        if status == 'Take away':
-            print("Take away")
-        else:
-            print("Dine in")
-            print(tableNumber)
-        with open("tes.txt", "w") as f:
-            f.write("Dine In\n")
-            nomorMeja = 0
-            f.write(f"Nomor Meja: {nomorMeja} \n")
-            f.write("Pesanan Anda:\n\n")
-            urutanMakanan = 1
-            f.write("Makanan\n")
-            flag = False
-            for i in range(len(makanan)):
-                if self.makananCards[i]["Spinbox"].value() != 0:
-                    nama = self.makananCards[i]["cardTitle"].text()
-                    kuantitas = self.makananCards[i]["Spinbox"].value()
-                    catatan = self.makananCards[i]["Notes"].text()
-                    f.write(f"{urutanMakanan}. {nama}: {kuantitas} buah\n")
-                    f.write(f"Catatan tambahan: {catatan}\n")
-                    urutanMakanan += 1
-                    flag=True
-            if not flag:
-                f.write("Tidak ada makanan yang Anda pesan\n")
-            f.write("\n")
-            f.write("Minuman\n")
-            urutanMinuman = 1
-            flag = False
-            for i in range(len(minuman)):
-                if self.minumanCards[i]["Spinbox"].value() != 0:
-                    nama = self.minumanCards[i]["cardTitle"].text()
-                    kuantitas = self.minumanCards[i]["Spinbox"].value()
-                    catatan = self.minumanCards[i]["Notes"].text()
-                    f.write(f"{urutanMinuman}. {nama}: {kuantitas} buah\n")
-                    f.write(f"Catatan tambahan: {catatan}\n")
-                    urutanMinuman += 1
-                    flag=True
-            if not flag:
-                f.write("Tidak ada minuman yang Anda pesan\n")
-            f.close()
-            
+        from client.controller import status, tableNumber            
         flag = True
         for i in range(len(makanan)):
             if (makanan[i]["jumlahStok"]) < self.makananCards[i]["Spinbox"].value():
@@ -268,9 +226,45 @@ class MenuWindow(QWidget):
             if (minuman[i]["jumlahStok"]) < self.minumanCards[i]["Spinbox"].value():
                 flag = False
         if flag:
-            # self.qrdialog.show()
-            # self.close()
+            # Add to detail pesanan
+            responsecounter = requests.get("http://localhost:5000/api/detail-pesanan/")
+            counterdetail = responsecounter.json()
+            counter = len(counterdetail) + 1
+            dita_status = True
+            
+            if status == 'Take away':
+                dita_status = False
+            if dita_status:
+                requests.post("http://localhost:5000/api/detail-pesanan/add", json={"dine_in_status": True})
+                requests.put(f"http://localhost:5000/api/detail-pesanan/update/nomor-meja/{counter}", json={"nomor_meja": tableNumber})
+            else:
+                requests.post("http://localhost:5000/api/detail-pesanan/add", json={"dine_in_status": False})
+            
+            # Add detail menu to pesanan
+            # Makanan
+            for i in range(len(makanan)):
+                if self.makananCards[i]["Spinbox"].value() != 0:
+                    id = makanan[i]['id']
+                    kuantitasMakanan = makanan[i]["jumlahStok"]
+                    kuantitas = self.makananCards[i]["Spinbox"].value()
+                    catatan = self.makananCards[i]["Notes"].text()
+                    print("stok", kuantitasMakanan-kuantitas)
+                    requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
+                    requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
+                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"kuantitas":kuantitasMakanan-kuantitas})
+            # Minuman
+            for i in range(len(minuman)):
+                if self.minumanCards[i]["Spinbox"].value() != 0:
+                    id = minuman[i]['id']
+                    kuantitasMinuman = minuman[i]["jumlahStok"]
+                    kuantitas = self.minumanCards[i]["Spinbox"].value()
+                    catatan = self.minumanCards[i]["Notes"].text()
+                    print("stok", kuantitasMinuman-kuantitas)
+                    requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
+                    requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
+                    requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"kuantitas":kuantitasMinuman-kuantitas})
             self.switch.emit("qr",{})
+            
         else:
             self.pesananNotValid()
     
