@@ -1,4 +1,23 @@
-from flask import request, jsonify
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+# pylint: disable=E1120
+
+from flask import request
 
 from server.models.pesananModels import Pesanan
 

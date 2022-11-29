@@ -1,4 +1,22 @@
-from flask import Blueprint, jsonify, request
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+from flask import Blueprint, jsonify
 
 
 from server.controllers.pesananControllers import pesananController
@@ -73,10 +91,10 @@ def update_catatan(id_pesanan, id_menu):
 def add_pesanan():
     try:
         pesanan = pesananController.createPesanan()
-        if pesanan != None:
+        if pesanan is not None:
             return jsonify(pesanan)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500

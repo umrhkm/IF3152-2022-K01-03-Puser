@@ -1,3 +1,22 @@
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+
 '''
 NOTE
 Proses kerja testing tidak berjalan secara sekuensial (tidak terurut dari atas ke bawah) dan
@@ -15,12 +34,11 @@ Terakhir, silahkan comment setiap fungsi pada kelas kecuali fungsi dengan HTTP r
 dan jalankan file ini.
 '''
 
+import sys
 import unittest
 import requests
-import sys
-sys.path.append('../..')
 
-from app import app
+sys.path.append('../..')
 
 
 class TestMenuAPI(unittest.TestCase):
@@ -66,63 +84,63 @@ class TestMenuAPI(unittest.TestCase):
     }
 
     def test_add_menu(self):
-        res = requests.post(self.URL + "/add", json=self.menu_data)
+        res = requests.post(self.URL + "/add", json=self.menu_data, timeout=10)
         self.assertEqual(res.status_code, 200)
 
     def test_get_menus(self):
-        res = requests.get(self.URL)
+        res = requests.get(self.URL, timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(len(res.json()), 28)
 
     def test_get_menus_by_id(self):
-        res = requests.get(self.URL + "/search-id/1")
+        res = requests.get(self.URL + "/search-id/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.menu_data_id_1)
 
     def test_get_menus_by_nama(self):
-        res = requests.get(self.URL + "/search-nama/Mie%20Rebus")
+        res = requests.get(self.URL + "/search-nama/Mie%20Rebus", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()[0], self.menu_data_id_1)
 
     def test_get_nama(self):
-        res = requests.get(self.URL + "/nama/1")
+        res = requests.get(self.URL + "/nama/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.menu_data_id_1["nama"])
 
     def test_get_harga(self):
-        res = requests.get(self.URL + "/harga/1")
+        res = requests.get(self.URL + "/harga/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.menu_data_id_1["harga"])
 
     def test_get_kategori(self):
-        res = requests.get(self.URL + "/kategori/1")
+        res = requests.get(self.URL + "/kategori/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.menu_data_id_1["kategori"])
 
     def test_get_jumlahStok(self):
-        res = requests.get(self.URL + "/jumlah-stok/1")
+        res = requests.get(self.URL + "/jumlah-stok/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.menu_data_id_1["jumlahStok"])
 
     def test_update_menu_nama(self):
-        res = requests.put(self.URL + "/update/nama/32",
-                           json={"nama": "updated"})
-        res2 = requests.get(self.URL + "/search-id/32")
+        requests.put(self.URL + "/update/nama/32",
+                           json={"nama": "updated"}, timeout=10)
+        res2 = requests.get(self.URL + "/search-id/32", timeout=10)
         self.assertEqual(res2.json(), self.expected_updated_nama_menu)
 
     def test_update_menu_harga(self):
-        res = requests.put(self.URL + "/update/harga/32", json={"harga": 9999})
-        res2 = requests.get(self.URL + "/search-id/32")
+        requests.put(self.URL + "/update/harga/32", json={"harga": 9999}, timeout=10)
+        res2 = requests.get(self.URL + "/search-id/32", timeout=10)
         self.assertEqual(res2.json(), self.expected_updated_harga_menu)
 
     def test_update_menu_jumlahStok(self):
-        res = requests.put(
-            self.URL + "/update/jumlah-stok/32", json={"jumlahStok": 3})
-        res2 = requests.get(self.URL + "/search-id/32")
+        requests.put(
+            self.URL + "/update/jumlah-stok/32", json={"jumlahStok": 3}, timeout=10)
+        res2 = requests.get(self.URL + "/search-id/32", timeout=10)
         self.assertEqual(res2.json(), self.expected_updated_jumlahStok_menu)
 
     def test_delete_menu(self):
-        res = requests.delete(self.URL + "/delete/32")
+        res = requests.delete(self.URL + "/delete/32", timeout=10)
         self.assertEqual(res.status_code, 200)
 
 

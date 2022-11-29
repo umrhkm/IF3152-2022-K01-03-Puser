@@ -1,4 +1,22 @@
-from flask import Blueprint, jsonify, request
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+from flask import Blueprint, jsonify
 
 
 from server.controllers.menuControllers import menuController
@@ -19,10 +37,10 @@ def get_menus():
 def get_menu_by_id(id):
     try:
         menu = menuController.getMenuDataById(id)
-        if menu != None:
+        if menu is not None:
             return (menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -32,10 +50,10 @@ def get_menu_by_id(id):
 def get_menu_by_nama(nama):
     try:
         menu = menuController.getMenuDataByNama(nama)
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -45,10 +63,10 @@ def get_menu_by_nama(nama):
 def get_nama(id):
     try:
         menu = menuController.getNama(id)
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -58,10 +76,10 @@ def get_nama(id):
 def get_harga(id):
     try:
         menu = menuController.getHarga(id)
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -71,10 +89,10 @@ def get_harga(id):
 def get_kategori(id):
     try:
         menu = menuController.getKategori(id)
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -84,10 +102,10 @@ def get_kategori(id):
 def get_jumlahStok(id):
     try:
         menu = menuController.getJumlahStok(id)
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500
@@ -97,10 +115,10 @@ def get_jumlahStok(id):
 def add_menu():
     try:
         menu = menuController.createMenu()
-        if menu != None:
+        if menu is not None:
             return jsonify(menu)
-        else:
-            return jsonify({}), 404
+
+        return jsonify({}), 404
 
     except Exception as err:
         return jsonify({'Pesan': str(err)}), 500

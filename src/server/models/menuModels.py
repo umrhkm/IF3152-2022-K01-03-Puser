@@ -1,5 +1,23 @@
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+
 from server.config.db import get_connection
-import validators
 
 
 class Menu():
@@ -8,20 +26,20 @@ class Menu():
 
         if (harga <= 0):
             raise Exception(f"{harga} tidak valid, hurus lebih dari 0!")
-        else:
-            self.harga = harga
 
-        if ((kategori != "makanan") and (kategori != "minuman")):
+        self.harga = harga
+
+        if (kategori not in ('makanan', 'minuman')):
             raise Exception(
                 f"{kategori} tidak valid, harus antara makanan atau minuman!")
-        else:
-            self.kategori = kategori
+
+        self.kategori = kategori
 
         if (jumlahStok < 0):
             raise Exception(
                 f"{harga} tidak valid, hurus lebih dari atau sama dengan 0!")
-        else:
-            self.jumlahStok = jumlahStok
+
+        self.jumlahStok = jumlahStok
 
         try:
             connection = get_connection()
@@ -60,7 +78,7 @@ class Menu():
             raise Exception(err)
 
     @classmethod
-    def getMenuByNama(self, nama):
+    def getMenuByNama(cls, nama):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
@@ -97,17 +115,17 @@ class Menu():
 
             if resultset is None:
                 raise Exception(f"Id menu {id} tidak ada!")
-            else:
-                id, nama, harga, kategori, jumlahStok = resultset[0]
 
-                self = cls.__new__(cls)
-                self.id = id
-                self.nama = nama
-                self.harga = harga
-                self.kategori = kategori
-                self.jumlahStok = jumlahStok
+            id, nama, harga, kategori, jumlahStok = resultset[0]
 
-                return self
+            self = cls.__new__(cls)
+            self.id = id
+            self.nama = nama
+            self.harga = harga
+            self.kategori = kategori
+            self.jumlahStok = jumlahStok
+
+            return self
 
         except Exception as err:
             raise Exception(err)
@@ -137,18 +155,18 @@ class Menu():
     def setHarga(self, hargabaru, id):
         if (hargabaru <= 0):
             raise Exception(f"{hargabaru} tidak valid, hurus lebih dari 0!")
-        else:
-            self.harga = hargabaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
-                connection.commit()
-                connection.close()
 
-            except Exception as err:
-                raise Exception(err)
+        self.harga = hargabaru
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE menu SET harga = (%s) WHERE id = (%s)", (self.harga, id,))
+            connection.commit()
+            connection.close()
+
+        except Exception as err:
+            raise Exception(err)
 
     def getKategoriMenu(self):
         return self.kategori
@@ -160,18 +178,18 @@ class Menu():
         if (jumlahstokbaru < 0):
             raise Exception(
                 f"{jumlahstokbaru} tidak valid, harus lebih dari 0!")
-        else:
-            self.jumlahStok = jumlahstokbaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
-                connection.commit()
-                connection.close()
 
-            except Exception as err:
-                raise Exception(err)
+        self.jumlahStok = jumlahstokbaru
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE menu SET jumlahStok = (%s) WHERE id = (%s)", (self.jumlahStok, id,))
+            connection.commit()
+            connection.close()
+
+        except Exception as err:
+            raise Exception(err)
 
     def deleteMenu(self, id):
         try:

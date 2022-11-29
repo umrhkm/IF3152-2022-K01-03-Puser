@@ -1,3 +1,22 @@
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+
 from server.config.db import get_connection
 
 
@@ -9,8 +28,8 @@ class Pesanan():
         if (kuantitas < 0):
             raise Exception(
                 f"{kuantitas} tidak valid, hurus lebih dari atau sama dengan 0!")
-        else:
-            self.kuantitas = kuantitas
+
+        self.kuantitas = kuantitas
 
         try:
             connection = get_connection()
@@ -48,7 +67,7 @@ class Pesanan():
             raise Exception(err)
 
     @classmethod
-    def getPesananById(self, id_pesanan):
+    def getPesananById(cls, id_pesanan):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
@@ -85,18 +104,18 @@ class Pesanan():
             connection.close()
 
             if resultset is None:
-                raise Exception(f"Data tidak ditemukan!")
-            else:
-                print(resultset[0])
-                id_pesanan, id_menu, kuantitas, catatan = resultset[0]
+                raise Exception("Data tidak ditemukan!")
 
-                self = cls.__new__(cls)
-                self.id_pesanan = id_pesanan
-                self.id_menu = id_menu
-                self.kuantitas = kuantitas
-                self.catatan = catatan
+            print(resultset[0])
+            id_pesanan, id_menu, kuantitas, catatan = resultset[0]
 
-                return self
+            self = cls.__new__(cls)
+            self.id_pesanan = id_pesanan
+            self.id_menu = id_menu
+            self.kuantitas = kuantitas
+            self.catatan = catatan
+
+            return self
 
         except Exception as err:
             raise Exception(err)
@@ -111,18 +130,18 @@ class Pesanan():
         if (kuantitasbaru < 0):
             raise Exception(
                 f"{kuantitasbaru} tidak valid, harus lebih dari 0!")
-        else:
-            self.kuantitas = kuantitasbaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute("UPDATE pesanan SET kuantitas = (%s) WHERE id_pesanan = (%s) AND id_menu = (%s)", (
-                        self.kuantitas, id_pesanan, id_menu,))
-                connection.commit()
-                connection.close()
 
-            except Exception as err:
-                raise Exception(err)
+        self.kuantitas = kuantitasbaru
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE pesanan SET kuantitas = (%s) WHERE id_pesanan = (%s) AND id_menu = (%s)", (
+                    self.kuantitas, id_pesanan, id_menu,))
+            connection.commit()
+            connection.close()
+
+        except Exception as err:
+            raise Exception(err)
 
     def getCatatan(self):
         return self.catatan
@@ -130,18 +149,18 @@ class Pesanan():
     def setCatatan(self, catatanbaru, id_pesanan, id_menu):
         if (len(catatanbaru) > 254):
             raise Exception("Catatan harus kurang dari 255 karakter!")
-        else:
-            self.catatan = catatanbaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute("UPDATE pesanan SET catatan = (%s) WHERE id_pesanan = (%s) AND id_menu = (%s)", (
-                        self.catatan, id_pesanan, id_menu,))
-                connection.commit()
-                connection.close()
 
-            except Exception as err:
-                raise Exception(err)
+        self.catatan = catatanbaru
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE pesanan SET catatan = (%s) WHERE id_pesanan = (%s) AND id_menu = (%s)", (
+                    self.catatan, id_pesanan, id_menu,))
+            connection.commit()
+            connection.close()
+
+        except Exception as err:
+            raise Exception(err)
 
     def deleteMenuInPesanan(self, id_pesanan, id_menu):
         try:
@@ -155,7 +174,7 @@ class Pesanan():
         except Exception as err:
             raise Exception(err)
 
-    def deletePesanan(id_pesanan):
+    def deletePesanan(self, id_pesanan):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:

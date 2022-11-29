@@ -1,3 +1,22 @@
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
+
 '''
 NOTE
 Proses kerja testing tidak berjalan secara sekuensial (tidak terurut dari atas ke bawah) dan
@@ -15,13 +34,12 @@ Terakhir, silahkan comment setiap fungsi pada kelas kecuali fungsi dengan HTTP r
 dan jalankan file ini.
 '''
 
-
+import sys
 import unittest
 import requests
-import sys
+
 sys.path.append('../..')
 
-from app import app
 
 class TestPesananAPI(unittest.TestCase):
     URL = "http://localhost:5000/api/pesanan/"
@@ -47,54 +65,55 @@ class TestPesananAPI(unittest.TestCase):
     }
 
     def test_add_pesanan(self):
-        res = requests.post(self.URL + "/add", json=self.pesanan_data)
+        res = requests.post(self.URL + "/add",
+                            json=self.pesanan_data, timeout=10)
         self.assertEqual(res.status_code, 200)
 
     def test_get_pesanan(self):
-        res = requests.get(self.URL)
+        res = requests.get(self.URL, timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(len(res.json()), 1)
 
     def test_get_pesanan_by_id(self):
-        res = requests.get(self.URL + "/1")
+        res = requests.get(self.URL + "/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()[0], self.pesanan_data_id_1)
 
     def test_get_menu_pesanan_by_id(self):
-        res = requests.get(self.URL + "/1/1")
+        res = requests.get(self.URL + "/1/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json(), self.pesanan_data_id_1)
 
     def test_get_kuantitas(self):
-        res = requests.get(self.URL + "kuantitas/1/1")
+        res = requests.get(self.URL + "kuantitas/1/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["kuantitas"], 1)
 
     def test_get_catatan(self):
-        res = requests.get(self.URL + "catatan/1/1")
+        res = requests.get(self.URL + "catatan/1/1", timeout=10)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json()["catatan"], "")
 
     def test_update_kuantitas(self):
-        res = requests.put(self.URL + "/update/kuantitas/1/1",
-                           json={"kuantitas": 2})
-        res2 = requests.get(self.URL + "/1/1")
+        requests.put(self.URL + "/update/kuantitas/1/1",
+                     json={"kuantitas": 2}, timeout=10)
+        res2 = requests.get(self.URL + "/1/1", timeout=10)
         self.assertEqual(res2.json()["kuantitas"],
                          self.expected_updated_pesanan["kuantitas"])
 
     def test_update_catatan(self):
-        res = requests.put(self.URL + "/update/catatan/1/1",
-                           json={"catatan": "updated"})
-        res2 = requests.get(self.URL + "/1/1")
+        requests.put(self.URL + "/update/catatan/1/1",
+                     json={"catatan": "updated"}, timeout=10)
+        res2 = requests.get(self.URL + "/1/1", timeout=10)
         self.assertEqual(res2.json()["catatan"],
                          self.expected_updated_pesanan["catatan"])
 
     def test_delete_pesanan(self):
-        res = requests.delete(self.URL + "/delete/1")
+        res = requests.delete(self.URL + "/delete/1", timeout=10)
         self.assertEqual(res.status_code, 200)
 
     def test_delete_menu_in_pesanan(self):
-        res = requests.delete(self.URL + "/delete/1/1")
+        res = requests.delete(self.URL + "/delete/1/1", timeout=10)
         self.assertEqual(res.status_code, 200)
 
 

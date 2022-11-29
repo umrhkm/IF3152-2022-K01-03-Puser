@@ -1,3 +1,21 @@
+# pylint: disable=W0622
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
+# pylint: disable=W0603
+# pylint: disable=W0201
+# pylint: disable=I1101
+# pylint: disable=W0602
+# pylint: disable=R0902
+# pylint: disable=R0915
+# pylint: disable=W0707
+# pylint: disable=R0801
+# pylint: disable=E0211
+# pylint: disable=C0325
+# pylint: disable=W0703
+
 from server.config.db import get_connection
 
 
@@ -51,16 +69,16 @@ class DetailPesanan():
             connection.close()
 
             if resultset is None:
-                raise Exception(f"Data tidak ditemukan!")
-            else:
-                id, dine_in_status, nomor_meja = resultset[0]
+                raise Exception("Data tidak ditemukan!")
 
-                self = cls.__new__(cls)
-                self.id = id
-                self.dine_in_status = dine_in_status
-                self.nomor_meja = nomor_meja
+            id, dine_in_status, nomor_meja = resultset[0]
 
-                return self
+            self = cls.__new__(cls)
+            self.id = id
+            self.dine_in_status = dine_in_status
+            self.nomor_meja = nomor_meja
+
+            return self
 
         except Exception as err:
             raise Exception(err)
@@ -90,20 +108,20 @@ class DetailPesanan():
     def setNomorMeja(self, nomormejabaru, id):
         if (nomormejabaru <= 0):
             raise Exception("Nomor mehja tidak valid, harus lebih dari 0!")
-        else:
-            self.nomor_meja = nomormejabaru
-            try:
-                connection = get_connection()
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE detail_pesanan SET nomor_meja = (%s) WHERE id = (%s)", (self.nomor_meja, id,))
-                connection.commit()
-                connection.close()
 
-            except Exception as err:
-                raise Exception(err)
+        self.nomor_meja = nomormejabaru
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE detail_pesanan SET nomor_meja = (%s) WHERE id = (%s)", (self.nomor_meja, id,))
+            connection.commit()
+            connection.close()
 
-    def deleteDetailPesanan(id):
+        except Exception as err:
+            raise Exception(err)
+
+    def deleteDetailPesanan(self, id):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
