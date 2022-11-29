@@ -204,15 +204,26 @@ class QRWindow(QMainWindow):
         text= []
         counter = 1
         
+        #Membuat counter dari jumlah data pada tabel pesanan
+        listcounter = []
+        print("\n======== GET ALL PESANAN (HASIL) ========")
+        responsecounter = requests.get("http://localhost:5000/api/pesanan/")
+        counterdetail = responsecounter.json()
+        listcounter.append(counterdetail)
+        counter = len(listcounter)
+        print(counter)
+
+        #Mengambil data pesanan pada indeks terakhir pada tabel
+        text= []       
         print("\n======== GET PESANAN BY ID (HASIL) ========")
         response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
         textdetail = response.json()
         # textdetail = json.dumps(text, indent=4) 
         text.append(textdetail)  
         print (textdetail)
-        print(response)
         print(text)
         
+        #Mengambil data detail pesanan pada indeks terakhir pada tabel
         print("\n======== GET PESANAN BY ID (HASIL) ========")
         response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
         textkeranjang = response.json()
