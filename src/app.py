@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.debug = True
 
 def loadBackend():
-    #Blueprint
+    '''Fungsi untuk load backend'''
     app.register_blueprint(menuRoutes.menuRoutes, url_prefix='/api/menus')
     app.register_blueprint(pesananRoutes.pesananRoutes, url_prefix='/api/pesanan')
     app.register_blueprint(detailPesananRoutes.detailPesananRoutes, url_prefix='/api/detail-pesanan')
@@ -26,9 +26,9 @@ if __name__ == '__main__':
     threadBackend.start()
 
     import client.controller as cont
-    from PyQt6.QtWidgets import QApplication
+    from PyQt6 import QWidgets
 
-    window = QApplication(sys.argv)
+    window = QWidgets.QApplication(sys.argv)
     controller = cont.Controller()
     controller.start()
     sys.exit(window.exec())
