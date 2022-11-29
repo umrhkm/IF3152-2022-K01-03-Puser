@@ -1,6 +1,7 @@
-from flask import Flask
-from threading import Thread
 import sys
+from threading import Thread
+from flask import Flask
+
 
 # Routes
 from server.routes import menuRoutes
@@ -20,7 +21,6 @@ def loadBackend():
     app.run(port=5000, use_reloader=False)
 
 if __name__ == '__main__':
-    # #Dipakai kalau front-end udah siap
     threadBackend = Thread(target=loadBackend)
     threadBackend.setDaemon(True)
     threadBackend.start()
