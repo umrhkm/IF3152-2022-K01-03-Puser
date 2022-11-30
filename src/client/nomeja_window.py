@@ -111,13 +111,17 @@ class nomejaWindow(QWidget):
 
     def menu(self):
         global nomorMeja
-        nomorMeja = int(self.nomeja.text())
-        self.switch.emit("menu",{})
-        # self.close()
+        # nomorMeja = int(self.nomeja.text())
+        # self.switch.emit("menu",{})
+        if (self.nomeja.text() == ''):
+            self.switch.emit("nomeja",{})
+        else:
+            nomorMeja = (self.nomeja.text())
+            nomorMeja = int(nomorMeja)
+            self.switch.emit("menu",{})
         
     def dita(self):
         self.switch.emit("dita",{})
-        # self.close()
         
     def resetnomeja(self):
         self.nomeja.clear()

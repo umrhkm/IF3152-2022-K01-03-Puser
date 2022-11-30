@@ -53,6 +53,9 @@ class Controller:
             # self.MenuWindow.setUpWidgets()
             self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
+        elif page=='nomeja':
+            self.nomejaWindow.setUpWidgets()
+            self.nomejaWindow.show()
 
     def fromMenu(self,page):
         self.MenuWindow.close()
