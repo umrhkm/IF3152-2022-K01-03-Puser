@@ -30,13 +30,11 @@ class Controller:
     def fromDita(self, page):
         self.ditaWindow.close()
         if page == "nomeja":
-            # self.nomejaWindow.setUpWidgets()
             self.nomejaWindow.resetnomeja()
             self.nomejaWindow.show()
         elif page=="menu":
             global status
             status = 'Take away'
-            # self.MenuWindow.setUpWidgets()
             self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
 
@@ -50,7 +48,6 @@ class Controller:
             global tableNumber
             status = 'Dine in'
             tableNumber = nomorMeja
-            # self.MenuWindow.setUpWidgets()
             self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
         elif page=='nomeja':
@@ -70,9 +67,3 @@ class Controller:
         self.QRWindow.close()
         if page == "dita":
             self.ditaWindow.show()
-
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     controller = Controller()
-#     controller.start()
-#     sys.exit(app.exec())

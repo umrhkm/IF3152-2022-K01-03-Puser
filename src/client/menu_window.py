@@ -17,24 +17,7 @@ from PyQt6.QtGui import QCursor, QPixmap
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget, QCompleter, QMessageBox)
 import client.fonts
 
-# Kalo program udah jadi, buka aja comment ini
-response = requests.get("http://localhost:5000/api/menus/")
 
-jsonresponse = response.json()
-makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
-minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
-
-modelmakanan = [sub['nama'] for sub in makanan]
-modelminuman = [sub['nama'] for sub in minuman]
-model = modelmakanan+modelminuman
-            
-# Buat ngetes, biar ga request-request dulu
-
-# makanan = [{'fotoUrl': 'https://w7.pngwing.com/pngs/201/77/png-transparent-hamburger-veggie-burger-take-out-fast-food-kebab-delicious-beef-burger-burger-with-lettuce-tomato-and-cheese-food-beef-recipe.png', 'harga': 25000, 'id': 1, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Original Burger'}, {'fotoUrl': None, 'harga': 22000, 'id': 2, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Chicken Burger'}, {'fotoUrl': None, 'harga': 40000, 'id': 3, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Beef Burger'}, {'fotoUrl': None, 'harga': 20000, 'id': 4, 'jumlahStok': 0, 'kategori': 'makanan', 'nama': 'Cheese Burger'}]
-# minuman = [{'fotoUrl': None, 'harga': 8000, 'id': 8, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Coca Cola'}, {'fotoUrl': None, 'harga': 8000, 'id': 7, 'jumlahStok': 2, 'kategori': 'minuman', 'nama': 'Fanta'}, {'fotoUrl': None, 'harga': 8000, 'id': 6, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Sprite'}, {'fotoUrl': None, 'harga': 5000, 'id': 5, 'jumlahStok': 0, 'kategori': 'minuman', 'nama': 'Air Mineral'}]
-# modelmakanan = [sub['nama'] for sub in makanan]
-# modelminuman = [sub['nama'] for sub in minuman]
-# model = modelmakanan+modelminuman
 
 from PyQt6.QtGui import QFont 
 
@@ -44,6 +27,16 @@ class MenuWindow(QWidget):
     
     def __init__(self):
         super().__init__()
+
+        response = requests.get("http://localhost:5000/api/menus/")
+
+        jsonresponse = response.json()
+        self.makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
+        self.minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
+
+        self.modelmakanan = [sub['nama'] for sub in self.makanan]
+        self.modelminuman = [sub['nama'] for sub in self.minuman]
+        self.model = self.modelmakanan+self.modelminuman
 
         self.startIndeksMakanan = 0
         self.startIndeksMinuman = 0
@@ -166,7 +159,7 @@ class MenuWindow(QWidget):
         self.searchbar.setFont(client.fonts.inter14)
         self.searchbar.returnPressed.connect(self.search)
 
-        self.completer = QCompleter(model)
+        self.completer = QCompleter(self.model)
         self.completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.searchbar.setCompleter(self.completer)
         
@@ -219,11 +212,11 @@ class MenuWindow(QWidget):
     def on_checkoutButton_clicked(self):
         from client.controller import status, tableNumber            
         flag = True
-        for i in range(len(makanan)):
-            if (makanan[i]["jumlahStok"]) < self.makananCards[i]["Spinbox"].value():
+        for i in range(len(self.makanan)):
+            if (self.makanan[i]["jumlahStok"]) < self.makananCards[i]["Spinbox"].value():
                 flag = False
-        for i in range(len(minuman)):
-            if (minuman[i]["jumlahStok"]) < self.minumanCards[i]["Spinbox"].value():
+        for i in range(len(self.minuman)):
+            if (self.minuman[i]["jumlahStok"]) < self.minumanCards[i]["Spinbox"].value():
                 flag = False
         if flag:
             # Add to detail pesanan
@@ -242,20 +235,20 @@ class MenuWindow(QWidget):
             
             # Add detail menu to pesanan
             # Makanan
-            for i in range(len(makanan)):
+            for i in range(len(self.makanan)):
                 if self.makananCards[i]["Spinbox"].value() != 0:
-                    id = makanan[i]['id']
-                    kuantitasMakanan = makanan[i]["jumlahStok"]
+                    id = self.makanan[i]['id']
+                    kuantitasMakanan = self.makanan[i]["jumlahStok"]
                     kuantitas = self.makananCards[i]["Spinbox"].value()
                     catatan = self.makananCards[i]["Notes"].text()
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
                     requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
                     requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"jumlahStok":kuantitasMakanan-kuantitas})
             # Minuman
-            for i in range(len(minuman)):
+            for i in range(len(self.minuman)):
                 if self.minumanCards[i]["Spinbox"].value() != 0:
-                    id = minuman[i]['id']
-                    kuantitasMinuman = minuman[i]["jumlahStok"]
+                    id = self.minuman[i]['id']
+                    kuantitasMinuman = self.minuman[i]["jumlahStok"]
                     kuantitas = self.minumanCards[i]["Spinbox"].value()
                     catatan = self.minumanCards[i]["Notes"].text()
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
@@ -288,7 +281,7 @@ class MenuWindow(QWidget):
         # Set up empty menu cards
         self.makananCards = []
         flag = 0
-        while flag < len(makanan):
+        while flag < len(self.makanan):
             for i in range(5):
                 self.makananCards.append({})
                 self.makananCards[flag]["card"] = QLabel(self)
@@ -328,14 +321,14 @@ class MenuWindow(QWidget):
                 self.cardMakananPositioning(flag, i)
                 self.hideMakanan(flag)
                 
-                if flag == len(makanan):
+                if flag == len(self.makanan):
                     break
                 else:
                     flag += 1
                     
         self.minumanCards = []
         flagMinuman = 0
-        while flagMinuman < len(minuman):
+        while flagMinuman < len(self.minuman):
             for i in range(5):
                 self.minumanCards.append({})
                 self.minumanCards[flagMinuman]["card"] = QLabel(self)
@@ -375,7 +368,7 @@ class MenuWindow(QWidget):
                 self.cardMinumanPositioning(flagMinuman, i)
                 self.hideMinuman(flagMinuman)
 
-                if flagMinuman == len(minuman):
+                if flagMinuman == len(self.minuman):
                     break
                 else:
                     flagMinuman += 1
@@ -384,13 +377,13 @@ class MenuWindow(QWidget):
         listMakanan = self.makanan
         start = 0
         i = 0
-        while start < len(makanan):
-            self.makananCards[start]["cardTitle"].setText(listMakanan[start]["name"])
+        while start < len(self.makanan):
+            self.makananCards[start]["cardTitle"].setText(listMakanan[start]["nama"])
             # buat ilustrasi
             self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"client/img/makanan-{start}.png"))
-            rp_harga = "Rp " + str(listMakanan[start]["price"])
+            rp_harga = "Rp " + str(listMakanan[start]["harga"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
-            stock =  "Stok: " + str(listMakanan[start]["stock"])
+            stock =  "Stok: " + str(listMakanan[start]["jumlahStok"])
             self.makananCards[start]["cardStock"].setText(stock)
             self.cardMakananPositioning(start, i)
             if (i==4):
@@ -399,14 +392,14 @@ class MenuWindow(QWidget):
                 i += 1
             start += 1
             
-        self.showDisplayMakanan(self.startIndeksMakanan, len(makanan))
+        self.showDisplayMakanan(self.startIndeksMakanan, len(self.makanan))
         
         if self.pageMakanan == 0:
             self.leftMakananButton.hide()
         else:
             self.leftMakananButton.show()
 
-        if self.startIndeksMakanan + 5 < len(makanan):
+        if self.startIndeksMakanan + 5 < len(self.makanan):
             self.rightMakananButton.show()
         else:
             self.rightMakananButton.hide()
@@ -463,13 +456,13 @@ class MenuWindow(QWidget):
         listMinuman = self.minuman
         start = 0
         i = 0
-        while start < len(minuman):
-            self.minumanCards[start]["cardTitle"].setText(listMinuman[start]["name"])
+        while start < len(self.minuman):
+            self.minumanCards[start]["cardTitle"].setText(listMinuman[start]["nama"])
             # buat ilustrasi
             self.minumanCards[start]["cardIllustration"].setPixmap(QPixmap(f"client/img/minuman-{start}.png"))
-            rp_harga = "Rp " + str(listMinuman[start]["price"])
+            rp_harga = "Rp " + str(listMinuman[start]["harga"])
             self.minumanCards[start]["cardPrice"].setText(rp_harga)
-            stock =  "Stok: " + str(listMinuman[start]["stock"])
+            stock =  "Stok: " + str(listMinuman[start]["jumlahStok"])
             self.minumanCards[start]["cardStock"].setText(stock)
             self.cardMinumanPositioning(start, i)
             if (i == 4):
@@ -478,7 +471,7 @@ class MenuWindow(QWidget):
                 i += 1
             start += 1
             
-        self.showDisplayMinuman(self.startIndeksMinuman, len(minuman))
+        self.showDisplayMinuman(self.startIndeksMinuman, len(self.minuman))
             
         if self.pageMinuman == 0:
             self.leftMinumanButton.hide()
@@ -642,16 +635,16 @@ class MenuWindow(QWidget):
             self.minumanCards[i]["Notes"].hide()
             
     def updateHarga(self):
-        dataHargaMakanan = [0] * len(makanan)
+        dataHargaMakanan = [0] * len(self.makanan)
         j = 0
-        for i in range(len(makanan)):
-            total = self.makananCards[i]['Spinbox'].value() * makanan[i]['harga']
+        for i in range(len(self.makanan)):
+            total = self.makananCards[i]['Spinbox'].value() * self.makanan[i]['harga']
             dataHargaMakanan[j] = total
             j += 1
-        dataHargaMinuman = [0] * len(minuman)
+        dataHargaMinuman = [0] * len(self.minuman)
         k = 0
-        for i in range(len(minuman)):
-            total = self.minumanCards[i]['Spinbox'].value() * minuman[i]['harga']
+        for i in range(len(self.minuman)):
+            total = self.minumanCards[i]['Spinbox'].value() * self.minuman[i]['harga']
             dataHargaMinuman[k] = total
             k += 1
         self.totalHarga = sum(dataHargaMakanan) + sum(dataHargaMinuman)
@@ -667,23 +660,23 @@ class MenuWindow(QWidget):
     
     def fetchMakanan(self):
         dataMakanan = []
-        for i in range(len(makanan)):
+        for i in range(len(self.makanan)):
             dataMakanan.append({
-                "id": makanan[i]["id"],
-                "name": makanan[i]["nama"],
-                "price": makanan[i]["harga"],
-                "stock": makanan[i]["jumlahStok"]
+                "id": self.makanan[i]["id"],
+                "nama": self.makanan[i]["nama"],
+                "harga": self.makanan[i]["harga"],
+                "jumlahStok": self.makanan[i]["jumlahStok"]
             })
         self.makanan = dataMakanan
         
     def fetchMinuman(self):
         dataMinuman = []
-        for i in range(len(minuman)):
+        for i in range(len(self.minuman)):
             dataMinuman.append({
-                "id": minuman[i]["id"],
-                "name": minuman[i]["nama"],
-                "price": minuman[i]["harga"],
-                "stock": minuman[i]["jumlahStok"]
+                "id": self.minuman[i]["id"],
+                "nama": self.minuman[i]["nama"],
+                "harga": self.minuman[i]["harga"],
+                "jumlahStok": self.minuman[i]["jumlahStok"]
             })
         self.minuman = dataMinuman
 
@@ -729,17 +722,17 @@ class MenuWindow(QWidget):
         searchmenu = self.searchbar.text()
         
         # hide all cards
-        for i in range(len(makanan)):
+        for i in range(len(self.makanan)):
             self.hideMakanan(i)
-        for i in range(len(minuman)):
+        for i in range(len(self.minuman)):
             self.hideMinuman(i)
         
         # searching
-        for i in range(len(makanan)):
-            if (searchmenu.lower() in makanan[i]["nama"].lower()):
+        for i in range(len(self.makanan)):
+            if (searchmenu.lower() in self.makanan[i]["nama"].lower()):
                 self.dataSearchMakanan.append(i)
-        for i in range(len(minuman)):
-            if (searchmenu.lower() in minuman[i]["nama"].lower()):
+        for i in range(len(self.minuman)):
+            if (searchmenu.lower() in self.minuman[i]["nama"].lower()):
                 self.dataSearchMinuman.append(i)
 
         #if searchbar is clear
@@ -759,7 +752,7 @@ class MenuWindow(QWidget):
         elif (len(self.dataSearchMinuman) != 0):
             self.setUpDisplaySearchMinuman()
     def resetspinbox(self):
-        for i in range(len(makanan)):
+        for i in range(len(self.makanan)):
             self.makananCards[i]["Spinbox"].setValue(0)
         
 # if __name__ == "__main__":
