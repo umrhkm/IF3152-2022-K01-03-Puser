@@ -56,7 +56,7 @@ class Menu():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM menu")
+                cursor.execute("select * from menu ORDER BY id ASC;")
                 resultset = cursor.fetchall()
             connection.commit()
             connection.close()
