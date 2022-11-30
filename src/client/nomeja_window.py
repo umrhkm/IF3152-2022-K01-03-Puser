@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QCursor, QPixmap
+from PyQt6.QtGui import QCursor, QPixmap, QIntValidator
 from PyQt6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton, QWidget)
 import client.fonts
 # from client.menu_window import MenuWindow
@@ -62,6 +62,11 @@ class nomejaWindow(QWidget):
         background-color: #3E405B
         ''')
         self.nomeja.setFont(client.fonts.inter16)
+        
+        onlyInt = QIntValidator()
+        onlyInt.setRange(0, 10)
+        
+        self.nomeja.setValidator(onlyInt)
 
         # button selanjutnya 
         self.selanjutnyaButton = QPushButton(self)
@@ -113,6 +118,9 @@ class nomejaWindow(QWidget):
     def dita(self):
         self.switch.emit("dita",{})
         # self.close()
+        
+    def resetnomeja(self):
+        self.nomeja.clear()
 
     # def on_pushkembaliButton_clicked(self):
     #     self.ditawindowdialog.show()

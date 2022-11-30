@@ -31,6 +31,7 @@ class Controller:
         self.ditaWindow.close()
         if page == "nomeja":
             # self.nomejaWindow.setUpWidgets()
+            self.nomejaWindow.resetnomeja()
             self.nomejaWindow.show()
         elif page=="menu":
             global status
