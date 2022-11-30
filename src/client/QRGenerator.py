@@ -143,31 +143,31 @@ class QRWindow(QMainWindow):
         # with open('tes.txt') as f:
         #     text = f.read()
         text= []
-        counter = 1
+        counter = 0
         
         # #Membuat counter dari jumlah data pada tabel pesanan
         # print("\n======== GET ALL PESANAN (HASIL) ========")
-        # responsecounter = requests.get("http://localhost:5000/api/pesanan/")
-        # counterdetail = responsecounter.json()
-        # counter = len(counterdetail)
+        responsecounter = requests.get("http://localhost:5000/api/pesanan/")
+        counterdetail = responsecounter.json()
+        counter = len(counterdetail)
         # # print(counter)
 
         # #Mengambil data pesanan pada indeks terakhir pada tabel
-        # text= []       
+        text= []       
         # print("\n======== GET PESANAN BY ID (HASIL) ========")
-        # response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
-        # textdetail = response.json()
-        # # textdetail = json.dumps(text, indent=4) 
-        # text.append(textdetail)  
+        response = requests.get("http://localhost:5000/api/detail-pesanan/"+str(counter))
+        textdetail = response.json()
+        # textdetail = json.dumps(text, indent=4) 
+        text.append(textdetail)  
         # # print (textdetail)
         # # print(text)
         
         # #Mengambil data detail pesanan pada indeks terakhir pada tabel
-        # print("\n======== GET PESANAN BY ID (HASIL) ========")
-        # response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
-        # textkeranjang = response.json()
-        # # textkeranjang = json.dumps(text, indent=4)
-        # text.extend(textkeranjang)
+        print("\n======== GET PESANAN BY ID (HASIL) ========")
+        response = requests.get("http://localhost:5000/api/pesanan/"+str(counter))
+        textkeranjang = response.json()
+        # textkeranjang = json.dumps(text, indent=4)
+        text.extend(textkeranjang)
         # # print(text)
 
         # creating a pix map of qr code
