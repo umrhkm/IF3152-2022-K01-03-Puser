@@ -761,8 +761,8 @@ class MenuWindow(QWidget):
         elif (len(self.dataSearchMinuman) != 0):
             self.setUpDisplaySearchMinuman()
         
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MenuWindow()
-    window.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = MenuWindow()
+#     window.show()
+#     sys.exit(app.exec())
