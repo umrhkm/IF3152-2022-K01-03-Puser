@@ -36,6 +36,7 @@ class Controller:
             global status
             status = 'Take away'
             # self.MenuWindow.setUpWidgets()
+            self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
 
     def fromNomeja(self,page):
@@ -49,6 +50,7 @@ class Controller:
             status = 'Dine in'
             tableNumber = nomorMeja
             # self.MenuWindow.setUpWidgets()
+            self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
 
     def fromMenu(self,page):

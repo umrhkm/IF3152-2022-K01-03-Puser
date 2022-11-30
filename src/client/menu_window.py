@@ -760,6 +760,9 @@ class MenuWindow(QWidget):
         #if found in only minuman
         elif (len(self.dataSearchMinuman) != 0):
             self.setUpDisplaySearchMinuman()
+    def resetspinbox(self):
+        for i in range(len(makanan)):
+            self.makananCards[i]["Spinbox"].setValue(0)
         
 # if __name__ == "__main__":
 #     app = QApplication(sys.argv)
