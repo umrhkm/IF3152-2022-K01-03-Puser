@@ -1,3 +1,5 @@
+# pylint: disable=W4902
+
 '''Importing module'''
 import sys
 from threading import Thread
@@ -27,6 +29,7 @@ def load_backend():
 
 if __name__ == '__main__':
     threadBackend = Thread(target=load_backend)
+    threadBackend.setDaemon(True)
     threadBackend.start()
 
     import client.controller as cont
