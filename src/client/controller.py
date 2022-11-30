@@ -54,7 +54,6 @@ class Controller:
             self.MenuWindow.resetspinbox()
             self.MenuWindow.show()
         elif page=='nomeja':
-            self.nomejaWindow.resetnomeja()
             self.nomejaWindow.setUpWidgets()
             self.nomejaWindow.show()
 
