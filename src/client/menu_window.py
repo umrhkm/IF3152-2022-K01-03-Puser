@@ -24,18 +24,6 @@ jsonresponse = response.json()
 makanan = [x for x in jsonresponse if x['kategori'] == 'makanan']
 minuman = [x for x in jsonresponse if x['kategori'] == 'minuman']
 
-print("Makanan")
-for i in range(len(makanan)):
-    a = makanan[i]["nama"]
-    print(f"{i}. {a}")
-            
-print()
-print("Minuman")
-for i in range(len(minuman)):
-    a = minuman[i]["nama"]
-    print(f"{i}. {a}")
-
-
 modelmakanan = [sub['nama'] for sub in makanan]
 modelminuman = [sub['nama'] for sub in minuman]
 model = modelmakanan+modelminuman
@@ -260,7 +248,6 @@ class MenuWindow(QWidget):
                     kuantitasMakanan = makanan[i]["jumlahStok"]
                     kuantitas = self.makananCards[i]["Spinbox"].value()
                     catatan = self.makananCards[i]["Notes"].text()
-                    print("stok", kuantitasMakanan-kuantitas)
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
                     requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
                     requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"jumlahStok":kuantitasMakanan-kuantitas})
@@ -271,7 +258,6 @@ class MenuWindow(QWidget):
                     kuantitasMinuman = minuman[i]["jumlahStok"]
                     kuantitas = self.minumanCards[i]["Spinbox"].value()
                     catatan = self.minumanCards[i]["Notes"].text()
-                    print("stok", kuantitasMinuman-kuantitas)
                     requests.post("http://localhost:5000/api/pesanan/add", json={"id_pesanan":counter, "id_menu":id, "kuantitas": kuantitas})
                     requests.put(f"http://localhost:5000/api/pesanan/update/catatan/{counter}/{id}", json={"catatan": str(catatan)})
                     requests.put(f"http://localhost:5000/api/menus/update/jumlah-stok/{id}", json={"jumlahStok":kuantitasMinuman-kuantitas})
