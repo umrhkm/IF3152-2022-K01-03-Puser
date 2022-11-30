@@ -83,7 +83,7 @@ class MenuWindow(QWidget):
 
         # Label untuk logo
         logo = QLabel(self)
-        logoImg = QPixmap("../img/Puser.png")
+        logoImg = QPixmap("client/img/Puser.png")
         logo.setPixmap(logoImg)
         logo.move(572, 20)
 
@@ -109,56 +109,56 @@ class MenuWindow(QWidget):
         # Set up previous / next button
         self.rightMakananButton = QPushButton(self)
         self.rightMakananButton.setGeometry(QRect(1215, 217, 48, 48))
-        self.rightMakananButton.setStyleSheet("background-image: url(../img/right-btn.png);")
+        self.rightMakananButton.setStyleSheet("background-image: url(client/img/right-btn.png);")
         self.rightMakananButton.clicked.connect(self.rightMakananButtonClicked)
         self.rightMakananButton.hide()
         self.rightMakananButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.leftMakananButton = QPushButton(self)
         self.leftMakananButton.setGeometry(QRect(20, 217, 48, 48))
-        self.leftMakananButton.setStyleSheet("background-image: url(../img/left-btn.png);")
+        self.leftMakananButton.setStyleSheet("background-image: url(client/img/left-btn.png);")
         self.leftMakananButton.clicked.connect(self.leftMakananButtonClicked)
         self.leftMakananButton.hide()
         self.leftMakananButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.rightMinumanButton = QPushButton(self)
         self.rightMinumanButton.setGeometry(QRect(1215, 480, 48, 48))
-        self.rightMinumanButton.setStyleSheet("background-image: url(../img/right-btn.png);")
+        self.rightMinumanButton.setStyleSheet("background-image: url(client/img/right-btn.png);")
         self.rightMinumanButton.clicked.connect(self.rightMinumanButtonClicked)
         self.rightMinumanButton.hide()
         self.rightMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.leftMinumanButton = QPushButton(self)
         self.leftMinumanButton.setGeometry(QRect(20, 480, 48, 48))
-        self.leftMinumanButton.setStyleSheet("background-image: url(../img/left-btn.png);")
+        self.leftMinumanButton.setStyleSheet("background-image: url(client/img/left-btn.png);")
         self.leftMinumanButton.clicked.connect(self.leftMinumanButtonClicked)
         self.leftMinumanButton.hide()
         self.leftMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         
         self.rightSearchMakananButton = QPushButton(self)
         self.rightSearchMakananButton.setGeometry(QRect(1215, 217, 48, 48))
-        self.rightSearchMakananButton.setStyleSheet("background-image: url(../img/right-btn.png);")
+        self.rightSearchMakananButton.setStyleSheet("background-image: url(client/img/right-btn.png);")
         self.rightSearchMakananButton.clicked.connect(self.rightSearchMakananButtonClicked)
         self.rightSearchMakananButton.hide()
         self.rightSearchMakananButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.leftSearchMakananButton = QPushButton(self)
         self.leftSearchMakananButton.setGeometry(QRect(20, 217, 48, 48))
-        self.leftSearchMakananButton.setStyleSheet("background-image: url(../img/left-btn.png);")
+        self.leftSearchMakananButton.setStyleSheet("background-image: url(client/img/left-btn.png);")
         self.leftSearchMakananButton.clicked.connect(self.leftSearchMakananButtonClicked)
         self.leftSearchMakananButton.hide()
         self.leftSearchMakananButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.rightSearchMinumanButton = QPushButton(self)
         self.rightSearchMinumanButton.setGeometry(QRect(1215, 480, 48, 48))
-        self.rightSearchMinumanButton.setStyleSheet("background-image: url(../img/right-btn.png);")
+        self.rightSearchMinumanButton.setStyleSheet("background-image: url(client/img/right-btn.png);")
         self.rightSearchMinumanButton.clicked.connect(self.rightSearchMinumanButtonClicked)
         self.rightSearchMinumanButton.hide()
         self.rightSearchMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.leftSearchMinumanButton = QPushButton(self)
         self.leftSearchMinumanButton.setGeometry(QRect(20, 480, 48, 48))
-        self.leftSearchMinumanButton.setStyleSheet("background-image: url(../img/left-btn.png);")
+        self.leftSearchMinumanButton.setStyleSheet("background-image: url(client/img/left-btn.png);")
         self.leftSearchMinumanButton.clicked.connect(self.leftSearchMinumanButtonClicked)
         self.leftSearchMinumanButton.hide()
         self.leftSearchMinumanButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
@@ -307,11 +307,11 @@ class MenuWindow(QWidget):
                 self.makananCards.append({})
                 self.makananCards[flag]["card"] = QLabel(self)
                 self.makananCards[flag]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
-                self.makananCards[flag]["card"].setPixmap(QPixmap("../img/card-template-new.png"))
+                self.makananCards[flag]["card"].setPixmap(QPixmap("client/img/card-template-new.png"))
                 
                 self.makananCards[flag]["cardIllustration"] = QLabel(self)
                 self.makananCards[flag]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-                self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("../img/default-icon.png"))
+                self.makananCards[flag]["cardIllustration"].setPixmap(QPixmap("client/img/default-icon.png"))
 
                 self.makananCards[flag]["cardTitle"] = QLabel(self)
                 self.makananCards[flag]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
@@ -354,11 +354,11 @@ class MenuWindow(QWidget):
                 self.minumanCards.append({})
                 self.minumanCards[flagMinuman]["card"] = QLabel(self)
                 self.minumanCards[flagMinuman]["card"].setStyleSheet(f"background-color: {DARK_MODE_BG}")
-                self.minumanCards[flagMinuman]["card"].setPixmap(QPixmap("../img/card-template-new.png"))
+                self.minumanCards[flagMinuman]["card"].setPixmap(QPixmap("client/img/card-template-new.png"))
                 
                 self.minumanCards[flagMinuman]["cardIllustration"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardIllustration"].setStyleSheet(f"background-color: {PRIMARY_GREEN}")
-                self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("../img/default-icon.png"))
+                self.minumanCards[flagMinuman]["cardIllustration"].setPixmap(QPixmap("client/img/default-icon.png"))
 
                 self.minumanCards[flagMinuman]["cardTitle"] = QLabel(self)
                 self.minumanCards[flagMinuman]["cardTitle"].setStyleSheet(f"color: {PRIMARY_BLACK}; background-color: {SECONDARY_GREEN}")
@@ -401,7 +401,7 @@ class MenuWindow(QWidget):
         while start < len(makanan):
             self.makananCards[start]["cardTitle"].setText(listMakanan[start]["name"])
             # buat ilustrasi
-            self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"../img/makanan-{start}.png"))
+            self.makananCards[start]["cardIllustration"].setPixmap(QPixmap(f"client/img/makanan-{start}.png"))
             rp_harga = "Rp " + str(listMakanan[start]["price"])
             self.makananCards[start]["cardPrice"].setText(rp_harga)
             stock =  "Stok: " + str(listMakanan[start]["stock"])
@@ -480,7 +480,7 @@ class MenuWindow(QWidget):
         while start < len(minuman):
             self.minumanCards[start]["cardTitle"].setText(listMinuman[start]["name"])
             # buat ilustrasi
-            self.minumanCards[start]["cardIllustration"].setPixmap(QPixmap(f"../img/minuman-{start}.png"))
+            self.minumanCards[start]["cardIllustration"].setPixmap(QPixmap(f"client/img/minuman-{start}.png"))
             rp_harga = "Rp " + str(listMinuman[start]["price"])
             self.minumanCards[start]["cardPrice"].setText(rp_harga)
             stock =  "Stok: " + str(listMinuman[start]["stock"])
