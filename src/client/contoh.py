@@ -54,12 +54,28 @@ import json
 # else:
 #     print("eror")
 
-# #Get Pesanan By ID
-# print("\n======== GET PESANAN BY ID (HASIL) ========")
-# response = requests.get("http://localhost:5000/api/pesanan/1")
-# jsonresponse = response.json()
+#Get Pesanan All
 
-# print(jsonresponse)
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/*")
+jsonresponse2 = response.json()
+test2 = len(jsonresponse2)
+print(jsonresponse2)
+print(test2)
+
+print("\n======== GET PESANAN All (HASIL) ========")
+response = requests.get("http://localhost:5000/api/detail-pesanan/")
+jsonresponse1 = response.json()
+test1 = len(jsonresponse1)
+print(jsonresponse1)
+print(test1)
+
+print("\n======== GET PESANAN BY ID (HASIL) ========")
+response = requests.get("http://localhost:5000/api/pesanan/2")
+jsonresponse = response.json()
+test = len(jsonresponse)
+print(test)
+print(jsonresponse)
 
 # #Update Kuantitas Menu Pada Pesanan
 # print("\n======== UPDATE KUANTITAS MENU PADA PESANAN BY ID ========")

@@ -20,8 +20,8 @@ class Controller:
         self.nomejaWindow.switch.connect(self.fromNomeja)
         self.MenuWindow = MenuWindow()
         self.MenuWindow.switch.connect(self.fromMenu)
-        self.QRWindow = QRWindow()
-        self.QRWindow.switch.connect(self.fromQR)
+        # self.QRWindow = QRWindow()
+        # self.QRWindow.switch.connect(self.fromQR)
 
     def start(self):
         # self.loading.show()
@@ -30,12 +30,12 @@ class Controller:
     def fromDita(self, page):
         self.ditaWindow.close()
         if page == "nomeja":
-            self.nomejaWindow.setUpWidgets()
+            # self.nomejaWindow.setUpWidgets()
             self.nomejaWindow.show()
         elif page=="menu":
             global status
             status = 'Take away'
-            self.MenuWindow.setUpWidgets()
+            # self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 
     def fromNomeja(self,page):
@@ -48,12 +48,14 @@ class Controller:
             global tableNumber
             status = 'Dine in'
             tableNumber = nomorMeja
-            self.MenuWindow.setUpWidgets()
+            # self.MenuWindow.setUpWidgets()
             self.MenuWindow.show()
 
     def fromMenu(self,page):
         self.MenuWindow.close()
         if page == "qr":
+            self.QRWindow = QRWindow()
+            self.QRWindow.switch.connect(self.fromQR)
             self.QRWindow.show()
         elif page == "dita":
             self.ditaWindow.show()
